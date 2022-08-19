@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Infrastructure;
+use App\Models\InfrastructureIntervention;
+class MapController extends Controller
+{
+    //
+    public function index()
+    {
+        $infrastructures = Infrastructure::select('*')->get();
+        return view('maps.index',['infrastructures' => $infrastructures]);
+    # code...
+    }
+
+    public function getinf(Request $request){
+        //json_encode();
+        //$infra  = Infrastructure::select('*')->where('longitude',$request->longitude)->where('altitude',$request->altitude)->get();
+        $interventions = InfrastructureIntervention::join('infrastructures','infrastructures.id','infrastructure_interventions.infrastructure_id')->join('interventions','interventions.id','infrastructure_interventions.intervention_id')->select('interventions.*','infrastructures.*')->where('longitude',$request->longitude)->where('altitude',$request->altitude)->get();
+
+        return json_encode($interventions);
+    }
+}

@@ -11,50 +11,24 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper container-xxl p-0">
-            <div class="content-header row">
-                <div class="content-header-left col-md-9 col-12 mb-2">
-                    <div class="row breadcrumbs-top">
-                        <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Leaflet Maps</h2>
-                            <div class="breadcrumb-wrapper">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#">Maps</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">Leaflet Maps
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
-                    <div class="mb-1 breadcrumb-right">
-                        <div class="dropdown">
-                            <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
-                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="app-todo.html"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Todo</span></a><a class="dropdown-item" href="app-chat.html"><i class="me-1" data-feather="message-square"></i><span class="align-middle">Chat</span></a><a class="dropdown-item" href="app-email.html"><i class="me-1" data-feather="mail"></i><span class="align-middle">Email</span></a><a class="dropdown-item" href="app-calendar.html"><i class="me-1" data-feather="calendar"></i><span class="align-middle">Calendar</span></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="content-body">
-                <section class="maps-leaflet">
-                    <div class="row">
+                <section class="maps-leaflet" >
+                    <div class="row" >
                         <!-- Basic Starts -->
-                        <div class="col-12">
+                        <div class="col-12" >
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h4 class="card-title">Basic Map</h4>
+                                    <h4 class="card-title">Carte</h4>
                                 </div>
-                                <div class="card-body">
-                                    <div class="leaflet-map" id="basic-map"></div>
+                                <div class="card-body" >
+                                    <div class="leaflet-map" id="basic-map" style="height: 1000px"></div>
                                 </div>
                             </div>
                         </div>
+                        
                         <!-- /Basic Ends -->
 
-                        <!-- Marker Circle & Polygon Starts -->
+                        <!--
                         <div class="col-12">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -65,9 +39,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /Marker Circle & Polygon Ends -->
-
-                        <!-- Draggable Marker With Popup Starts -->
                         <div class="col-12">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -78,9 +49,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /Draggable Marker With Popup Ends -->
-
-                        <!-- User Location Starts -->
                         <div class="col-12">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -91,9 +59,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /User Location Ends -->
-
-                        <!-- Custom Icons Starts -->
                         <div class="col-12">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -104,9 +69,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /Custom Icons Ends -->
-
-                        <!-- GeoJson Starts -->
                         <div class="col-12">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -117,9 +79,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /GeoJson Ends -->
-
-                        <!-- Layer Control Starts -->
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
@@ -130,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /Layer Control Ends -->
+                         /Layer Control Ends -->
                         
                     </div>
                 </section>
@@ -138,7 +97,71 @@
             </div>
         </div>
     </div>
-    <!-- END: Content-->
+    <div class="modal fade" id="pricingModal" tabindex="-1" aria-labelledby="pricingModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-sm-5 mx-50 pb-5">
+                    <div id="pricing-plan">
+                        <!-- title text and switch button -->
+                        <div class="text-center">
+                            <h1 id="pricingModalTitle">Infrastructure</h1>
+                            <p class="mb-3">
+                                Descriptions
+                            </p>
+                        </div>
+                        <!--/ title text and switch button -->
+
+                        <!-- pricing plan cards -->
+                        <div class="row pricing-card">
+
+                            <!-- standard plan -->
+                            <div class="col-12 col-lg-12">
+                                <div class="card standard-pricing border-primary text-center shadow-none">
+                                    <div class="card-body">
+                                       
+                                <div class="custom-options-checkable">
+                                    <input class="custom-option-item-check" type="radio" name="twoFactorAuthRadio" id="twoFactorAuthApps" value="apps-auth" checked />
+                                    <label for="twoFactorAuthApps" class="custom-option-item d-flex align-items-center flex-column flex-sm-row px-3 py-2 mb-2">
+                                        <span><i data-feather="settings" class="font-large-2 me-sm-2 mb-2 mb-sm-0"></i></span>
+                                        <span>
+                                            <span class="custom-option-item-title h3">Interventions</span>
+                                            <span class="d-block mt-75">
+                                                Descriptions
+                                            </span>
+                                        </span>
+                                    </label>
+
+                                    <input class="custom-option-item-check" type="radio" name="twoFactorAuthRadio" value="sms-auth" id="twoFactorAuthSms" />
+                                    <label for="twoFactorAuthSms" class="custom-option-item d-flex align-items-center flex-column flex-sm-row px-3 py-2">
+                                        <span><i data-feather="settings" class="font-large-2 me-sm-2 mb-2 mb-sm-0"></i></span>
+                                        <span>
+                                            <span class="custom-option-item-title h3">Interventions</span>
+                                            <span class="d-block mt-75">Descriptions</span>
+                                        </span>
+                                    </label>
+                                </div>
+                                
+                                <button id="nextStepAuth" class="btn btn-primary float-end mt-3">
+                                    <span class="me-50">Detail</span>
+                                    <i data-feather="chevron-right"></i>
+                                </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/ standard plan -->
+                        </div>
+                        <!--/ pricing plan cards -->
+
+                        <!-- pricing free trial -->
+                        <!--/ pricing free trial -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('plugin-js')
     <!-- BEGIN: Page Vendor JS-->
@@ -146,7 +169,73 @@
     <!-- END: Page Vendor JS-->
 @endpush
 @push('custom-js')
-    <!-- BEGIN: Page JS-->
-    <script src="/app-assets/js/scripts/maps/map-leaflet.js"></script>
+    
+    <!-- BEGIN: Pa ge JS
+    <script src="/app-assets/js/scripts/maps/map-leaflet.js"></script>-->
+    <script>
+        
+        /*
+            var polygon = L.polygon([
+      [23.186, -6.327],
+      [17.311, -9.075],
+      [17.381, -8.655],
+      [16.963, -8.263],
+      [16.3932, -8.8921],
+      [16.3233, -8.868],
+      [16.0607, -9.0167],
+      [15.524, -8.944],
+      [15.519, -5.422],
+      [16.333, -5.367],
+      [16.465, -5.674],
+      [23.186, -6.327]
+    ]).addTo(basicMap);
+        */
+$(function () {
+  'use strict';
+    var infrastructures = {!! json_encode($infrastructures,JSON_HEX_TAG) !!};
+    if ($('#basic-map').length) {
+    var basicMap = L.map('basic-map').setView([17.249, -7.053], 6);
+    L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+      maxZoom: 18
+    }).addTo(basicMap);
+    
+    infrastructures.forEach( element => {
+        //console.log(element.longitude);
+        //console.log(element.altitude);
+        var altitude = element.altitude;
+        var longitude = element.longitude;
+        L.marker([altitude,longitude]).addTo(basicMap);
+        var marker = L.marker([element.altitude ,  element.longitude]);
+        
+        marker.addTo(basicMap).on('click',function () {
+            $.ajax({
+                type : 'get',
+                url : '/maps/getinfra',
+                data : {
+                    '_token' : '{{csrf_token()}}',
+                    longitude : longitude,
+                    altitude : altitude
+                },
+                success : function(res) {
+                    console.log(res);
+                    
+                    $('#pricingModal').modal('show');
+                },
+                error : function(){
+                    alert('getInfra');
+                }
+            });
+            
+        });
+    });
+
+
+
+    ///marker.bindPopup("<b>You're here!</b>").openPopup();
+
+  }
+});
+    </script>
     <!-- END: Page JS-->
 @endpush

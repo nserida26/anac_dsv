@@ -4409,13 +4409,45 @@ $(function () {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
       maxZoom: 18
     }).addTo(basicMap);
+    var polygon = L.polygon([
+      [23.186, -6.327],
+      [17.311, -9.075],
+      [17.381, -8.655],
+      [16.963, -8.263],
+      [16.3932, -8.8921],
+      [16.3233, -8.868],
+      [16.0607, -9.0167],
+      [15.524, -8.944],
+      [15.519, -5.422],
+      [16.333, -5.367],
+      [16.465, -5.674],
+      [23.186, -6.327]
+    ]).addTo(basicMap);
+
+    var marker = L.marker([17.249, -7.053]);
+    marker.addTo(basicMap);
+    marker.on('click',function() {
+      $('#pricingModal').modal('show');
+    });
+
+    ///marker.bindPopup("<b>You're here!</b>").openPopup();
+
   }
 
   // Markers
   // --------------------------------------------------------------------
   if ($('#shape-map').length) {
     var markerMap = L.map('shape-map').setView([51.5, -0.09], 12);
-    var marker = L.marker([51.5, -0.09]).addTo(markerMap);
+    var marker = L.marker([51.5, -0.09]);
+    marker.addTo(markerMap);
+    marker.on('click',function() {
+      $('#referEarnModal').modal('show');
+
+      //data-bs-toggle="modal" data-bs-target=""
+    });
+    marker.bindPopup("<b>You're here!</b>").openPopup();
+
+
     var circle = L.circle([51.508, -0.11], {
       color: 'red',
       fillColor: '#f03',
