@@ -20,8 +20,10 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('image')->nullable();
+            $table->enum('role', ['Representant','Coordinateur','Agent']);
+            $table->enum('statu', ['Active','Désactivé']);
             $table->rememberToken();
-            $table->timestamps();
+            //$table->timestamps();
             /*
             $table->string('country')->nullable();
             $table->date('birth_date')->nullable();

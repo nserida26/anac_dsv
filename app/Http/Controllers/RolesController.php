@@ -8,7 +8,10 @@ use DB;
 
 class RolesController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $roles = DB::table('users')

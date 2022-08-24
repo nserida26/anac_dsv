@@ -1,10 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
-@section('template_title')
-    {{ $projet->name ?? 'Show Projet' }}
-@endsection
+
 
 @section('content')
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-body">
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -46,4 +50,7 @@
             </div>
         </div>
     </section>
+            </div>
+        </div>
+    </div>
 @endsection

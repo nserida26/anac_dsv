@@ -34,7 +34,7 @@ class Commune extends Model
      * @var array
      */
     protected $fillable = ['libele','population','altitude','longitude'];
-
+    public $timestamps = false;
 
 
 }

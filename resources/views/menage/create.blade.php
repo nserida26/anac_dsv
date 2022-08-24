@@ -1,30 +1,35 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
-@section('template_title')
-    Create Menage
-@endsection
 
 @section('content')
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="col-md-12">
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-body">
+            
+                <div class="row">
+                    <div class="col-md-12">
 
-                @includeif('partials.errors')
+                        @includeif('partials.errors')
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">Create Menage</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('menages.store') }}"  role="form" enctype="multipart/form-data">
-                            @csrf
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <span class="card-title">Create Menage</span>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="{{ route('menages.store') }}"  role="form" enctype="multipart/form-data">
+                                    @csrf
 
-                            @include('menage.form')
+                                    @include('menage.form')
 
-                        </form>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            
             </div>
-        </div>
-    </section>
+        </div></div>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Localite;
+use App\Models\Commune;
 use Illuminate\Http\Request;
 
 /**
@@ -11,6 +12,10 @@ use Illuminate\Http\Request;
  */
 class LocaliteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +23,7 @@ class LocaliteController extends Controller
      */
     public function index()
     {
-        $localites = Localite::paginate();
+        $localites = Localite::join('communes','communes.id','localites.commune_id')->select('localites.*','communes.libele as commune')->paginate();
 
         return view('localite.index', compact('localites'))
             ->with('i', (request()->input('page', 1) - 1) * $localites->perPage());
@@ -32,7 +37,8 @@ class LocaliteController extends Controller
     public function create()
     {
         $localite = new Localite();
-        return view('localite.create', compact('localite'));
+        $communes = Commune::all();
+        return view('localite.create', compact('localite','communes'));
     }
 
     /**
@@ -59,7 +65,7 @@ class LocaliteController extends Controller
      */
     public function show($id)
     {
-        $localite = Localite::find($id);
+        $localite = Localite::join('communes','communes.id','localites.commune_id')->select('localites.*','communes.libele as commune')->where('localites.id',$id)->first();
 
         return view('localite.show', compact('localite'));
     }
@@ -73,8 +79,8 @@ class LocaliteController extends Controller
     public function edit($id)
     {
         $localite = Localite::find($id);
-
-        return view('localite.edit', compact('localite'));
+        $communes = Commune::all();
+        return view('localite.edit', compact('localite','communes'));
     }
 
     /**

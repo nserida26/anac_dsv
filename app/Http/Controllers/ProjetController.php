@@ -16,9 +16,14 @@ class ProjetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    } 
     public function index()
     {
-        $projets = Projet::paginate();
+        $projets = Projet::join('bayeurs','bayeurs.id','projets.bayeur_id')->select('projets.*','bayeurs.nom as bayeur')->paginate();
 
         return view('projet.index', compact('projets'))
             ->with('i', (request()->input('page', 1) - 1) * $projets->perPage());

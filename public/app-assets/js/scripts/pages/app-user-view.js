@@ -25,6 +25,7 @@
         buttonsStyling: false
       }).then(function (result) {
         if (result.value) {
+          console.log(result.value);
           Swal.fire({
             icon: 'success',
             title: 'Suspended!',

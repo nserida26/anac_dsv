@@ -2,7 +2,10 @@
 
 @push('plugin-styles')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/charts/apexcharts.css">
-<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">@endpush
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/responsive.bootstrap5.min.css">
+@endpush
 @push('custom-styles')
 <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
 <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/charts/chart-apex.css">
@@ -23,37 +26,67 @@
                 </div>
             </div>
             <div class="content-body">
-                <section>
-                <div class="row">
-                    <div class="col-12">
-                    </div>
-                </div>
-            </section>
-                <!-- apex charts section start -->
-            <section id="apexchart">
-                        <!-- Polar Area Chart Starts -->
-                        <div class="col-lg-6 col-12">
+                <!-- Column Search -->
+                <section id="column-search-datatable">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-datatable">
+                                    <table class="dt-column-search table table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Commune</th>
+                                                <th>Localité</th>
+                                                <th>Désignation</th>
+                                                <th>Date de construction</th>
+                                                <th>Béneficiares</th>
+                                                <th>Etat</th>
+                                                <th>Code d'intervention</th>
+                                                <th>Avancement</th>
+                                                <th>Intervenant</th>
+                                                <th>Projet</th>
+                                                <th>Type de bloc</th>
+                                                <th>Nombre de bloc</th>
+                                                <th>Altitude</th>
+                                                <th>Longitude</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Commune</th>
+                                                <th>Localité</th>
+                                                <th>Désignation</th>
+                                                <th>Date de construction</th>
+                                                <th>Béneficiares</th>
+                                                <th>Etat</th>
+                                                <th>Code d'intervention</th>
+                                                <th>Avancement</th>
+                                                <th>Intervenant</th>
+                                                <th>Projet</th>
+                                                <th>Type de bloc</th>
+                                                <th>Nombre de bloc</th>
+                                                <th>Altitude</th>
+                                                <th>Longitude</th>
+
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-12 col-12" id="apexchart">
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">Average Skills</h4>
-                                    <div class="dropdown">
-                                        <i data-feather="more-vertical" class="cursor-pointer" role="button" id="heat-chart-dd" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        </i>
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="heat-chart-dd">
-                                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                                            <a class="dropdown-item" href="#">Last Month</a>
-                                            <a class="dropdown-item" href="#">Last Year</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <canvas class="polar-area-chart-ex chartjs" data-height="350"></canvas>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Polar Area Chart Ends-->
+                        </div>-->
+                    </div>
                 </section>
-                
             </div>
         </div>
     </div>
@@ -61,23 +94,27 @@
 
 @endsection
 @push('plugin-js')
-    <!-- BEGIN: Vendor JS-->
-    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN: Vendor JS
+    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>-->
     <!-- BEGIN Vendor JS-->
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- BEGIN: Page Vendor JS
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>-->
     <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
     <!-- END: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
 @endpush
 @push('custom-js')
     <!-- BEGIN: Page JS-->    
-    <!-- BEGIN: Theme JS-->
+    <!-- BEGIN: Theme JS
     <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>-->
     <!-- END: Theme JS-->
     
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+    <!-- BEGIN: Page JS
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>-->
     <!-- END: Page JS-->
         <script>
             $(window).on('load', function() {
@@ -88,5 +125,63 @@
                     });
                 }
             })
+
+            
+            $(function () {
+
+                var dt_filter_table = $('.dt-column-search');
+                if (dt_filter_table.length) {
+                // Setup - add a text input to each footer cell
+                $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
+                $('.dt-column-search thead tr:eq(1) th').each(function (i) {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                    if (dt_filter.column(i).search() !== this.value) {
+                        dt_filter.column(i).search(this.value).draw();
+                    }
+                    });
+                }); 
+                var dt_filter = dt_filter_table.DataTable({
+                    ajax: '{{ route('reportings.getdata') }}', 
+                    columns: [
+                    { data: 'commune'},
+                    { data: 'localite'},
+                    { data: 'designation'},
+                    { data: 'date_construction' },
+                    { data: 'effectif' },
+                    { data: 'etat'},
+                    { data: 'codeIntervention'},
+                    { data: 'avancement'},
+                    
+                    { data: 'nom'},
+                    
+                    { data: 'projet' },
+                    { data: 'type_bloc' },
+                    { data: 'nbr_bloc' },
+                    { data: 'altitude'},
+                    { data: 'longitude'}
+                    
+                    ],
+                    dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                    orderCellsTop: true,
+                    language: {
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: '&nbsp;',
+                        next: '&nbsp;'
+                    }
+                    }
+                });
+                }
+                // on key up from input field
+                $('input.dt-input').on('keyup', function () {
+                filterColumn($(this).attr('data-column'), $(this).val());
+                });
+                // Filter form control to default size for all tables
+                $('.dataTables_filter .form-control').removeClass('form-control-sm');
+                $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
+                });
         </script>
 @endpush

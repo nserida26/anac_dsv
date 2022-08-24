@@ -113,7 +113,7 @@
                                 
                             </a>
                             <h4 class="card-title mb-1">Bienvenue au GRET APP! 👋</h4>
-                            <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
+                            <p class="card-text mb-2"></p>
                                 @if (Route::has('login'))
                                     @auth
                                         <a class="btn btn-primary" href="{{ url('/home') }}">GRET APP</a>

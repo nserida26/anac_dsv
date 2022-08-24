@@ -17,6 +17,7 @@ class CreateMenagesTable extends Migration
             $table->id();
             $table->string('designation');
             $table->integer('nbr');
+            $table->integer('localite_id');
             $table->integer('projet_id');
             //$table->timestamps();
         });

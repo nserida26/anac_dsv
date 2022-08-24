@@ -18,7 +18,8 @@ class CreateLatrinesTable extends Migration
             $table->enum('type_bloc',[2,4]);
             $table->tinyInteger('nbr_bloc');
             $table->enum('etat_bloc',['Separé','Non Separé']);
-            //$table->timestamps();
+
+            $table->integer('infrastructure_id');
         });
     }
 

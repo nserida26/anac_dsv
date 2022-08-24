@@ -8,30 +8,33 @@
         <div class="content-wrapper container-xxl p-0">
             <div class="content-header row">
                 <div class="content-header-left col-md-9 col-12 mb-2">
-                    <div class="row breadcrumbs-top">
-                        <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Reporting</h2>
+                    <div class="row">
+                        <div class="col-10">
+                            <h2 class="content-header-title float-start mb-0">Gestion des utilisateurs</h2>
+                        </div>
+                            <div class="col-2">
+                            <div class="float-right">
+                                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                {{ __('Ajouter') }}
+                                </a>
+                            </div> 
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="content-body">
-                <section>
-                <div class="row">
-                    <div class="col-12">
-                    </div>
-                </div>
-            </section>
-                <!-- apex charts section start -->
+            <!-- apex charts section start -->
             <section>
                 <div class="row">
 
                     <table class="table text-center">
                         <thead class="thead-dark">
                             <tr>
-                            <th scope="col">Name</th>
+                            <th scope="col">Nom et Prénom</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Controls</th>
+                            <th scope="col">Role</th>
+                            <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,6 +42,7 @@
                             <tr style="backgroundColor:#fff">
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
+                                <td>{{$user->role}}</td>
                                 <td class="justify-content-center"> 
                                     <a href={{"users/".$user->id}} class="btn btn-info btn-sm text-light">View</a>
                                     <a href={{"users/edit/".$user->id}} class="btn btn-success btn-sm text-light">Edit</a>

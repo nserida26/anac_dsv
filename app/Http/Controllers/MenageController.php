@@ -11,14 +11,19 @@ use Illuminate\Http\Request;
  */
 class MenageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    
+     public function index()
     {
-        $menages = Menage::paginate();
+        $menages = Menage::join('projets','projets.id','menages.projet_id')->select('menages.*','projets.designation as projet')->paginate();
 
         return view('menage.index', compact('menages'))
             ->with('i', (request()->input('page', 1) - 1) * $menages->perPage());

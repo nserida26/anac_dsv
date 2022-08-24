@@ -15,12 +15,6 @@
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
                             <h2 class="content-header-title float-start mb-0">Importations</h2>
-                            <div class="breadcrumb-wrapper">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="{{route('home')}}">Table de bord</a>
-                                    </li>
-                                </ol>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,7 +38,7 @@
                                         </div>
                                         
                                         <div class="offset-sm-10">
-                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light"><i data-feather="file"></i></button>
+                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Import</button>
                                         </div>
                                     </form>
                                 </div>
@@ -66,7 +60,7 @@
                                         </div>
                                         
                                         <div class="offset-sm-10">
-                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light"><i data-feather="file"></i></button>
+                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Import</button>
                                         </div>
                                     </form>
                                 </div>

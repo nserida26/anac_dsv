@@ -23,30 +23,10 @@
                                 <div class="card-body">
                                     <div class="user-avatar-section">
                                         <div class="d-flex align-items-center flex-column">
-                                            <img class="img-fluid rounded mt-3 mb-2" src="../../../app-assets/images/portrait/small/avatar-s-2.jpg" height="110" width="110" alt="User avatar" />
+                                            <img class="img-fluid rounded mt-3 mb-2" src="{{(Auth::user()->image == NULL) ? '/default.jpg' : '/images/'.Auth::user()->image}}" height="110" width="110" alt="User avatar" />
                                             <div class="user-info text-center">
-                                                <h4>Gertrude Barton</h4>
-                                                <span class="badge bg-light-secondary">Author</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-around my-2 pt-75">
-                                        <div class="d-flex align-items-start me-2">
-                                            <span class="badge bg-light-primary p-75 rounded">
-                                                <i data-feather="check" class="font-medium-2"></i>
-                                            </span>
-                                            <div class="ms-75">
-                                                <h4 class="mb-0">1.23k</h4>
-                                                <small>Tasks Done</small>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-start">
-                                            <span class="badge bg-light-primary p-75 rounded">
-                                                <i data-feather="briefcase" class="font-medium-2"></i>
-                                            </span>
-                                            <div class="ms-75">
-                                                <h4 class="mb-0">568</h4>
-                                                <small>Projects Done</small>
+                                                <h4>{{Auth::user()->name}}</h4>
+                                                <span class="badge bg-light-secondary">{{Auth::user()->role}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -54,44 +34,21 @@
                                     <div class="info-container">
                                         <ul class="list-unstyled">
                                             <li class="mb-75">
-                                                <span class="fw-bolder me-25">Username:</span>
-                                                <span>violet.dev</span>
-                                            </li>
-                                            <li class="mb-75">
-                                                <span class="fw-bolder me-25">Billing Email:</span>
-                                                <span>vafgot@vultukir.org</span>
+                                                <span class="fw-bolder me-25">Email:</span>
+                                                <span>{{Auth::user()->email}}</span>
                                             </li>
                                             <li class="mb-75">
                                                 <span class="fw-bolder me-25">Status:</span>
-                                                <span class="badge bg-light-success">Active</span>
+                                                <span class="badge bg-light-success">{{Auth::user()->statu}}</span>
                                             </li>
-                                            <li class="mb-75">
-                                                <span class="fw-bolder me-25">Role:</span>
-                                                <span>Author</span>
-                                            </li>
-                                            <li class="mb-75">
-                                                <span class="fw-bolder me-25">Tax ID:</span>
-                                                <span>Tax-8965</span>
-                                            </li>
-                                            <li class="mb-75">
-                                                <span class="fw-bolder me-25">Contact:</span>
-                                                <span>+1 (609) 933-44-22</span>
-                                            </li>
-                                            <li class="mb-75">
-                                                <span class="fw-bolder me-25">Language:</span>
-                                                <span>English</span>
-                                            </li>
-                                            <li class="mb-75">
-                                                <span class="fw-bolder me-25">Country:</span>
-                                                <span>Wake Island</span>
-                                            </li>
+
                                         </ul>
-                                        <div class="d-flex justify-content-center pt-2">
-                                            <a href="javascript:;" class="btn btn-primary me-1" data-bs-target="#editUser" data-bs-toggle="modal">
-                                                Edit
-                                            </a>
-                                            <a href="javascript:;" class="btn btn-outline-danger suspend-user">Suspended</a>
-                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center pt-2">
+                                        <a href="javascript:;" class="btn btn-primary me-1" data-bs-target="#editUser" data-bs-toggle="modal">
+                                            Edit
+                                        </a>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -108,100 +65,20 @@
                             </div>
                             <div class="modal-body pb-5 px-sm-5 pt-50">
                                 <div class="text-center mb-2">
-                                    <h1 class="mb-1">Edit User Information</h1>
-                                    <p>Updating user details will receive a privacy audit.</p>
+                                    <h1 class="mb-1">Modification de</h1>
+                                    
                                 </div>
                                 <form id="editUserForm" class="row gy-1 pt-75" onsubmit="return false">
                                     <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditUserFirstName">First Name</label>
-                                        <input type="text" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="John" value="Gertrude" data-msg="Please enter your first name" />
+                                        <label class="form-label" for="oldPassword">Ancien Password</label>
+                                        <input type="password" id="oldPassword" name="oldPassword" class="form-control" placeholder="Ancien Password" />
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditUserLastName">Last Name</label>
-                                        <input type="text" id="modalEditUserLastName" name="modalEditUserLastName" class="form-control" placeholder="Doe" value="Barton" data-msg="Please enter your last name" />
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label" for="modalEditUserName">Username</label>
-                                        <input type="text" id="modalEditUserName" name="modalEditUserName" class="form-control" value="gertrude.dev" placeholder="john.doe.007" />
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditUserEmail">Billing Email:</label>
-                                        <input type="text" id="modalEditUserEmail" name="modalEditUserEmail" class="form-control" value="gertrude@gmail.com" placeholder="example@domain.com" />
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditUserStatus">Status</label>
-                                        <select id="modalEditUserStatus" name="modalEditUserStatus" class="form-select" aria-label="Default select example">
-                                            <option selected>Status</option>
-                                            <option value="1">Active</option>
-                                            <option value="2">Inactive</option>
-                                            <option value="3">Suspended</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditTaxID">Tax ID</label>
-                                        <input type="text" id="modalEditTaxID" name="modalEditTaxID" class="form-control modal-edit-tax-id" placeholder="Tax-8894" value="Tax-8894" />
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditUserPhone">Contact</label>
-                                        <input type="text" id="modalEditUserPhone" name="modalEditUserPhone" class="form-control phone-number-mask" placeholder="+1 (609) 933-44-22" value="+1 (609) 933-44-22" />
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditUserLanguage">Language</label>
-                                        <select id="modalEditUserLanguage" name="modalEditUserLanguage" class="select2 form-select" multiple>
-                                            <option value="english">English</option>
-                                            <option value="spanish">Spanish</option>
-                                            <option value="french">French</option>
-                                            <option value="german">German</option>
-                                            <option value="dutch">Dutch</option>
-                                            <option value="hebrew">Hebrew</option>
-                                            <option value="sanskrit">Sanskrit</option>
-                                            <option value="hindi">Hindi</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="modalEditUserCountry">Country</label>
-                                        <select id="modalEditUserCountry" name="modalEditUserCountry" class="select2 form-select">
-                                            <option value="">Select Value</option>
-                                            <option value="Australia">Australia</option>
-                                            <option value="Bangladesh">Bangladesh</option>
-                                            <option value="Belarus">Belarus</option>
-                                            <option value="Brazil">Brazil</option>
-                                            <option value="Canada">Canada</option>
-                                            <option value="China">China</option>
-                                            <option value="France">France</option>
-                                            <option value="Germany">Germany</option>
-                                            <option value="India">India</option>
-                                            <option value="Indonesia">Indonesia</option>
-                                            <option value="Israel">Israel</option>
-                                            <option value="Italy">Italy</option>
-                                            <option value="Japan">Japan</option>
-                                            <option value="Korea">Korea, Republic of</option>
-                                            <option value="Mexico">Mexico</option>
-                                            <option value="Philippines">Philippines</option>
-                                            <option value="Russia">Russian Federation</option>
-                                            <option value="South Africa">South Africa</option>
-                                            <option value="Thailand">Thailand</option>
-                                            <option value="Turkey">Turkey</option>
-                                            <option value="Ukraine">Ukraine</option>
-                                            <option value="United Arab Emirates">United Arab Emirates</option>
-                                            <option value="United Kingdom">United Kingdom</option>
-                                            <option value="United States">United States</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center mt-1">
-                                            <div class="form-check form-switch form-check-primary">
-                                                <input type="checkbox" class="form-check-input" id="customSwitch10" checked />
-                                                <label class="form-check-label" for="customSwitch10">
-                                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
-                                                </label>
-                                            </div>
-                                            <label class="form-check-label fw-bolder" for="customSwitch10">Use as a billing address?</label>
-                                        </div>
+                                        <label class="form-label" for="newPassword">Nouveau Password</label>
+                                        <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="Nouveau Password" />
                                     </div>
                                     <div class="col-12 text-center mt-2 pt-50">
-                                        <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                        <button type="submit" class="btn btn-primary me-1" id="editSubmit">Submit</button>
                                         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
                                             Discard
                                         </button>
@@ -221,7 +98,55 @@
 <script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
 @endpush
 @push('custom-js')
-<script src="../../../app-assets/js/scripts/pages/modal-edit-user.js"></script>
-<script src="../../../app-assets/js/scripts/pages/app-user-view-account.js"></script>
-<script src="../../../app-assets/js/scripts/pages/app-user-view.js"></script>
+<script>
+$(function () {
+    const editUserForm = $('#editUserForm');
+  
+  console.log(editUserForm);
+    // Edit user form validation
+    if (editUserForm.length) {
+        $('#editSubmit').on('click',function() {
+        var oldpass = $('#oldPassword').val();
+        var newpass = $('#newPassword').val();
+        var id = {!! json_encode(Auth::user()->id) !!}
+        if (true) {
+          $.ajax({
+            type : 'post',
+            url : '{{route('users.modifyPassword')}}',
+            data : {
+                '_token' : '{{csrf_token()}}',
+                id : id,
+                newpass : newpass,
+                oldpass : oldpass
+            },
+            success : function (res) {
+                console.log(res);
+                Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: res,
+                customClass: {
+                confirmButton: 'btn btn-success'
+                }
+              });
+              $('#editUser').modal('hide');
+            },
+            error : function() {
+                Swal.fire({
+                    title: 'Failed',
+                    text: 'Operation Failed',
+                    icon: 'error',
+                    customClass: {
+                    confirmButton: 'btn btn-success'
+                    }
+                });
+                $('#editUser').modal('hide');
+            }
+          })
+
+        }
+        });
+    }
+  });
+  </script>
 @endpush

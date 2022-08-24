@@ -93,70 +93,42 @@
                         
                     </div>
                 </section>
-
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="pricingModal" tabindex="-1" aria-labelledby="pricingModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-transparent">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-sm-5 mx-50 pb-5">
-                    <div id="pricing-plan">
-                        <!-- title text and switch button -->
-                        <div class="text-center">
-                            <h1 id="pricingModalTitle">Infrastructure</h1>
-                            <p class="mb-3">
-                                Descriptions
-                            </p>
-                        </div>
-                        <!--/ title text and switch button -->
-
-                        <!-- pricing plan cards -->
-                        <div class="row pricing-card">
-
-                            <!-- standard plan -->
-                            <div class="col-12 col-lg-12">
-                                <div class="card standard-pricing border-primary text-center shadow-none">
-                                    <div class="card-body">
-                                       
-                                <div class="custom-options-checkable">
-                                    <input class="custom-option-item-check" type="radio" name="twoFactorAuthRadio" id="twoFactorAuthApps" value="apps-auth" checked />
-                                    <label for="twoFactorAuthApps" class="custom-option-item d-flex align-items-center flex-column flex-sm-row px-3 py-2 mb-2">
-                                        <span><i data-feather="settings" class="font-large-2 me-sm-2 mb-2 mb-sm-0"></i></span>
-                                        <span>
-                                            <span class="custom-option-item-title h3">Interventions</span>
-                                            <span class="d-block mt-75">
-                                                Descriptions
-                                            </span>
-                                        </span>
-                                    </label>
-
-                                    <input class="custom-option-item-check" type="radio" name="twoFactorAuthRadio" value="sms-auth" id="twoFactorAuthSms" />
-                                    <label for="twoFactorAuthSms" class="custom-option-item d-flex align-items-center flex-column flex-sm-row px-3 py-2">
-                                        <span><i data-feather="settings" class="font-large-2 me-sm-2 mb-2 mb-sm-0"></i></span>
-                                        <span>
-                                            <span class="custom-option-item-title h3">Interventions</span>
-                                            <span class="d-block mt-75">Descriptions</span>
-                                        </span>
-                                    </label>
-                                </div>
-                                
-                                <button id="nextStepAuth" class="btn btn-primary float-end mt-3">
-                                    <span class="me-50">Detail</span>
-                                    <i data-feather="chevron-right"></i>
-                                </button>
+                <div class="modal fade" id="pricingModal" tabindex="-1" aria-labelledby="pricingModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                <div id="pricing-plan">
+                                    <!-- title text and switch button -->
+                                    <div class="text-center" id="infrastructureTitle">
                                     </div>
+                                    <!--/ title text and switch button -->
+            
+                                    <!-- pricing plan cards -->
+                                    <div class="row pricing-card">
+            
+                                        <!-- standard plan -->
+                                        <div class="col-12 col-lg-12">
+                                            <div class="card standard-pricing border-primary text-center shadow-none">
+                                                <div class="card-body">
+                                                   
+                                            <div class="custom-options-checkable" id="interventionBody">
+                                            </div>
+                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/ standard plan -->
+                                    </div>
+                                    <!--/ pricing plan cards -->
+            
+                                    <!-- pricing free trial -->
+                                    <!--/ pricing free trial -->
                                 </div>
                             </div>
-                            <!--/ standard plan -->
                         </div>
-                        <!--/ pricing plan cards -->
-
-                        <!-- pricing free trial -->
-                        <!--/ pricing free trial -->
                     </div>
                 </div>
             </div>
@@ -199,7 +171,7 @@ $(function () {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
       maxZoom: 18
     }).addTo(basicMap);
-    
+    console.log($('#infrastructureTitle'));
     infrastructures.forEach( element => {
         //console.log(element.longitude);
         //console.log(element.altitude);
@@ -207,8 +179,10 @@ $(function () {
         var longitude = element.longitude;
         L.marker([altitude,longitude]).addTo(basicMap);
         var marker = L.marker([element.altitude ,  element.longitude]);
-        
+
         marker.addTo(basicMap).on('click',function () {
+        $('#infrastructureTitle').html("");
+        $('#interventionBody').html("");
             $.ajax({
                 type : 'get',
                 url : '/maps/getinfra',
@@ -219,8 +193,29 @@ $(function () {
                 },
                 success : function(res) {
                     console.log(res);
-                    
+                    $.each(res,function(key,value) {
+                        console.log();
+                        var h1 = "<h1 id='pricingModalTitle'>" + value.infrastructure + "</h1>";
+                        
+                        $('#infrastructureTitle').append(h1);
+                        var p = "<p class='mb-1'><span class='badge badge-glow bg-success'>"+value.type+"</span></p>";
+                        $('#infrastructureTitle').append(p);
+                    });
+                    //
+                    $.each(res,function(key,value) {
+
+                        var label = "<label class='align-items-center flex-column flex-sm-row'>";
+                            label = label + "<span><span class='custom-option-item-title h3'> Designation : "+value.designation+"</span>";
+                            label = label + "<span class='d-block mt-75 badge badge-glow bg-success'>Code : " + value.code + "</span>";
+                            label = label + "<span class='d-block mt-75 badge badge-glow bg-success'> Avancement : " + value.avancement + "</span>";
+                            label = label + "<span class='d-block mt-75 badge badge-glow bg-success'> Montant : " + value.montant + "</span>";
+                            label = label + "<span class='d-block mt-75 badge badge-glow bg-success'> Source de financement : " + value.bayeur + "</span>";
+                            label = label + "<span class='d-block mt-75 badge badge-glow bg-success'> Projet : " + value.projet + "</span>";
+                            label = label + "</span></label>"
+                            $('#interventionBody').append(label);
+                    });
                     $('#pricingModal').modal('show');
+                    
                 },
                 error : function(){
                     alert('getInfra');

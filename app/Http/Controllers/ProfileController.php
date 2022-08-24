@@ -10,6 +10,10 @@ use Hash;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function show()
     {
         //if(Auth::user()->admin == 0) { 

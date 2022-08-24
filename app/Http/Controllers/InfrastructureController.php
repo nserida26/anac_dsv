@@ -8,6 +8,10 @@ use App\Imports\HygieneImport;
 use Maatwebsite\Excel\Facades\Excel;
 class InfrastructureController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index()
     {

@@ -11,6 +11,10 @@ use DB;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -59,29 +63,27 @@ class UsersController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required:max:40',
                 'email' => 'required|unique:users|max:190',
-                'password' => 'required|min:8',
-                //'role' => 'required|max:40',
+                'password' => 'required|min:3|max:6',
+                //'role' => 'required|max:40'
             ]);
             
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
-            //$user->birth_date = $request->birth_date;
-            //$user->gender = $request->gender; 
-            //$user->country = $request->country;
             $user->password = Hash::make($request->password);
-            //if($request->hasFile('image')) {
-              //  $user->image = $request->image->store('profile_pics', 'public');
-            //}
+            $user->role = $request->role;
+            if($request->hasFile('image')) {
+              
+              $file = $request->file('image') ;
+              $fileName = $file->getClientOriginalName() ;
+              $destinationPath = public_path().'/images' ;
+              $file->move($destinationPath,$fileName);
+              $user->image = $fileName;
+              
+            }
             $user->save();
 
-            $role = new Role;
-            $role->user_id = $user->id;
-            $role->role = $request->role;
-            //$role->permission = $request->permission;
-            $role->save();
-
-            return redirect('/users')->with('msg_success', 'User Created Successfully');
+            return redirect()->to('/users')->with('success', 'User Created Successfully');
             
         //} 
         //else {
@@ -116,8 +118,8 @@ class UsersController extends Controller
     {
         //if(Auth::user()->admin) {
             $user = User::findOrFail($id);
-            $user_role = DB::table('roles')->where('user_id', '=', $id)->first();
-            return view('users.edit', compact('user', 'user_role'));
+            //$user_role = DB::table('roles')->where('user_id', '=', $id)->first();
+            return view('users.edit', compact('user'));
 
         //}
         //else {
@@ -139,8 +141,8 @@ class UsersController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required:max:40',
                 'email' => 'required|max:190',
-                'password' => 'nullable|min:8|confirmed',
-                'role' => 'required|max:40',
+                'password' => 'nullable|min:3|max:6',
+                //'role' => 'required',
             ]);
 
             $user = User::find($id);
@@ -152,17 +154,18 @@ class UsersController extends Controller
             if($user->password) {
                 $user->password = Hash::make($request->password);
             }
-            //if($request->hasFile('image')) {
-              //  $user->image = $request->image->store('profile_pics', 'public');
-            //}
+            if($request->hasFile('image')) {
+              $user->image = $request->image->store('images');
+            }
+            $user->role = $request->role;
             $user->save();
 
-            $role = Role::where('user_id', '=', $id)->firstOrFail();
-            $role->role = $request->role;
+            //$role = Role::where('user_id', '=', $id)->firstOrFail();
+            
             //$role->permission = $request->permission;
-            $role->save();
+            //$role->save();
 
-            return redirect('/users')->with('msg_success', 'User Updated Successfully');
+            return redirect()->to('/users')->with('success', 'User Updated Successfully');
        // }
         //else {
           //  return redirect('/home');
@@ -179,13 +182,45 @@ class UsersController extends Controller
     {
         //if(Auth::user()->admin) {
             $user = User::find($id);
-            $role = Role::where('user_id', '=', $id)->firstOrFail();
-            $role->delete();
+            //$role = Role::where('user_id', '=', $id)->firstOrFail();
+            //$role->delete();
             $user->delete();
-            return redirect('/users')->with('msg_success', 'User Deleted Successfully');
+            return redirect()->to('/users')->with('success', 'User Deleted Successfully');
        // }
         //else {
           //  return redirect('/home');
         //}
+    }
+    public function modifyStatus(Request $request)
+    {
+        $user = User::find($request->id);
+        
+        if ($user->statu == 'Désactivé') {
+            # code...
+            $user->statu = 'Active';
+            $user->save();
+            return 'User Actived Successfully';
+        }else {
+            $user->statu = 'Désactivé';
+            $user->save();
+            return 'User Desactived Successfully';
+        }
+        
+        
+        # code...
+    }
+
+    public function modifyPassword(Request $request)
+    {
+
+        $user = User::find($request->id);
+    # code...
+        
+        if(Hash::make($request->oldpass) == $user->password) {
+            $user->password = Hash::make($request->newpass);
+            
+            $user->save();
+            return 'User Password Modified Successfully';
+        }
     }
 }

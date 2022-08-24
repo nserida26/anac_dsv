@@ -32,7 +32,7 @@
                             <div class="card card-statistics">
                                 <div class="card-body statistics-body">
                                     <div class="row">
-                                        <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0">
+                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
                                             <div class="d-flex flex-row">
                                                 <div class="avatar bg-light-primary me-2">
                                                     <div class="avatar-content">
@@ -40,12 +40,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">230k</h4>
+                                                    <h4 class="fw-bolder mb-0">NaN</h4>
                                                     <p class="card-text font-small-3 mb-0">Nombre des Sources de financements</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0">
+                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
                                             <div class="d-flex flex-row">
                                                 <div class="avatar bg-light-info me-2">
                                                     <div class="avatar-content">
@@ -53,12 +53,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">8.549k</h4>
+                                                    <h4 class="fw-bolder mb-0">NaN</h4>
                                                     <p class="card-text font-small-3 mb-0">Taux  de financement réalisé par financement prévu</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-sm-0">
+                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
                                             <div class="d-flex flex-row">
                                                 <div class="avatar bg-light-danger me-2">
                                                     <div class="avatar-content">
@@ -66,8 +66,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">1.423k</h4>
+                                                    <h4 class="fw-bolder mb-0">{{$total_projets}}</h4>
                                                     <p class="card-text font-small-3 mb-0">Nombre des projets adaptés au thème</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
+                                            <div class="d-flex flex-row">
+                                                <div class="avatar bg-light-danger me-2">
+                                                    <div class="avatar-content">
+                                                        <i data-feather="box" class="avatar-icon"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h4 class="fw-bolder mb-0">{{$total_hygienes}}</h4>
+                                                    <p class="card-text font-small-3 mb-0">Nombre de séance de sensibilisation</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,7 +89,7 @@
                             </div>
                         </div>
                         <!--/ Statistics Card -->
-                                                <!-- Statistics Card -->
+                        <!-- Statistics Card -->
                         <div class="col-xl-12 col-md-12 col-12">
                             <div class="card card-statistics">
                                 <div class="card-body statistics-body">
@@ -89,7 +102,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">230k</h4>
+                                                    <h4 class="fw-bolder mb-0">{{$total_intervenants}}</h4>
                                                     <p class="card-text font-small-3 mb-0">Nombre des Sources de finances</p>
                                                 </div>
                                             </div>
@@ -102,7 +115,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">8.549k</h4>
+                                                    <h4 class="fw-bolder mb-0">{{$total_intervenants}}</h4>
                                                     <p class="card-text font-small-3 mb-0">Nombre des Structures d’Execution</p>
                                                 </div>
                                             </div>
@@ -115,7 +128,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">1.423k</h4>
+                                                    <h4 class="fw-bolder mb-0">{{$total_interventions}}</h4>
                                                     <p class="card-text font-small-3 mb-0">Nombre des Interventions</p>
                                                 </div>
                                             </div>
@@ -161,11 +174,11 @@
                                     </div>
                                     <div class="header-right d-flex align-items-center mt-sm-0 mt-1">
                                         <div class="btn-group mt-md-0 mt-1" role="group" aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option1" autocomplete="off" checked />
-                                            <label class="btn btn-outline-primary" for="radio_option1">Commune</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_projet_commune" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_projet_commune">Commune</label>
     
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option2" autocomplete="off" />
-                                            <label class="btn btn-outline-primary" for="radio_option2">Localité</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_projet_localite" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_projet_localite">Localité</label>
                                         </div>
                                     </div>
                                 </div>
@@ -183,26 +196,10 @@
                                     <h4 class="card-title">Nombre de bénéficiares financés par secteur</h4>
                                 </div>
                                 <div class="card-body">
-                                    <div id="dobSecteur"></div>
+                                    <canvas class="bSecteur chartjs" data-height="400"></canvas>
                                 </div>
                             </div>
                         </div>
-                        <!-- Polar Area Chart Ends-->
-                        <!-- Radial Chart Starts-->
-                        <div class="col-xl-12 col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">Nombre de bénéficiares financés par type</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="dobType"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Radial Chart Ends-->
-                        
-                        <!-- Donut Chart Starts-->
-                        <!-- Horizontal Bar Chart Start -->
                         <div class="col-xl-12 col-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-sm-center align-items-start flex-sm-row flex-column">
@@ -212,11 +209,11 @@
                                     </div>
                                     <div class="header-right d-flex align-items-center mt-sm-0 mt-1">
                                         <div class="btn-group mt-md-0 mt-1" role="group" aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option1" autocomplete="off" checked />
-                                            <label class="btn btn-outline-primary" for="radio_option1">Commune</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_beneficiare_commune" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_beneficiare_commune">Commune</label>
     
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option2" autocomplete="off" />
-                                            <label class="btn btn-outline-primary" for="radio_option2">Localité</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_beneficiare_localite" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_beneficiare_localite">Localité</label>
                                     </div>
                                 </div>
                                 </div>
@@ -242,11 +239,11 @@
                                     <h4 class="card-title">Nombre des infrastructures benificiaires par zone</h4>
                                     <div class="header-right d-flex align-items-center mt-sm-0 mt-1">
                                         <div class="btn-group mt-md-0 mt-1" role="group" aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option1" autocomplete="off" checked />
-                                            <label class="btn btn-outline-primary" for="radio_option1">Commune</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_infrastructure_commune" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_infrastructure_commune">Commune</label>
     
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option2" autocomplete="off" />
-                                            <label class="btn btn-outline-primary" for="radio_option2">Localité</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_infrastructure_localite" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_infrastructure_localite">Localité</label>
                                         </div>
                                     </div>
                                 </div>
@@ -268,7 +265,7 @@
                                     <h4 class="card-title mb-sm-0 mb-1">Répartition des interventions par secteur</h4>
                                 </div>
                                 <div class="card-body">
-                                    <div id="rainterSecteur"></div>
+                                    <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -285,16 +282,16 @@
                                     <h4 class="card-title mb-sm-0 mb-1">Répartition des interventions par zone</h4>
                                     <div class="header-right d-flex align-items-center mt-sm-0 mt-1">
                                         <div class="btn-group mt-md-0 mt-1" role="group" aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option1" autocomplete="off" checked />
-                                            <label class="btn btn-outline-primary" for="radio_option1">Commune</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_interventions_commune" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_interventions_commune">Commune</label>
     
-                                            <input type="radio" class="btn-check" name="radio_options" id="radio_option2" autocomplete="off" />
-                                            <label class="btn btn-outline-primary" for="radio_option2">Localité</label>
+                                            <input type="radio" class="btn-check" name="radio_options" id="radio_interventions_localite" autocomplete="off" />
+                                            <label class="btn btn-outline-primary" for="radio_interventions_localite">Localité</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div id="rainterZone"></div>
+                                    <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -310,8 +307,8 @@
     <!-- END: Content-->
 @endsection
 @push('plugin-js')
-    <!-- BEGIN: Vendor JS-->
-    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN: Vendor JS
+    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>-->
     <!-- BEGIN Vendor JS-->
     <!-- BEGIN: Page Vendor JS-->
     <script src="/app-assets/vendors/js/charts/apexcharts.min.js"></script>
@@ -323,16 +320,16 @@
     <!-- END: Page Vendor JS-->
 @endpush
 @push('custom-js')
-    <!-- BEGIN: Page JS Répartition des interventions -->
-    <script src="/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>
+    <!-- BEGIN: Page JS Répartition des interventions 
+    <script src="/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>-->
     <!-- END: Page JS-->
     <!-- BEGIN: Page JS
     <script src="/app-assets/js/scripts/charts/chart-apex.js"></script>-->
     <!-- END: Page JS-->
     <!-- BEGIN: Page JS-->    
-    <!-- BEGIN: Theme JS-->
+    <!-- BEGIN: Theme JS
     <script src="/app-assets/js/core/app-menu.js"></script>
-    <script src="/app-assets/js/core/app.js"></script>
+    <script src="/app-assets/js/core/app.js"></script>-->
     <!-- END: Theme JS-->
     
     <!-- BEGIN: Page JS
@@ -347,10 +344,77 @@
                     });
                 }
         });
-        //bproZone
+        
         $(window).on('load', function () {
         'use strict';
 
+        function max_array(arr) {
+            var max_array = 0;
+            for (let index = 0; index < arr.length; index++) {
+                if (arr[index] >= max_array) {
+                    max_array = arr[index];
+                }
+            }
+            return max_array;
+        }
+        var projets_chart = {!! json_encode($projets_chart,JSON_HEX_TAG) !!}
+        var projets_zone_chart = {!! json_encode($projets_zone_chart,JSON_HEX_TAG) !!}
+        var beneficiare_chart = {!! json_encode($beneficiare_chart,JSON_HEX_TAG) !!}
+        var infrastructure_chart = {!! json_encode($infrastructure_chart,JSON_HEX_TAG) !!}
+        var intervention_chart = {!! json_encode($intervention_chart,JSON_HEX_TAG) !!}
+        
+        var projets_chart_key = [];
+        var projets_chart_value = [];
+        $.each(projets_chart,function(key,value) {
+           projets_chart_key.push(key);
+           projets_chart_value.push(value);
+        });
+
+        var infrastructure_chart_key = [];
+        var infrastructure_chart_value = [];
+        $.each(infrastructure_chart,function(key,value) {
+            infrastructure_chart_key.push(key);
+            infrastructure_chart_value.push(value);
+        });
+
+        var beneficiare_chart_key = [];
+        var beneficiare_chart_value = [];
+        $.each(beneficiare_chart,function(key,value) {
+            beneficiare_chart_key.push(key);
+            beneficiare_chart_value.push(value);
+        });
+        var intervention_chart_key = [];
+        var intervention_chart_value = [];
+        $.each(intervention_chart,function(key,value) {
+            intervention_chart_key.push(key);
+            intervention_chart_value.push(value);
+        });
+
+        
+        
+        var projets_chart_max =  max_array(projets_chart_value);
+        var projets_chart_step;
+        if (projets_chart_max >= 4) {
+            projets_chart_step = projets_chart_max/4;
+        }else{
+            projets_chart_step = projets_chart_max;
+        }
+        console.log(projets_zone_chart);
+        $('#radio_projet_commune')[0].checked = true;
+        $('#radio_beneficiare_commune')[0].checked = true;
+        $('#radio_infrastructure_commune')[0].checked = true;
+        $('#radio_interventions_commune')[0].checked = true;
+
+        $('#radio_projet_commune').on('change',function() {
+            console.log('Commune : ' + $('#radio_projet_commune')[0].checked);
+        });
+        $('#radio_projet_localite').on('change',function() {
+            console.log('Localité : ' + $('#radio_projet_localite')[0].checked);
+        });
+
+        
+        //console.log($('#radio_projet_localite'));
+        
         var primaryColorShade = '#836AF9',
             yellowColor = '#ffe800',
             successColorShade = '#28dac6',
@@ -390,75 +454,9 @@
                 }
                 };
         var chartWrapper = $('.chartjs'),
-        barpSecteur = $('.barpSecteur'),polarAreaChartEx = $('.polarbSecteur'),bproZone = $('.bproZone'),bZone = $('.bZone');
-        if (polarAreaChartEx.length) {
-            var polarExample = new Chart(polarAreaChartEx, {
-            type: 'polarArea',
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                responsiveAnimationDuration: 500,
-                legend: {
-                position: 'right',
-                labels: {
-                    usePointStyle: true,
-                    padding: 25,
-                    boxWidth: 9,
-                    fontColor: labelColor
-                }
-                },
-                layout: {
-                padding: {
-                    top: -5,
-                    bottom: -45
-                }
-                },
-                tooltips: {
-                // Updated default tooltip UI
-                shadowOffsetX: 1,
-                shadowOffsetY: 1,
-                shadowBlur: 8,
-                shadowColor: tooltipShadow,
-                backgroundColor: window.colors.solid.white,
-                titleFontColor: window.colors.solid.black,
-                bodyFontColor: window.colors.solid.black
-                },
-                scale: {
-                scaleShowLine: true,
-                scaleLineWidth: 1,
-                ticks: {
-                    display: false,
-                    fontColor: labelColor
-                },
-                reverse: false,
-                gridLines: {
-                    display: false
-                }
-                },
-                animation: {
-                animateRotate: false
-                }
-            },
-            data: {
-                labels: ['Africa', 'Asia', 'Europe', 'America', 'Antarctica', 'Australia'],
-                datasets: [
-                {
-                    label: 'Population (millions)',
-                    backgroundColor: [
-                    primaryColorShade,
-                    warningColorShade,
-                    window.colors.solid.primary,
-                    infoColorShade,
-                    greyColor,
-                    successColorShade
-                    ],
-                    data: [19, 17.5, 15, 13.5, 11, 9],
-                    borderWidth: 0
-                }
-                ]
-            }
-            });
-        }
+        barpSecteur = $('.barpSecteur'),bproZone = $('.bproZone'),bZone = $('.bZone'),bSecteur = $('.bSecteur');
+        
+
         if (barpSecteur.length) {
                     var barChartExample = new Chart(barpSecteur, {
                     type: 'bar',
@@ -510,9 +508,9 @@
                                 zeroLineColor: grid_line_color
                             },
                             ticks: {
-                                stepSize: 100,
+                                stepSize: projets_chart_step,
                                 min: 0,
-                                max: 400,
+                                max: projets_chart_max,
                                 fontColor: labelColor
                             }
                             }
@@ -520,10 +518,10 @@
                         }
                     },
                     data: {
-                        labels: ['Mosque', 'Ecole', 'Santé', 'Autres'],
+                        labels: projets_chart_key,
                         datasets: [
                         {
-                            data: [275, 90, 190, 205],
+                            data: projets_chart_value,
                             barThickness: 15,
                             backgroundColor: successColorShade,
                             borderColor: 'transparent'
@@ -534,17 +532,10 @@
 
                 }
                 var donutData        = {
-                    labels: [
-                        'Chrome',
-                        'IE',
-                        'FireFox',
-                        'Safari',
-                        'Opera',
-                        'Navigator',
-                    ],
+                    labels: infrastructure_chart_key,
                     datasets: [
                         {
-                        data: [700,500,400,600,300,100],
+                        data: infrastructure_chart_value,
                         backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
                         }
                     ]
@@ -567,14 +558,14 @@
                 var pieOptions     = {
                 maintainAspectRatio : false,
                 responsive : true,
-                }
-                //Create pie or douhnut chart
-                // You can switch between pie and douhnut using the method below.
-                new Chart(pieChartCanvas, {
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        new Chart(pieChartCanvas, {
                 type: 'pie',
                 data: pieData,
                 options: pieOptions
-                })
+        })
         if (bproZone.length) {
                     var barChartExample = new Chart(bproZone, {
                     type: 'bar',
@@ -648,401 +639,6 @@
                     }
                     });
                     
-                }
-          // --------------------------------------------------------------------
-            var radialBarChartEl = document.querySelector('#rainterSecteur'),
-                radialBarChartConfig = {
-                chart: {
-                    height: 350,
-                    type: 'radialBar'
-                },
-                colors: [chartColors.donut.series1, chartColors.donut.series2, chartColors.donut.series4],
-                plotOptions: {
-                    radialBar: {
-                    size: 185,
-                    hollow: {
-                        size: '25%'
-                    },
-                    track: {
-                        margin: 15
-                    },
-                    dataLabels: {
-                        name: {
-                        fontSize: '2rem',
-                        fontFamily: 'Montserrat'
-                        },
-                        value: {
-                        fontSize: '1rem',
-                        fontFamily: 'Montserrat'
-                        },
-                        total: {
-                        show: true,
-                        fontSize: '1rem',
-                        label: 'Comments',
-                        formatter: function (w) {
-                            return '80%';
-                        }
-                        }
-                    }
-                    }
-                },
-                grid: {
-                    padding: {
-                    top: -35,
-                    bottom: -30
-                    }
-                },
-                legend: {
-                    show: true,
-                    position: 'bottom'
-                },
-                stroke: {
-                    lineCap: 'round'
-                },
-                series: [80, 50, 35],
-                labels: ['Comments', 'Replies', 'Shares']
-                };
-            if (typeof radialBarChartEl !== undefined && radialBarChartEl !== null) {
-                var radialChart = new ApexCharts(radialBarChartEl, radialBarChartConfig);
-                radialChart.render();
-            }
-
-                      // --------------------------------------------------------------------
-            var radialBarChartEl = document.querySelector('#rainterZone'),
-                radialBarChartConfig = {
-                chart: {
-                    height: 350,
-                    type: 'radialBar'
-                },
-                colors: [chartColors.donut.series1, chartColors.donut.series2, chartColors.donut.series4],
-                plotOptions: {
-                    radialBar: {
-                    size: 185,
-                    hollow: {
-                        size: '25%'
-                    },
-                    track: {
-                        margin: 15
-                    },
-                    dataLabels: {
-                        name: {
-                        fontSize: '2rem',
-                        fontFamily: 'Montserrat'
-                        },
-                        value: {
-                        fontSize: '1rem',
-                        fontFamily: 'Montserrat'
-                        },
-                        total: {
-                        show: true,
-                        fontSize: '1rem',
-                        label: 'Comments',
-                        formatter: function (w) {
-                            return '80%';
-                        }
-                        }
-                    }
-                    }
-                },
-                grid: {
-                    padding: {
-                    top: -35,
-                    bottom: -30
-                    }
-                },
-                legend: {
-                    show: true,
-                    position: 'bottom'
-                },
-                stroke: {
-                    lineCap: 'round'
-                },
-                series: [80, 50, 35],
-                labels: ['Comments', 'Replies', 'Shares']
-                };
-            if (typeof radialBarChartEl !== undefined && radialBarChartEl !== null) {
-                var radialChart = new ApexCharts(radialBarChartEl, radialBarChartConfig);
-                radialChart.render();
-            }
-    var donutChartEl = document.querySelector('#dobZone'),
-            donutChartConfig = {
-            chart: {
-                height: 350,
-                type: 'donut'
-            },
-            legend: {
-                show: true,
-                position: 'bottom'
-            },
-            labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
-            series: [85, 16, 50, 50],
-            colors: [
-                chartColors.donut.series1,
-                chartColors.donut.series5,
-                chartColors.donut.series3,
-                chartColors.donut.series2
-            ],
-            dataLabels: {
-                enabled: true,
-                formatter: function (val, opt) {
-                return parseInt(val) + '%';
-                }
-            },
-            plotOptions: {
-                pie: {
-                donut: {
-                    labels: {
-                    show: true,
-                    name: {
-                        fontSize: '2rem',
-                        fontFamily: 'Montserrat'
-                    },
-                    value: {
-                        fontSize: '1rem',
-                        fontFamily: 'Montserrat',
-                        formatter: function (val) {
-                        return parseInt(val) + '%';
-                        }
-                    },
-                    total: {
-                        show: true,
-                        fontSize: '1.5rem',
-                        label: 'Operational',
-                        formatter: function (w) {
-                        return '31%';
-                        }
-                    }
-                    }
-                }
-                }
-            },
-            responsive: [
-                {
-                breakpoint: 992,
-                options: {
-                    chart: {
-                    height: 380
-                    }
-                }
-                },
-                {
-                breakpoint: 576,
-                options: {
-                    chart: {
-                    height: 320
-                    },
-                    plotOptions: {
-                    pie: {
-                        donut: {
-                        labels: {
-                            show: true,
-                            name: {
-                            fontSize: '1.5rem'
-                            },
-                            value: {
-                            fontSize: '1rem'
-                            },
-                            total: {
-                            fontSize: '1.5rem'
-                            }
-                        }
-                        }
-                    }
-                    }
-                }
-                }
-            ]
-            };
-        if (typeof donutChartEl !== undefined && donutChartEl !== null) {
-            var donutChart = new ApexCharts(donutChartEl, donutChartConfig);
-            donutChart.render();
-        }
-
-        var donutChartEl = document.querySelector('#dobType'),
-            donutChartConfig = {
-            chart: {
-                height: 350,
-                type: 'donut'
-            },
-            legend: {
-                show: true,
-                position: 'bottom'
-            },
-            labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
-            series: [85, 16, 50, 50],
-            colors: [
-                chartColors.donut.series1,
-                chartColors.donut.series5,
-                chartColors.donut.series3,
-                chartColors.donut.series2
-            ],
-            dataLabels: {
-                enabled: true,
-                formatter: function (val, opt) {
-                return parseInt(val) + '%';
-                }
-            },
-            plotOptions: {
-                pie: {
-                donut: {
-                    labels: {
-                    show: true,
-                    name: {
-                        fontSize: '2rem',
-                        fontFamily: 'Montserrat'
-                    },
-                    value: {
-                        fontSize: '1rem',
-                        fontFamily: 'Montserrat',
-                        formatter: function (val) {
-                        return parseInt(val) + '%';
-                        }
-                    },
-                    total: {
-                        show: true,
-                        fontSize: '1.5rem',
-                        label: 'Operational',
-                        formatter: function (w) {
-                        return '31%';
-                        }
-                    }
-                    }
-                }
-                }
-            },
-            responsive: [
-                {
-                breakpoint: 992,
-                options: {
-                    chart: {
-                    height: 380
-                    }
-                }
-                },
-                {
-                breakpoint: 576,
-                options: {
-                    chart: {
-                    height: 320
-                    },
-                    plotOptions: {
-                    pie: {
-                        donut: {
-                        labels: {
-                            show: true,
-                            name: {
-                            fontSize: '1.5rem'
-                            },
-                            value: {
-                            fontSize: '1rem'
-                            },
-                            total: {
-                            fontSize: '1.5rem'
-                            }
-                        }
-                        }
-                    }
-                    }
-                }
-                }
-            ]
-            };
-        if (typeof donutChartEl !== undefined && donutChartEl !== null) {
-            var donutChart = new ApexCharts(donutChartEl, donutChartConfig);
-            donutChart.render();
-        }
-        var donutChartEl = document.querySelector('#dobSecteur'),
-            donutChartConfig = {
-            chart: {
-                height: 350,
-                type: 'donut'
-            },
-            legend: {
-                show: true,
-                position: 'bottom'
-            },
-            labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
-            series: [85, 16, 50, 50],
-            colors: [
-                chartColors.donut.series1,
-                chartColors.donut.series5,
-                chartColors.donut.series3,
-                chartColors.donut.series2
-            ],
-            dataLabels: {
-                enabled: true,
-                formatter: function (val, opt) {
-                return parseInt(val) + '%';
-                }
-            },
-            plotOptions: {
-                pie: {
-                donut: {
-                    labels: {
-                    show: true,
-                    name: {
-                        fontSize: '2rem',
-                        fontFamily: 'Montserrat'
-                    },
-                    value: {
-                        fontSize: '1rem',
-                        fontFamily: 'Montserrat',
-                        formatter: function (val) {
-                        return parseInt(val) + '%';
-                        }
-                    },
-                    total: {
-                        show: true,
-                        fontSize: '1.5rem',
-                        label: 'Operational',
-                        formatter: function (w) {
-                        return '31%';
-                        }
-                    }
-                    }
-                }
-                }
-            },
-            responsive: [
-                {
-                breakpoint: 992,
-                options: {
-                    chart: {
-                    height: 380
-                    }
-                }
-                },
-                {
-                breakpoint: 576,
-                options: {
-                    chart: {
-                    height: 320
-                    },
-                    plotOptions: {
-                    pie: {
-                        donut: {
-                        labels: {
-                            show: true,
-                            name: {
-                            fontSize: '1.5rem'
-                            },
-                            value: {
-                            fontSize: '1rem'
-                            },
-                            total: {
-                            fontSize: '1.5rem'
-                            }
-                        }
-                        }
-                    }
-                    }
-                }
-                }
-            ]
-            };
-        if (typeof donutChartEl !== undefined && donutChartEl !== null) {
-            var donutChart = new ApexCharts(donutChartEl, donutChartConfig);
-            donutChart.render();
         }
         if (bZone.length) {
             new Chart(bZone, {
@@ -1123,6 +719,128 @@
             }
             });
         }
+        if (bSecteur.length) {
+            new Chart(bSecteur, {
+            type: 'horizontalBar',
+            options: {
+                elements: {
+                rectangle: {
+                    borderWidth: 2,
+                    borderSkipped: 'right'
+                }
+                },
+                tooltips: {
+                // Updated default tooltip UI
+                shadowOffsetX: 1,
+                shadowOffsetY: 1,
+                shadowBlur: 8,
+                shadowColor: tooltipShadow,
+                backgroundColor: window.colors.solid.white,
+                titleFontColor: window.colors.solid.black,
+                bodyFontColor: window.colors.solid.black
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                responsiveAnimationDuration: 500,
+                legend: {
+                display: false
+                },
+                layout: {
+                padding: {
+                    bottom: -30,
+                    left: -25
+                }
+                },
+                scales: {
+                xAxes: [
+                    {
+                    display: true,
+                    gridLines: {
+                        zeroLineColor: grid_line_color,
+                        borderColor: 'transparent',
+                        color: grid_line_color
+                    },
+                    scaleLabel: {
+                        display: true
+                    },
+                    ticks: {
+                        min: 0,
+                        fontColor: labelColor
+                    }
+                    }
+                ],
+                yAxes: [
+                    {
+                    display: true,
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: true
+                    },
+                    ticks: {
+                        fontColor: labelColor
+                    }
+                    }
+                ]
+                }
+            },
+            data: {
+                labels: beneficiare_chart_key,
+                datasets: [
+                {
+                    data: beneficiare_chart_value,
+                    barThickness: 15,
+                    backgroundColor: window.colors.solid.info,
+                    borderColor: 'transparent'
+                }
+                ]
+            }
+            });
+        }
+        //-------------
+        //- DONUT CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+        var donutData        = {
+        labels: intervention_chart_key,
+        datasets: [
+            {
+            data: intervention_chart_value,
+            backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+            }
+        ]
+        }
+        var donutOptions     = {
+        maintainAspectRatio : false,
+        responsive : true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        new Chart(donutChartCanvas, {
+        type: 'doughnut',
+        data: donutData,
+        options: donutOptions
+        })
+
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+        var pieData        = donutData;
+        var pieOptions     = {
+        maintainAspectRatio : false,
+        responsive : true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        new Chart(pieChartCanvas, {
+        type: 'doughnut',
+        data: pieData,
+        options: pieOptions
+        })
     });
     </script>
 @endpush

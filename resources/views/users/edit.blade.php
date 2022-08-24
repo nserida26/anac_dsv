@@ -1,85 +1,101 @@
 @extends('layouts.master')
 @section('content')
-    <div class="container">
-            <h3 class="text-center">Edit User</h3>
-        <div class="row">
-            <div class="offset-md-3 col-md-6">
-                <form method="POST" action={{url('users/' . $user->id)}} enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label for="full_name">Full Name</label>
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="full_name" value='{{$user->name}}'>
-                        @error('name')
-                            <div class="invalid-feedback">
-                                    {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" value='{{$user->email}}'>
-                        @error('email')
-                            <div class="invalid-feedback">
-                                    {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="pass">New Password</label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="pass">
-                        @error('password')
-                            <div class="invalid-feedback">
-                                    {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" {{($user->gender == 'M')? "checked" : ""}} id="male" name="gender" value="M" class="custom-control-input" />
-                            <label class="custom-control-label" for="male">Male</label>
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-body">
+        <section id="basic-horizontal-layouts">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Ajouter Un utilisateur</h4>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" {{($user->gender == 'F')? "checked" : ""}} id="female" name="gender" value="F" class="custom-control-input" />
-                            <label class="custom-control-label" for="female">Female</label>
+                        <div class="card-body">
+                            <form class="form form-horizontal" method="POST" action={{url('users/' . $user->id)}} enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="full_name">Nom et Prénom</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-merge">
+                                                    <span class="input-group-text"><i data-feather="user"></i></span>
+                                                    <input type="text" id="full_name" class="form-control" name="name" placeholder="Nom et Prénom" value='{{$user->name}}' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="email">Email</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-merge">
+                                                    <span class="input-group-text"><i data-feather="mail"></i></span>
+                                                    <input type="email" id="email" class="form-control" name="email" placeholder="Email" value="{{$user->email}}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="password">Password</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-merge">
+                                                    <span class="input-group-text"><i data-feather="lock"></i></span>
+                                                    <input type="password" id="password" class="form-control" name="password" placeholder="Password" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="role">Role</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <select class="form-select" id="role" name="role">
+                                                    <option value="Agent">Agent</option>
+                                                    
+                                                    <option value="Coordinateur">Coordinateur</option>
+                                                    <option value="Representant">Representant</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="image">Image</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-merge">
+                                                    
+                                                    <input type="file" id="image" class="form-control" name="image" placeholder="Password" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                        
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="birth_date">Birth Date</label>
-                        <input type="date" name="birth_date" class="form-control" id="birth_date" value='{{$user->birth_date}}'>
-                    </div>
-                    <div class="form-group">
-                        <label for="country">Country</label>
-                        <input type="text" name="country" class="form-control" id="country" value='{{$user->country}}'>
-                    </div>
-                    <div class="form-group">
-                        <label for="role">Role</label>
-                        <input type="text" name="role" class="form-control @error('role') is-invalid @enderror" id="role" value='{{$user_role->role}}'>
-                        @error('role')
-                            <div class="invalid-feedback">
-                                    {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="permissionSelect">Permission</label>
-                        <select class="form-control" name="permission" id="permissionSelect">
-                            <option {{($user_role->permission == 'read')? 'selected': ''}} value="read">Read</option>
-                            <option {{($user_role->permission == 'write')? 'selected': ''}} value="write">Write</option>
-                            <option {{($user_role->permission == 'execute')? 'selected': ''}} value="execute">Execute</option>
-                            <option {{($user_role->permission == 'delete')? 'selected': ''}} value="delete">Delete</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-file">    
-                            <input type="file" class="custom-file-input" id="image" name="image">
-                            <label class="custom-file-label" for="image">Upload New Image</label>
-                        </div>
-                    </div>
-                    <input type="hidden" name="_method" value="PUT">
-                    <button type="submit" class="btn btn-primary btn-block">Update</button>
-                </form>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
-    
+</div></div>
 @endsection

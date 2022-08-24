@@ -1,31 +1,37 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
-@section('template_title')
-    Update Menage
-@endsection
 
 @section('content')
-    <section class="content container-fluid">
-        <div class="">
-            <div class="col-md-12">
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-body">
+                
+                    <div class="">
+                        <div class="col-md-12">
 
-                @includeif('partials.errors')
+                            @includeif('partials.errors')
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">Update Menage</span>
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <span class="card-title">Mise à jour Menage</span>
+                                </div>
+                                <div class="card-body">
+                                    <form class="form form-horizontal" method="POST" action="{{ route('menages.update', $menage->id) }}"  role="form" enctype="multipart/form-data">
+                                        {{ method_field('PATCH') }}
+                                        @csrf
+
+                                        @include('menage.form')
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('menages.update', $menage->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
-
-                            @include('menage.form')
-
-                        </form>
-                    </div>
-                </div>
+                
             </div>
         </div>
-    </section>
+    </div>
 @endsection
