@@ -26,12 +26,24 @@
                 @endif
 
                 @if (Auth::user()->role == 'Coordinateur' || Auth::user()->role == 'Representant' )
-                <li class="nav-item {{ (request()->is('reportings')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('reportings')}}"><i data-feather="pie-chart"></i><span class="menu-title text-truncate" data-i18n="Reporting">Reporting</span></a>
+                <li class="nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="pie-chart"></i><span class="menu-title text-truncate" data-i18n="Reporting">Reporting</span></a>
+                    <ul class="menu-content">
+                        <li class=" nav-item {{ (request()->is('reportings')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('reportings/infrastructures')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Infrastructure">Infrastructure</span></a>
+                        </li>
+                        <li class=" nav-item {{ (request()->is('reportings')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('reportings/hygienes')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Hygiéne">Hygiéne</span></a>
+                        </li>
+                    </ul>
                 </li>
                 @endif
-                @if (Auth::user()->role == 'Agent')
-                <li class=" nav-item {{ (request()->is('imports')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('imports')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Imports">Imports</span></a>
-                </li>  
+                @if (Auth::user()->role == 'Agent')  
+                <li class="nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Imports">Imports</span></a>
+                    <ul class="menu-content">
+                        <li class=" nav-item {{ (request()->is('imports')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('imports/infrastructure')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Infrastructure">Infrastructure</span></a>
+                        </li>
+                        <li class=" nav-item {{ (request()->is('imports')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('imports/hygiene')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Hygiéne">Hygiéne</span></a>
+                        </li>
+                    </ul>
+                </li>
                 @endif
                 @if (Auth::user()->role == 'Representant')
                 <li class="nav-item {{ (request()->is('users')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('users')}}"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Utilisateur">Gestion des utilisateurs</span></a>
@@ -52,6 +64,8 @@
                         <li class=" nav-item {{ (request()->is('bayeurs')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('bayeurs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Source de finance">Source de finance</span></a>
                         </li>
                         <li class=" nav-item {{ (request()->is('menages')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('menages')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Menage">Ménage</span></a>
+                        </li>
+                        <li class=" nav-item {{ (request()->is('type-infrastructures')) ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{url('type-infrastructures')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Type d'infrastructure">Type d'infrastructure</span></a>
                         </li>
                     </ul>
                 </li>

@@ -183,6 +183,9 @@ $(function () {
         marker.addTo(basicMap).on('click',function () {
         $('#infrastructureTitle').html("");
         $('#interventionBody').html("");
+        $('#infrastructureTitle').empty();
+        $('#interventionBody').empty();
+
             $.ajax({
                 type : 'get',
                 url : '/maps/getinfra',

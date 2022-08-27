@@ -18,13 +18,13 @@ class CreateInterventionsTable extends Migration
             $table->string('designation', 100);
             $table->string('code', 100);
             //$table->string('description',300);
-            $table->integer('projet_id')->unsigned();
+            $table->bigInteger('projet_id')->unsigned();
             //$table->enum('type', ['Partiel', 'Complet']);
-            //$table->foreign('projet_id')->references('id')->on('projets')->onDelete('cascade');
+            $table->foreign('projet_id')->references('id')->on('projets')->onDelete('cascade');
             $table->double('montant');
-            $table->enum('avancement', ['Lancement','Planification','Exécution','Suivi','Clture']);
-            $table->integer('intervenant_id')->unsigned();
-           // $table->foreign('intervenant_id')->references('id')->on('intervenants')->onDelete('cascade');
+            $table->enum('avancement', ['Lancement','Planification','Exécution','Suivi','Cloture']);
+            $table->bigInteger('intervenant_id')->unsigned();
+            $table->foreign('intervenant_id')->references('id')->on('intervenants')->onDelete('cascade');
             
             //$table->timestamps();
         });

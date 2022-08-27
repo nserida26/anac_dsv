@@ -19,8 +19,8 @@ class CreateLocalitesTable extends Migration
             $table->bigInteger('population');
             $table->integer('altitude');
             $table->double('longitude');
-            $table->double('commune_id')->unsigned();
-            //$table->foreign('commune_id')->references('id')->on('communes')->onDelete('cascade');
+            $table->bigInteger('commune_id')->unsigned();
+            $table->foreign('commune_id')->references('id')->on('communes')->onDelete('cascade');
             
         });
     }

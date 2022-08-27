@@ -25,7 +25,7 @@ class UsersController extends Controller
         ///if(Auth::user()->admin) {
             $users = DB::table('users')
                         //->where('admin', '=', 0)
-                        ->orderBy('created_at', 'DESC')
+                        //->orderBy('created_at', 'DESC')
                         ->paginate(20);
 
             return view('users.index', compact('users'));

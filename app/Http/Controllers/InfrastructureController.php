@@ -27,8 +27,8 @@ class InfrastructureController extends Controller
             //code...
         } catch (\Throwable $th) {
             //throw $th;
-            dd($th);
-            //return redirect()->with('error', 'Error!');
+            //dd($th);
+            return redirect()->with('error', 'Error!');
         }
         //dd($request->file);
 

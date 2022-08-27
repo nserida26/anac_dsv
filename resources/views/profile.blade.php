@@ -65,7 +65,7 @@
                             </div>
                             <div class="modal-body pb-5 px-sm-5 pt-50">
                                 <div class="text-center mb-2">
-                                    <h1 class="mb-1">Modification de</h1>
+                                    <h1 class="mb-1">Modification de Password</h1>
                                     
                                 </div>
                                 <form id="editUserForm" class="row gy-1 pt-75" onsubmit="return false">

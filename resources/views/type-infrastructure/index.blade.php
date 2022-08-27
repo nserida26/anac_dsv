@@ -16,14 +16,15 @@
                         
 
                             <span id="card_title">
-                                {{ __('Menage') }}
+                                {{ __('Type Infrastructure') }}
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('menages.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                <a href="{{ route('type-infrastructures.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Ajouter') }}
                                 </a>
                               </div>
+                        
                     </div>
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success">
@@ -38,28 +39,22 @@
                                     <tr>
                                         <th>No</th>
                                         
-										<th>Designation</th>
-										<th>Nombre de Branchements</th>
-										<th>Localite</th>
-										<th>Projet</th>
+										<th>Type</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($menages as $menage)
+                                    @foreach ($typeInfrastructures as $typeInfrastructure)
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             
-											<td>{{ $menage->designation }}</td>
-											<td>{{ $menage->nbr }}</td>
-											<td>{{ $menage->localite }}</td>
-											<td>{{ $menage->projet }}</td>
+											<td>{{ $typeInfrastructure->type }}</td>
 
                                             <td>
-                                                <form action="{{ route('menages.destroy',$menage->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('menages.show',$menage->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('menages.edit',$menage->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                                <form action="{{ route('type-infrastructures.destroy',$typeInfrastructure->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('type-infrastructures.show',$typeInfrastructure->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('type-infrastructures.edit',$typeInfrastructure->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
@@ -72,12 +67,11 @@
                         </div>
                     </div>
                 </div>
-                {!! $menages->links() !!}
+                {!! $typeInfrastructures->links() !!}
             </div>
         </div>
     </div>
-        </div>
-    </div></div>
+        </div></div></div>
 @endsection
 
 @push('plugin-js')

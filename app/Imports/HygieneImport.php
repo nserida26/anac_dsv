@@ -11,7 +11,7 @@ use App\Models\Intervenant;
 use App\Models\Commune;
 use App\Models\Hygiene;
 
-class HygieneImport implements ToCollection
+class HygieneImport implements ToCollection,WithHeadingRow
 {
     
     private $localites;
@@ -22,10 +22,10 @@ class HygieneImport implements ToCollection
     public function __construct()
     {
         
-        $this->localites = Localite::select('id')->get(); 
-        $this->projets = Projet::select('*')->get(); 
-        $this->intervenants = Intervenant::select('id')->get(); 
-        $this->communes = Commune::select('id')->get(); 
+        $this->localites = Localite::select('libele','id')->get(); 
+        $this->projets = Projet::select('code','id')->get(); 
+        $this->intervenants = Intervenant::select('id','code')->get(); 
+        $this->communes = Commune::select('id','libele')->get(); 
         # code...
     }
     
@@ -35,20 +35,19 @@ class HygieneImport implements ToCollection
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            # code...
+            # code...localite
             $localite_id = $this->localites->where('libele',$row['localite'])->first();
-            $projet_id = $this->projets->where('code',$row['projet'])->first();
-            $commune_id = $this->communes->where('libele',$row['commune'])->first();
-            $intervenant_id = $this->intervenants->where('code',$row['code'])->first();
+            $projet_id = $this->projets->where('code',$row['code_projet'])->first();
+            //$localite_id = $this->localites->where('libele',$row['localite'])->first();
+            $intervenant_id = $this->intervenants->where('code',$row['code_intervenant'])->first();
 
             Hygiene::create([
                 'type' => $row['type'],
                 'description' => $row['description'],
                 'effectif' => $row['effectif'],
-                'intervenant_id' => $intervenant_id,
-                'projet_id' => $projet_id,
-                'localite_id' => $localite_id,
-                'commune_id' => $commune_id
+                'intervenant_id' => $intervenant_id->id,
+                'projet_id' => $projet_id->id,
+                'localite_id' => $localite_id->id
             ]);
         }
         //

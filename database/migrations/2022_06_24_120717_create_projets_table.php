@@ -20,8 +20,8 @@ class CreateProjetsTable extends Migration
             //$table->string('description',300);
             $table->date('date_debut');
             $table->date('date_fin');
-            $table->integer('bayeur_id')->unsigned();
-            //$table->foreign('bayeur_id')->references('id')->on('bayeurs')->onDelete('cascade');
+            $table->bigInteger('bayeur_id')->unsigned();
+            $table->foreign('bayeur_id')->references('id')->on('bayeurs')->onDelete('cascade');
             //$table->timestamps();
         });
     }

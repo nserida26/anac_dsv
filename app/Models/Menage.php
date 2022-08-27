@@ -10,8 +10,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property $id
  * @property $designation
  * @property $nbr
+ * @property $localite_id
  * @property $projet_id
  *
+ * @property Localite $localite
+ * @property Projet $projet
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -21,6 +24,7 @@ class Menage extends Model
     static $rules = [
 		'designation' => 'required',
 		'nbr' => 'required',
+		'localite_id' => 'required',
 		'projet_id' => 'required',
     ];
 
@@ -31,8 +35,24 @@ class Menage extends Model
      *
      * @var array
      */
-    protected $fillable = ['designation','nbr','projet_id'];
-
+    protected $fillable = ['designation','nbr','localite_id','projet_id'];
     public $timestamps = false;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function localite()
+    {
+        return $this->hasOne('App\Models\Localite', 'id', 'localite_id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function projet()
+    {
+        return $this->hasOne('App\Models\Projet', 'id', 'projet_id');
+    }
+    
 
 }

@@ -24,16 +24,23 @@ Route::get('/', function () {
 });
 */
 Route::group(['prefix' => 'imports'], function(){
-    Route::get('/', function () {
-        return view('imports.index');
+    Route::get('/infrastructure', function () {
+        return view('imports.infrastructure');
+    });
+    Route::get('/hygiene', function () {
+        return view('imports.hygienes');
     });
     
 });
 Route::group(['prefix' => 'reportings'], function(){
-    Route::get('/', function () {
+    Route::get('/infrastructures', function () {
         return view('reportings.index');
     });
+    Route::get('/hygienes', function () {
+        return view('reportings.hygiene');
+    });
     Route::get('/data',[App\Http\Controllers\ReportingController::class, 'getdata'])->name('reportings.getdata');
+    Route::get('/data_hygienes',[App\Http\Controllers\ReportingController::class, 'gethygienes'])->name('reportings.gethygienes');
 });
 
 Auth::routes([
@@ -50,6 +57,7 @@ Route::resource('menages', App\Http\Controllers\MenageController::class);
 Route::resource('bayeurs', App\Http\Controllers\BayeurController::class);
 Route::resource('projets', App\Http\Controllers\ProjetController::class);
 Route::resource('intervenants', App\Http\Controllers\IntervenantController::class);
+Route::resource('type-infrastructures', App\Http\Controllers\TypeInfrastructureController::class);
 
 Route::get('/profile', function () {
     return view('profile');

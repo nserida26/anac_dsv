@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menage;
+use App\Models\Localite;
+use App\Models\Projet;
 use Illuminate\Http\Request;
 
 /**
@@ -11,20 +13,15 @@ use Illuminate\Http\Request;
  */
 class MenageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
-     public function index()
+    public function index()
     {
-        $menages = Menage::join('projets','projets.id','menages.projet_id')->select('menages.*','projets.designation as projet')->paginate();
-
+        //$menages = Menage::paginate();
+        $menages = Menage::join('localites','localites.id','menages.localite_id')->join('projets','projets.id','menages.projet_id')->select('localites.libele as localite','projets.designation as projet','menages.*')->paginate();
         return view('menage.index', compact('menages'))
             ->with('i', (request()->input('page', 1) - 1) * $menages->perPage());
     }
@@ -37,7 +34,9 @@ class MenageController extends Controller
     public function create()
     {
         $menage = new Menage();
-        return view('menage.create', compact('menage'));
+        $localites = Localite::all();
+        $projets = Projet::all();
+        return view('menage.create', compact('menage','localites','projets'));
     }
 
     /**
@@ -64,7 +63,7 @@ class MenageController extends Controller
      */
     public function show($id)
     {
-        $menage = Menage::find($id);
+        $menage = Menage::join('localites','localites.id','menages.localite_id')->join('projets','projets.id','menages.projet_id')->select('localites.libele as localite','projets.designation as projet','menages.*')->where('menages.id',$id);
 
         return view('menage.show', compact('menage'));
     }
@@ -78,8 +77,9 @@ class MenageController extends Controller
     public function edit($id)
     {
         $menage = Menage::find($id);
-
-        return view('menage.edit', compact('menage'));
+        $localites = Localite::all();
+        $projets = Projet::all();
+        return view('menage.edit', compact('menage','localites','projets'));
     }
 
     /**

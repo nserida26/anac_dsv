@@ -17,9 +17,12 @@ class CreateMenagesTable extends Migration
             $table->id();
             $table->string('designation');
             $table->integer('nbr');
-            $table->integer('localite_id');
-            $table->integer('projet_id');
+            $table->bigInteger('localite_id')->unsigned();
+            $table->bigInteger('projet_id')->unsigned();
             //$table->timestamps();
+            $table->foreign('projet_id')->references('id')->on('projets')->onDelete('cascade');
+            $table->foreign('localite_id')->references('id')->on('localites')->onDelete('cascade');
+
         });
     }
 

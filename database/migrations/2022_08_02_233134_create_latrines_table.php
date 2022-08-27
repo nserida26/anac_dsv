@@ -19,7 +19,8 @@ class CreateLatrinesTable extends Migration
             $table->tinyInteger('nbr_bloc');
             $table->enum('etat_bloc',['Separé','Non Separé']);
 
-            $table->integer('infrastructure_id');
+            $table->bigInteger('infrastructure_id')->unsigned();
+            $table->foreign('infrastructure_id')->references('id')->on('infrastructures')->onDelete('cascade');
         });
     }
 

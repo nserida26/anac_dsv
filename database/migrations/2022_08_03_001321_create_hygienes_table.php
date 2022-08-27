@@ -15,12 +15,13 @@ class CreateHygienesTable extends Migration
     {
         Schema::create('hygienes', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['T1', 'T2']);
+            $table->enum('type', ['Alimentaire', 'Corporelle','Hospitaliére','Autres']);
             $table->bigInteger('effectif');
             $table->string('description');
-            $table->integer('intervenant_id');
-            $table->integer('projet_id');
-            
+            $table->bigInteger('intervenant_id')->unsigned();
+            $table->bigInteger('projet_id')->unsigned();
+            $table->foreign('intervenant_id')->references('id')->on('intervenants')->onDelete('cascade');
+            $table->foreign('projet_id')->references('id')->on('projets')->onDelete('cascade');
             //$table->timestamps();
         });
     }

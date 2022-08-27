@@ -11,14 +11,7 @@
                     <div class="row">
                         <div class="col-10">
                             <h2 class="content-header-title float-start mb-0">Gestion des utilisateurs</h2>
-                        </div>
-                            <div class="col-2">
-                            <div class="float-right">
-                                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                {{ __('Ajouter') }}
-                                </a>
-                            </div> 
-                        </div>
+                        </div> 
                         </div>
                     </div>
                 </div>
@@ -27,7 +20,24 @@
             <!-- apex charts section start -->
             <section>
                 <div class="row">
+                    <div class="col-sm-12">
+                    <div class="card">
+                                        <div class="card">
+                    <div class="card-header">
+                        
 
+                            <span id="card_title">
+                                {{ __('Utilisateurs') }}
+                            </span>
+
+                             <div class="float-right">
+                                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                  {{ __('Ajouter') }}
+                                </a>
+                              </div>
+                    </div>
+
+                    <div class="card-body">
                     <table class="table text-center">
                         <thead class="thead-dark">
                             <tr>
@@ -58,6 +68,9 @@
                         @endforelse
                         </tbody>
                     </table>
+                    </div>
+                    </div>
+                    </div>
                 </div>
             </section>
             </div></div></div>

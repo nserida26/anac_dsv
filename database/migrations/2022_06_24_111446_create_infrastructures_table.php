@@ -21,12 +21,13 @@ class CreateInfrastructuresTable extends Migration
             $table->enum('etat', ['Fonctionnel', 'Non Fonctionnel']);
             $table->double('altitude');
             $table->double('longitude');
-            $table->integer('localite_id')->unsigned();
-            $table->integer('type_id')->unsigned();
+            $table->bigInteger('localite_id')->unsigned();
+            $table->bigInteger('type_id')->unsigned();
             //$table->integer('latrine_id')->unsigned();
             $table->string('source_eau', 100);
             
-            //$table->foreign('localite_id')->references('id')->on('localites')->onDelete('cascade');
+            $table->foreign('localite_id')->references('id')->on('localites')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('type_infrastructures')->onDelete('cascade');
             
             //$table->timestamps();
         });

@@ -18,11 +18,11 @@ class CreateInfrastructureInterventionsTable extends Migration
 
             $table->date('date_intervention');
 
-            $table->integer('infrastructure_id')->unsigned();
-            //$table->foreign('infrastructure_id')->references('id')->on('infrastructures')->onDelete('cascade');
+            $table->bigInteger('infrastructure_id')->unsigned();
+            $table->foreign('infrastructure_id')->references('id')->on('infrastructures')->onDelete('cascade');
             
-            $table->integer('intervention_id')->unsigned();
-            //$table->foreign('intervention_id')->references('id')->on('interventions')->onDelete('cascade');
+            $table->bigInteger('intervention_id')->unsigned();
+            $table->foreign('intervention_id')->references('id')->on('interventions')->onDelete('cascade');
             
             ///$table->timestamps();
         });

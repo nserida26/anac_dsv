@@ -27,28 +27,6 @@
                         <div class="col-8">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Infrastructure</h4>
-                                </div>
-                                <div class="card-body">
-
-                                    <form action="{{route('infra.importInfrastructure')}}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="mb-1">
-                                            <input class="form-control" type="file" name="file" id="file"/>
-                                        </div>
-                                        
-                                        <div class="offset-sm-10">
-                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Import</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-8">
-                            <div class="card">
-                                <div class="card-header">
                                     <h4 class="card-title">Hygiéne</h4>
                                 </div>
                                 <div class="card-body">
@@ -79,8 +57,25 @@
 @push('plugin-js')
     <!-- BEGIN: Page Vendor JS-->
     <script src="/app-assets/vendors/js/file-uploaders/dropzone.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
 @endpush
 @push('custom-js')
     <!-- BEGIN: Page JS-->
     <script src="/app-assets/js/scripts/forms/form-file-uploader.js"></script>
+        <script>
+
+    var message = {!! json_encode(Session::get('success')) !!}
+    console.log(message);
+    if (message) {
+        Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: message,
+        customClass: {
+        confirmButton: 'btn btn-success'
+        }}); 
+    }
+      
+    </script>
 @endpush
