@@ -17,7 +17,7 @@ class LocaliteSeeder extends Seeder
     public function run()
     {
         //
-        for ($i=0; $i < 3; $i++) { 
+        for ($i=0; $i < 1; $i++) { 
             # code...
             DB::table('localites')->insert([
                 'libele' => Str::random(10),
