@@ -23,8 +23,8 @@ class LocaliteSeeder extends Seeder
                 'libele' => Str::random(10),
                 'population' => intval(3000),
                 
-                'altitude' => doubleval(17.23),
-                'longitude' => doubleval(-7.23),
+                'altitude' => floatval(17.23),
+                'longitude' => floatval(-7.23),
                 'commune_id' => 1
             ]);
         }
