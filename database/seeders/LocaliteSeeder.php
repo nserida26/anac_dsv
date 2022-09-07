@@ -21,10 +21,10 @@ class LocaliteSeeder extends Seeder
             # code...
             DB::table('localites')->insert([
                 'libele' => Str::random(10),
-                'population' => intval(3000),
+                'population' => 3000,
                 
-                'altitude' => floatval(17.23),
-                'longitude' => floatval(-7.23),
+                'altitude' => 17,
+                'longitude' => -7,
                 'commune_id' => 1
             ]);
         }

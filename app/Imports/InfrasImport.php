@@ -67,7 +67,7 @@ class InfrasImport implements ToCollection, WithHeadingRow
                 $infra = DB::table('infrastructures')->create([ 
                     'designation' => $row['designation'],
                     //'type' => $row['type'],
-                    'date_construction' => $row['annnee_construction'],
+                    'date_construction' => $row['date_construction'],
                     'effectif' => $row['effectif'],
                     'source_eau' => $row['source_d_eau'],
                     'longitude' => $row['longitude'],
