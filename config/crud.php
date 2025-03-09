@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'layout' => 'layouts.app',
+    'layout' => 'layouts.admin',
 
     'model' => [
         'namespace' => 'App\Models',
@@ -58,7 +58,7 @@ return [
     ],
 
     'controller' => [
-        'namespace' => 'App\Http\Controllers',
+        'namespace' => 'App\Http\Controllers\Admin',
     ],
 
 ];

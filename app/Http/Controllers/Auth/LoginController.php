@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -26,7 +28,35 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+
+        if (Auth::user()->hasRole('admin')) {
+            return '/admin';
+        } elseif (Auth::user()->hasRole('user')) {
+            return '/user';
+        } else if (Auth::user()->hasRole('dg')) {
+            return '/dir/dg';
+        } else if (Auth::user()->hasRole('dsv')) {
+            return '/dir/dsv';
+        } else if (Auth::user()->hasRole('sma')) {
+            return '/sec/sma';
+        } else if (Auth::user()->hasRole('sla')) {
+            return '/sec/sla';
+        } else if (Auth::user()->hasRole('examinateur')) {
+            return '/examinateur';
+        } else if (Auth::user()->hasRole('evaluateur')) {
+            return '/evaluateur';
+        } else if (Auth::user()->hasRole('daf')) {
+            return '/daf';
+        } else if (Auth::user()->hasRole('agent')) {
+            return '/agent';
+        } else if (Auth::user()->hasRole('centre')) {
+            return '/centre';
+        } else if (Auth::user()->hasRole('compagnie')) {
+            return '/compagnie';
+        }
+    }
 
     /**
      * Create a new controller instance.

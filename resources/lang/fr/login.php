@@ -2,9 +2,9 @@
 
 return [
 
-    'login' => 'تسجيل الدخول',
-    'enter' => 'دخول',
-    'email' => 'الايميل',
-    'password' => 'كلمة المرور',
+    'login' => 'Se connecter',
+    'enter' => 'Connecter',
+    'email' => 'Email',
+    'password' => 'Mot de passe',
 
 ];

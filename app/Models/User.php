@@ -2,31 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    /**
+    /** 
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
+        'photo',
+        'status',
         'password',
-        'statu',
-        'role'
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for serialization. 
      *
      * @var array<int, string>
      */
@@ -43,5 +44,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public $timestamps = false;
+
+
+
+    public function demandeur()
+    {
+        return $this->hasOne(Demandeur::class, 'user_id');
+    }
+
+    public function examinateur()
+    {
+        return $this->hasOne(Examinateur::class, 'user_id');
+    }
+    public function signature()
+    {
+        return $this->hasOne(Signature::class, 'user_id');
+    }
+    public function cachet()
+    {
+        return $this->hasOne(Cachet::class, 'user_id');
+    }
+
+    public function compagnie()
+    {
+        return $this->hasOne(Compagnie::class, 'user_id');
+    }
+    public function centreFormation()
+    {
+        return $this->hasOne(CentreFormation::class, 'user_id');
+    }
 }

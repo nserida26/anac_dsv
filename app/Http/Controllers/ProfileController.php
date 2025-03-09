@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -14,57 +13,39 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
     }
-    public function show()
+
+    public function index()
     {
-        //if(Auth::user()->admin == 0) { 
-            $user_id = Auth::user()->id;
-            $user = User::find($user_id);
-            return view('profile.view', compact('user'));
-        //}
-        //else {
-          //  return redirect('/admin-panel');
-        //}
+        return view('admin.profile');
     }
 
-    
-    public function edit()
-    {
-        //if(Auth::user()->admin == 0) { 
-            $id = Auth::user()->id;
-            $user = User::find($id);
-            return view('profile.edit', compact('user'));
-        //}
-        //else {
-          //  return redirect('/admin-panel');
-        //}
-    }
-
-    
     public function update(Request $request)
     {
-
-        $validatedData = $request->validate([
-            'name' => 'required:max:40',
-            'email' => 'required|max:190',
-            'password' => 'nullable|min:8|confirmed',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
+            'current_password' => 'nullable|required_with:new_password',
+            'new_password' => 'nullable|min:8|max:12|required_with:current_password',
+            'password_confirmation' => 'nullable|min:8|max:12|required_with:new_password|same:new_password'
         ]);
 
-        //if(Auth::user()->admin == 0) { 
-            $id = Auth::user()->id;
-            $user = User::find($id);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            if($user->password) {
-                $user->password = Hash::make($request->password);
-            }
-            if($request->hasFile('image')) {
-                $user->image = $request->image->store('profile_pics', 'public');
-            }
-            $user->save();
 
-            return redirect('/home')->with('msg_success', 'Your Profile is Updated');
+        $user = User::findOrFail(Auth::user()->id);
+        $user->name = $request->input('name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+
+        if (!is_null($request->input('current_password'))) {
+            if (Hash::check($request->input('current_password'), $user->password)) {
+                $user->password = $request->input('new_password');
+            } else {
+                return redirect()->back()->withInput();
+            }
         }
-        //else {
-          //  return redirect('/admin-panel');
-        //}
+
+        $user->save();
+
+        return redirect()->route('profile')->withSuccess('Profile updated successfully.');
     }
+}

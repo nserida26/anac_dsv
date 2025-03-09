@@ -1,167 +1,97 @@
-
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
-<!-- BEGIN: Head-->
+<!--
+   This is a starter template page. Use this page to start your new project from
+   scratch. This page gets rid of all links and provides the needed markup only.
+   -->
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="2houne">
-    <title>GRET APP</title>
-    
-    <link rel="icon" href="/app-assets/images/logo_gret.png">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
-
-    <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/vendors.min.css">
-    <!-- END: Vendor CSS-->
-
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/bootstrap-extended.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/colors.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/bordered-layout.css">
-    <link rel="stylesheet" type="text/css" href="./app-assets/css/themes/semi-dark-layout.css">
-
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/form-validation.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/authentication.css">
-    <!-- END: Page CSS-->
-
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
-    <!-- END: Custom CSS-->
-    <style>
-        html, body {
-            
-            color: #636b6f;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 100;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DSV | ANAC</title>
+    <link href="{{ asset('assets/admin/imgs/logo.png') }}" rel="icon" type="image/png">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/dist/css/adminlte.min.css') }}">
 </head>
-<!-- END: Head-->
 
-<!-- BEGIN: Body-->
+<body class="hold-transition layout-top-nav">
 
-<body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
-    <!-- BEGIN: Content-->
-    <div class="app-content content ">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Messages Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a href="{{ route('login') }}" class="nav-link">
+                        Login
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="{{ route('register') }}">
+
+                        Register
+
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        {{-- @include('admin.includes.sidebar') --}}
+        <!--  End Main Sidebar Container -->
+        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <div class="content-header row">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
             </div>
-            <div class="content-body">
-                <div class="auth-wrapper auth-basic px-2">
-                    <div class="auth-inner my-2">
-                        <!-- Login basic -->
-                        <div class="card mb-0" style="height: 300px">
-                            <a href="{{url('/')}}" class="brand-logo">
-                                <img style="border-radius: 50%;" src="{{asset('/app-assets/images/logo_gret.png')}}" sizes="24">
-                                
-                            </a>
-                            <h4 class="card-title mb-1">Bienvenue au GRET APP! 👋</h4>
-                            <p class="card-text mb-2"></p>
-                                @if (Route::has('login'))
-                                    @auth
-                                        <a class="btn btn-primary" href="{{ url('/home') }}">GRET APP</a>
-                                     @else
-                                        <a href="{{ url('/login') }}" class="btn btn-primary">Connexion</a>
-                                    @endauth
-                                @endif
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row  justify-content-center mt-4">
+                        <div class="col-lg-8">
+                            <div class="card card-primary card-outline">
+                                <div class="card-header text-center">
+                                    <h5 class="m-0">SYSTEME DE GESTION DU PERSONNEL AERONAUTIQUE ET LA DELIVRANCE DES
+                                        LICENCES </h5>
+                                </div>
+                                <div class="card-body">
+
+
+                                    <p class="card-text">Dans le cadre de la politique de l'ANAC en matière de sécurité
+                                        de l'aviation civile, la DSV compte mettre en place un système d'information
+                                        dédié à la gestion du personnel aéronautique et à la délivrance des licences</p>
+
+                                </div>
                             </div>
                         </div>
-                        </div>
-                        <!-- /Login basic -->
+                        <!-- /.col-md-6 -->
                     </div>
-                </div>
-
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
             </div>
+            <!-- /.content -->
         </div>
+        <!-- /.content-wrapper -->
+        {{-- @include('admin.includes.footer') --}}
+        <!-- Main Footer -->
     </div>
-    <!-- END: Content-->
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('assets/admin/dist/js/adminlte.min.js') }}"></script>
 
-
-    <!-- BEGIN: Vendor JS-->
-    <script src="/app-assets/vendors/js/vendors.min.js"></script>
-    <!-- BEGIN Vendor JS-->
-
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
-    <!-- END: Page Vendor JS-->
-
-    <!-- BEGIN: Theme JS-->
-    <script src="/app-assets/js/core/app-menu.js"></script>
-    <script src="/app-assets/js/core/app.js"></script>
-    <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page JS-->
-    <script src="/app-assets/js/scripts/pages/auth-login.js"></script>
-    <!-- END: Page JS-->
-
-    <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
 </body>
-<!-- END: Body-->
 
 </html>

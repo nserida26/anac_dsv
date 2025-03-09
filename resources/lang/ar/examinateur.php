@@ -1,0 +1,22 @@
+<?php
+return [
+    'dashboard' => 'لوحة التحكم',
+    'demandes' => 'الطلبات',
+    'examens' => 'الامتحانات',
+    'id' => 'المعرف',
+    'photo' => 'الصورة',
+    'nom_prenom' => 'الاسم واللقب',
+    'date_naissance' => 'تاريخ الميلاد',
+    'adresse' => 'العنوان',
+    'actions' => 'الإجراءات',
+    'create' => 'إنشاء',
+    'demandeur' => 'المتقدم',
+    'date_examen' => 'تاريخ الامتحان',
+    'aptitude' => 'الكفاءة',
+    'show' => 'عرض',
+    'edit' => 'تعديل',
+    'valider' => 'تأكيد',
+    'supprimer' => 'حذف',
+    'confirm_validation' => 'هل تؤكد التحقق؟',
+    'confirm_suppression' => 'هل تؤكد الحذف؟',
+];

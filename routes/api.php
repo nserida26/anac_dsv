@@ -1,7 +1,16 @@
 <?php
 
+use App\Http\Controllers\Api\AgentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\Auth\CodeCheckController;
+//use App\Http\Controllers\Auth\ResetPasswordController;
+//use App\Http\Controllers\Auth\ForgotPasswordController;
+
+// Password reset routes
+//Route::post('password/email',  ForgotPasswordController::class);
+//Route::post('password/code/check', CodeCheckController::class);
+//Route::post('password/reset', ResetPasswordController::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware("localization")->group(function () {});
+Route::get('/demandeurs', [AgentController::class, 'index']);
+Route::post('/enrollement', [AgentController::class, 'enroler']);
+Route::post('/verification', [AgentController::class, 'verifier']);
