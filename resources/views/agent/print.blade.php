@@ -167,11 +167,25 @@
 
                             @endphp
                             <li>IR [{{ $ifrExpiryDate }}]; {{ $qualification_classe->type_moteur }}
-                                [{{ $classeExpiryDate }}]</li>
+                                [{{ $classeExpiryDate }}]</li>\
                         @endif
 
-                        <li>TRI (A) (B737 NG) [31-Mas-2027]</li>
-                        <li>TRE (A) (B737 NG) [31-Mas-2027]</li>
+                        @php
+
+                            $instructeurStartDate = $qualification_instructeur->date_examen;
+                            $instructeurStartDate = Carbon::parse($instructeurStartDate);
+                            $instExpiryDate = $instructeurStartDate->copy()->addMonths(12);
+                            $instExpiryDate = $instExpiryDate->format('d-M-Y');
+
+                        @endphp
+                        <li>{{ $qualification_instructeur->privilege }} (A) (B737 NG) [{{ $instExpiryDate }}]</li>
+                        @php
+                            $examinateurStartDate = $qualification_examinateur->date_examen;
+                            $examinateurStartDate = Carbon::parse($examinateurStartDate);
+                            $examExpiryDate = $examinateurStartDate->copy()->addMonths(12);
+                            $examExpiryDate = $examExpiryDate->form;
+                        @endphp
+                        <li>{{ $qualification_examinateur->privilege }} (A) (B737 NG) [{{ $examExpiryDate }}]</li>
                     </ul>
                     </p>
                     @php

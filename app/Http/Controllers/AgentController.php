@@ -74,6 +74,20 @@ class AgentController extends Controller
                 ->where('demandes.id', $id)
                 ->orderByDesc('qualification_demandeurs.id')
                 ->first();
+            $qualification_instructeur = QualificationDemandeur::join('qualifications', 'qualifications.id', 'qualification_demandeurs.qualification_id')
+                ->join('demandes', 'demandes.id', 'qualification_demandeurs.demande_id')
+                ->select('qualification_demandeurs.date_examen', 'qualification_demandeurs.privilege')
+                ->where('qualifications.libelle', 'Qualification instructeur')
+                ->where('demandes.id', $id)
+                ->orderByDesc('qualification_demandeurs.id')
+                ->first();
+            $qualification_examinateur = QualificationDemandeur::join('qualifications', 'qualifications.id', 'qualification_demandeurs.qualification_id')
+                ->join('demandes', 'demandes.id', 'qualification_demandeurs.demande_id')
+                ->select('qualification_demandeurs.date_examen', 'qualification_demandeurs.privilege')
+                ->where('qualifications.libelle', 'Autorisation examinateur')
+                ->where('demandes.id', $id)
+                ->orderByDesc('qualification_demandeurs.id')
+                ->first();
             $competence_demandeur = CompetenceDemandeur::join('demandes', 'demandes.id', 'competence_demandeurs.demande_id')
                 ->select('competence_demandeurs.date', 'competence_demandeurs.validite', 'competence_demandeurs.niveau')
                 ->where('competence_demandeurs.type', 'Contrôle de compétence linguistique')
