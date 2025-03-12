@@ -19,7 +19,8 @@ class QualificationDemandeur extends Model
         'lieu',
         'document',
         'type_avion_id',
-        'type_moteur'
+        'type_moteur',
+        'type_privilege'
     ];
 
     public function demande()

@@ -25,6 +25,7 @@ use App\Models\TrainingDemandeur;
 use App\Models\Facture;
 use App\Models\LicenceDemandeur;
 use App\Models\Paiement;
+
 use Illuminate\Http\Request;
 
 class DemandeController extends Controller
@@ -225,7 +226,11 @@ class DemandeController extends Controller
         }
 
         $licence_demandeur = LicenceDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Licence créée avec succès.');
+
+        return response()->json([
+            'success' => 'Licence créée avec succès.',
+            'licence' => $licence_demandeur
+        ]);
     }
     public function updateLicences(Request $request, LicenceDemandeur $licence_demandeur)
     {
@@ -243,16 +248,19 @@ class DemandeController extends Controller
         }
 
         $licence_demandeur = $licence_demandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Licence mis a jour avec succès.');
+
+        return response()->json([
+            'success' => 'Licence mis a jour avec succès.',
+            'licence' => $licence_demandeur
+        ]);
     }
 
     public function destroyLicences(LicenceDemandeur $licence_demandeur)
     {
         // Supprimer l'enregistrement
         $licence_demandeur->delete();
-
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Licence supprimée avec succès.');
+        return response()->json(['success' => 'Licence supprimée avec succès.']);
     }
 
     public function storeFormations(Request $request)
@@ -273,7 +281,11 @@ class DemandeController extends Controller
 
 
         $formation_demandeur = FormationDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Formation créée avec succès.');
+
+        return response()->json([
+            'success' => 'Formation créée avec succès.',
+            'formation' => $formation_demandeur
+        ]);
     }
     public function updateFormations(Request $request, FormationDemandeur $formation)
     {
@@ -290,7 +302,11 @@ class DemandeController extends Controller
         }
 
         $formation_demandeur = $formation->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Formation mis a jour avec succès.');
+
+        return response()->json([
+            'success' => 'Formation mis a jour avec succès.',
+            'formation' => $formation_demandeur
+        ]);
     }
     public function destroyFormations(FormationDemandeur $formation)
     {
@@ -298,7 +314,8 @@ class DemandeController extends Controller
         $formation->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Formation supprimée avec succès.');
+
+        return response()->json(['success' => 'Formation supprimé avec succès.']);
     }
 
 
@@ -320,7 +337,11 @@ class DemandeController extends Controller
         }
         $qualification_demandeur = QualificationDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
 
-        return redirect()->back()->with('success', 'Qualification créée avec succès.');
+
+        return response()->json([
+            'success' => 'Qualification créée avec succès.',
+            'qualification' => $qualification_demandeur
+        ]);
     }
 
     public function updateQualifications(Request $request, QualificationDemandeur $qualification_demandeur)
@@ -339,7 +360,11 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $qd = $qualification_demandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Qualification mis a jour avec succès.');
+
+        return response()->json([
+            'success' => 'Qualification mis a jour avec succès.',
+            'qualification' => $qd
+        ]);
     }
     public function destroyQualifications(QualificationDemandeur $qualification_demandeur)
     {
@@ -347,9 +372,9 @@ class DemandeController extends Controller
         $qualification_demandeur->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Qualification supprimée avec succès.');
-    }
 
+        return response()->json(['success' => 'Qualification supprimé avec succès.']);
+    }
 
     public function storeAptitudes(Request $request)
     {

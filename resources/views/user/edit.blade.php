@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('user.store_licences') }}" method="POST" enctype="multipart/form-data">
+                        <form id="licenceForm" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" value="{{ $id }}" id="demande_id" name="demande_id">
                             <div class="row">
@@ -84,7 +84,7 @@
                         @isset($licence_demandeurs)
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <table class="table table-striped table-bordered">
+                                    <table class="table table-striped table-bordered" id="licenceTable">
                                         <thead>
                                             <tr>
                                                 <th>Date de licence</th>
@@ -111,29 +111,19 @@
                                                     </td>
                                                     <td>
                                                         @if (!$licence_demandeur->valider)
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="toggleEditForm({{ $licence_demandeur->id }}, 'licence')">
-
-                                                                Modifier
-                                                            </button>
+                                                            <button class="btn btn-warning btn-sm edit-licence"
+                                                                data-id="{{ $licence_demandeur->id }}">Modifier</button>
                                                         @endif
-                                                        <form action="{{ route('user.destroy_licences', $licence_demandeur) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Confirmer la suppression ?')">
-                                                                Supprimer
-                                                            </button>
-                                                        </form>
+                                                        <button class="btn btn-danger btn-sm delete-licence"
+                                                            data-id="{{ $licence_demandeur->id }}">Supprimer</button>
                                                     </td>
                                                 </tr>
 
                                                 {{-- Formulaire de mise à jour --}}
                                                 <tr id="edit-form-licence-{{ $licence_demandeur->id }}" style="display: none;">
                                                     <td colspan="6">
-                                                        <form action="{{ route('user.update_licences', $licence_demandeur) }}"
-                                                            method="POST" enctype="multipart/form-data">
+                                                        <form id="updateLicenceForm-{{ $licence_demandeur->id }}"
+                                                            enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="licence_id"
@@ -184,12 +174,12 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <button type="submit"
-                                                                class="btn btn-primary btn-sm">Enregistrer</button>
+                                                                class="btn btn-primary btn-sm update-licence"
+                                                                data-id="{{ $licence_demandeur->id }}">Enregistrer</button>
                                                             <button type="button" class="btn btn-secondary btn-sm"
-                                                                onclick="toggleEditForm({{ $licence_demandeur->id }},'licence')">
-                                                                Annuler
-                                                            </button>
+                                                                onclick="toggleEditForm({{ $licence_demandeur->id }}, 'licence')">Annuler</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -211,8 +201,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('user.store_formations') }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form id="formationForm" enctype="multipart/form-data" method="POST">
                             @csrf
                             <input type="hidden" value="{{ $id }}" id="demande_id" name="demande_id">
                             <div class="row">
@@ -264,7 +253,7 @@
                         @isset($formation_demandeurs)
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <table class="table table-striped table-bordered">
+                                    <table class="table table-striped table-bordered" id="formationTable">
                                         <thead>
                                             <tr>
                                                 <th>Date de formation</th>
@@ -288,20 +277,12 @@
                                                     </td>
                                                     <td>
                                                         @if (!$formation_demandeur->valider)
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="toggleEditForm({{ $formation_demandeur->id }}, 'formation')">
-
-                                                                Modifier
-                                                            </button>
+                                                            <button class="btn btn-warning btn-sm edit-formation"
+                                                                data-id="{{ $formation_demandeur->id }}">Modifier</button>
                                                         @endif
-                                                        <form
-                                                            action="{{ route('user.destroy_formations', $formation_demandeur) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
-                                                        </form>
+                                                        <button class="btn btn-danger btn-sm delete-formation"
+                                                            data-id="{{ $formation_demandeur->id }}">Supprimer</button>
+
                                                     </td>
                                                 </tr>
 
@@ -309,9 +290,8 @@
                                                 <tr id="edit-form-formation-{{ $formation_demandeur->id }}"
                                                     style="display: none;">
                                                     <td colspan="4">
-                                                        <form
-                                                            action="{{ route('user.update_formations', $formation_demandeur) }}"
-                                                            enctype="multipart/form-data" method="POST">
+                                                        <form id="updateFormationForm-{{ $formation_demandeur->id }}"
+                                                            enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="formation_id"
@@ -359,11 +339,10 @@
                                                                 </div>
                                                             </div>
                                                             <button type="submit"
-                                                                class="btn btn-primary btn-sm">Enregistrer</button>
+                                                                class="btn btn-primary btn-sm update-formation"
+                                                                data-id="{{ $formation_demandeur->id }}">Enregistrer</button>
                                                             <button type="button" class="btn btn-secondary btn-sm"
-                                                                onclick="toggleEditForm({{ $formation_demandeur->id }},'formation')">
-                                                                Annuler
-                                                            </button>
+                                                                onclick="toggleEditForm({{ $formation_demandeur->id }}, 'formation')">Annuler</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -382,8 +361,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('user.store_qualifications') }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form id="qualificationForm" enctype="multipart/form-data" method="POST">
                             @csrf
                             <input type="hidden" value="{{ $id }}" id="demande_id" name="demande_id">
 
@@ -466,7 +444,34 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-3" id="instructeur_privilege_col" style="display: none;">
+                                <div class="form-group">
+                                    <label for="type_privilege">Privilege</label>
+                                    <select class="form-control" id="type_privilege" name="type_privilege">
 
+                                        <option value="TRI">TRI</option>
+                                        <option value="IRI">IRI</option>
+                                        <option value="FI">FI</option>
+                                        <option value="CRI">CRI</option>
+                                        <option value="SFI">SFI</option>
+                                        <option value="GI">GI</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3" id="examinateur_privilege_col" style="display: none;">
+                                <div class="form-group">
+                                    <label for="type_privilege">Privilege</label>
+                                    <select class="form-control" id="type_privilege" name="type_privilege">
+                                        <option value="TRE">TRE</option>
+                                        <option value="IRE">IRE</option>
+                                        <option value="FE">FE</option>
+                                        <option value="CRE">CRE</option>
+                                        <option value="SFE">SFE</option>
+                                        <option value="FIE">FIE</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-lg-12">
@@ -489,6 +494,7 @@
                                                 <th>Qualification</th>
                                                 <th>Type d'avion</th>
                                                 <th>Type de moteur</th>
+                                                <th>Privilege</th>
                                                 <th>Date de l'Examen</th>
                                                 <th>Simulateur</th>
                                                 <th>Lieu</th>
@@ -502,6 +508,7 @@
                                                     <td>{{ $qualification_demandeur->qualification }}</td>
                                                     <td>{{ optional($qualification_demandeur->typeAvion)->code }}</td>
                                                     <td>{{ $qualification_demandeur->type_moteur }}</td>
+                                                    <td>{{ $qualification_demandeur->type_privilege }}</td>
                                                     <td>{{ $qualification_demandeur->date_examen }}</td>
                                                     <td>{{ $qualification_demandeur->centre_formation }}</td>
                                                     <td>{{ $qualification_demandeur->lieu }}</td>
@@ -519,22 +526,12 @@
                                                     </td>
                                                     <td>
                                                         @if (!$qualification_demandeur->valider)
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="toggleEditForm({{ $qualification_demandeur->id }}, 'qualification')">
-
-                                                                Modifier
-                                                            </button>
+                                                            <button class="btn btn-warning btn-sm edit-qualification"
+                                                                data-id="{{ $qualification_demandeur->id }}">Modifier</button>
                                                         @endif
-                                                        <form
-                                                            action="{{ route('user.destroy_qualifications', $qualification_demandeur) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Confirmer la suppression ?')">
-                                                                Supprimer
-                                                            </button>
-                                                        </form>
+                                                        <button class="btn btn-danger btn-sm delete-qualification"
+                                                            data-id="{{ $qualification_demandeur->id }}">Supprimer</button>
+
                                                     </td>
                                                 </tr>
 
@@ -542,9 +539,8 @@
                                                 <tr id="edit-form-qualification-{{ $qualification_demandeur->id }}"
                                                     style="display: none;">
                                                     <td colspan="6">
-                                                        <form
-                                                            action="{{ route('user.update_qualifications', $qualification_demandeur->id) }}"
-                                                            method="POST" enctype="multipart/form-data">
+                                                        <form id="updateQualificationForm-{{ $qualification_demandeur->id }}"
+                                                            enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
 
@@ -610,7 +606,6 @@
                         @endisset
                     </div>
                 </div>
-
                 <!----->
 
                 <div class="card">
@@ -618,7 +613,7 @@
                         Aptitude Médicale
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('user.store_aptitudes') }}" method="POST" enctype="multipart/form-data">
+                        <form id="aptitudeForm" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" value="{{ $id }}" id="demande_id" name="demande_id">
                             <div class="row">
@@ -707,23 +702,14 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if (!$medical_examination->valider)
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="toggleEditForm({{ $medical_examination->id }}, 'medical')">
 
-                                                                Modifier
-                                                            </button>
+                                                        @if (!$medical_examination->valider)
+                                                            <button class="btn btn-warning btn-sm edit-aptitude"
+                                                                data-id="{{ $medical_examination->id }}">Modifier</button>
                                                         @endif
-                                                        <form
-                                                            action="{{ route('user.destroy_aptitudes', $medical_examination) }}"
-                                                            method="POST" enctype="multipart/form-data" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Confirmer la suppression ?')">
-                                                                Supprimer
-                                                            </button>
-                                                        </form>
+                                                        <button class="btn btn-danger btn-sm delete-aptitude"
+                                                            data-id="{{ $medical_examination->id }}">Supprimer</button>
+
                                                     </td>
                                                 </tr>
 
@@ -731,9 +717,8 @@
                                                 <tr id="edit-form-medical-{{ $medical_examination->id }}"
                                                     style="display: none;">
                                                     <td colspan="5">
-                                                        <form
-                                                            action="{{ route('user.update_aptitudes', $medical_examination->id) }}"
-                                                            method="POST" enctype="multipart/form-data">
+                                                        <form id="updateAptitudeForm-{{ $medical_examination->id }}"
+                                                            enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
 
@@ -1225,6 +1210,10 @@
                                     <div class="form-group">
                                         <label for="type">Type d'entraînement</label>
                                         <select class="form-control" id="type" name="type" placeholder="">
+                                            <option value="Simulateur">
+                                                Simulateur
+                                            </option>
+
                                             <option value="En Ligne">
                                                 En Ligne
                                             </option>
@@ -2156,22 +2145,547 @@
 @push('custom')
     <script>
         $(document).ready(function() {
+            // Soumission du formulaire avec AJAX
+            $("#licenceForm").submit(function(e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: "{{ route('user.store_licences') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            let newRow = `
+                        <tr id="licence-${response.licence.id}">
+                            <td>${response.licence.num_licence}</td>
+                            <td>${response.licence.date_licence}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm edit-licence" data-id="${response.licence.id}">Modifier</button>
+                                <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">Supprimer</button>
+                            </td>
+                        </tr>
+                    `;
+                            $("#licenceTable tbody").append(newRow);
+                            $("#licenceForm")[0].reset();
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Licence créée avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la création.',
+                        });
+                    }
+                });
+            });
+
+            // Modification de la licence avec AJAX
+            $(".edit-licence").click(function() {
+                let licenceId = $(this).data("id");
+                $("#edit-form-licence-" + licenceId).toggle();
+            });
+
+            $(".update-licence").click(function(e) {
+                e.preventDefault();
+                let licenceId = $(this).data("id");
+                let formData = new FormData($("#updateLicenceForm-" + licenceId)[0]);
+
+                $.ajax({
+                    url: "{{ route('user.update_licences', ':id') }}".replace(':id', licenceId),
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            $(`#licence-${licenceId}`).html(`
+                        <td>${response.licence.num_licence}</td>
+                        <td>${response.licence.date_licence}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm edit-licence" data-id="${response.licence.id}">Modifier</button>
+                            <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">Supprimer</button>
+                        </td>
+                    `);
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Licence mise à jour avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la mise à jour.',
+                        });
+                    }
+                });
+            });
+
+            // Suppression de la licence avec AJAX
+            $(document).on("click", ".delete-licence", function() {
+                let licenceId = $(this).data("id");
+                let row = $(this).closest("tr");
+
+                Swal.fire({
+                    title: "Êtes-vous sûr ?",
+                    text: "Cette action est irréversible !",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, supprimer !",
+                    cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result) {
+                        $.ajax({
+                            url: "{{ route('user.destroy_licences', ':id') }}".replace(
+                                ':id', licenceId),
+                            type: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function() {
+                                row.remove();
+                                Swal.fire({
+                                    title: 'Succès',
+                                    text: 'Licence supprimée !',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: 'Erreur',
+                                    text: 'Erreur lors de la suppression !',
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+            // Soumission du formulaire avec AJAX
+            $("#formationForm").submit(function(e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: "{{ route('user.store_formations') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            let newRow = `
+                        <tr id="formation-${response.formation.id}">
+                            <td>${response.formation.date_formation}</td>
+                            <td>${response.formation.centre_formation}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm edit-formation" data-id="${response.formation.id}">Modifier</button>
+                                <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">Supprimer</button>
+                            </td>
+                        </tr>
+                    `;
+                            $("#formationTable tbody").append(newRow);
+                            $("#formationForm")[0].reset();
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Formation créée avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la création.',
+                        });
+                    }
+                });
+            });
+
+            // Modification de la formation avec AJAX
+            $(".edit-formation").click(function() {
+                let formationId = $(this).data("id");
+                $("#edit-form-formation-" + formationId).toggle();
+            });
+
+            $(".update-formation").click(function(e) {
+                e.preventDefault();
+                let formationId = $(this).data("id");
+                let formData = new FormData($("#updateFormationForm-" + formationId)[0]);
+
+                $.ajax({
+                    url: "{{ route('user.update_formations', ':id') }}".replace(':id',
+                        formationId),
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            $(`#formation-${formationId}`).html(`
+                        <td>${response.formation.date_formation}</td>
+                        <td>${response.formation.centre_formation}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm edit-formation" data-id="${response.formation.id}">Modifier</button>
+                            <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">Supprimer</button>
+                        </td>
+                    `);
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Formation mise à jour avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la mise à jour.',
+                        });
+                    }
+                });
+            });
+
+            // Suppression de la formation avec AJAX
+            $(document).on("click", ".delete-formation", function() {
+                let formationId = $(this).data("id");
+                let row = $(this).closest("tr");
+
+                Swal.fire({
+                    title: "Êtes-vous sûr ?",
+                    text: "Cette action est irréversible !",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, supprimer !",
+                    cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result) {
+                        $.ajax({
+                            url: "{{ route('user.destroy_formations', ':id') }}".replace(
+                                ':id', formationId),
+                            type: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function() {
+                                row.remove();
+                                Swal.fire({
+                                    title: 'Succès',
+                                    text: 'Formation supprimée !',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: 'Erreur',
+                                    text: 'Erreur lors de la suppression !',
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+
             $('#qualification_id').on('change', function() {
                 let selectedText = $('#qualification_id option:selected').data('type');
 
-                if (selectedText.includes("Qualification Type Machine")) {
-                    $('#type_avion_col').show(); // Afficher le champ
-                } else {
-                    $('#type_avion_col').hide(); // Cacher le champ
+                const toggleField = (selector, condition) => {
+                    if (selectedText.includes(condition)) {
+                        $(selector).show();
+                    } else {
+                        $(selector).hide().find('input, select').val('');
+                    }
+                };
 
-                    $('#type_avion_id').val(''); // Réinitialiser la valeur
-                }
-                if (selectedText.includes("Qualification de Class")) {
-                    $('#type_engine_col').show();
-                } else {
-                    $('#type_engine_col').hide(); // Cacher le champ
-                }
+                toggleField('#type_avion_col', "Qualification Type Machine");
+                toggleField('#type_engine_col', "Qualification de Class");
+                toggleField('#instructeur_privilege_col', "Qualification instructeur");
+                toggleField('#examinateur_privilege_col', "Autorisation examinateur");
             });
+
+            $("#qualificationForm").submit(function(e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: "{{ route('user.store_qualifications') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            // Ajouter la nouvelle ligne dans le tableau
+                            let newRow = `
+                        <tr id="qualification-${response.qualification.id}">
+                            <td>${response.qualification.qualification}</td>
+                            <td>${response.qualification.date_examen}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm edit-qualification" data-id="${response.qualification.id}">Modifier</button>
+                                <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">Supprimer</button>
+                            </td>
+                        </tr>
+                    `;
+                            $("#qualificationTable tbody").append(newRow);
+                            $("#qualificationForm")[0].reset();
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Qualification créée avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la création.',
+                        });
+                    }
+                });
+            });
+            $(".edit-qualification").click(function() {
+                let qualificationId = $(this).data("id");
+                $("#edit-form-qualification-" + qualificationId).toggle();
+            });
+
+            $(".update-qualification").click(function(e) {
+                e.preventDefault();
+                let qualificationId = $(this).data("id");
+                let formData = new FormData($("#updateQualificationForm-" + qualificationId)[0]);
+
+                $.ajax({
+                    url: "{{ route('user.update_qualifications', ':id') }}".replace(':id',
+                        qualificationId),
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            $(`#qualification-${qualificationId}`).html(`
+                    <td>${response.qualification.qualification}</td>
+                    <td>${response.qualification.date_examen}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm edit-qualification" data-id="${response.qualification.id}">Modifier</button>
+                        <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">Supprimer</button>
+                    </td>
+                `);
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Qualification mise à jour avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la mise à jour.',
+                        });
+                    }
+                });
+            });
+            $(document).on("click", ".delete-qualification", function() {
+                let qualificationId = $(this).data("id");
+                let row = $(this).closest("tr");
+
+                Swal.fire({
+                    title: "Êtes-vous sûr ?",
+                    text: "Cette action est irréversible !",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, supprimer !",
+                    cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result) {
+                        $.ajax({
+                            url: "{{ route('user.destroy_qualifications', ':id') }}"
+                                .replace(':id', qualificationId),
+                            type: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function() {
+                                row.remove();
+                                Swal.fire({
+                                    title: 'Succès',
+                                    text: 'Qualification supprimée !',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: 'Erreur',
+                                    text: 'Erreur lors de la suppression !',
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+        $(document).ready(function() {
+            $("#aptitudeForm").submit(function(e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: "{{ route('user.store_aptitudes') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            // Ajouter la nouvelle ligne dans le tableau
+                            let newRow = `
+                        <tr id="aptitude-${response.aptitude.id}">
+                            <td>${response.aptitude.date_examen}</td>
+                            <td>${response.aptitude.validite}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm edit-aptitude" data-id="${response.aptitude.id}">Modifier</button>
+                                <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">Supprimer</button>
+                            </td>
+                        </tr>
+                    `;
+                            $("#aptitudeTable tbody").append(newRow);
+                            $("#aptitudeForm")[0].reset();
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Aptitude créée avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la création.',
+                        });
+                    }
+                });
+            });
+            $(".edit-aptitude").click(function() {
+                let aptitudeId = $(this).data("id");
+                $("#edit-form-aptitude-" + aptitudeId).toggle();
+            });
+
+            $(".update-aptitude").click(function(e) {
+                e.preventDefault();
+                let aptitudeId = $(this).data("id");
+                let formData = new FormData($("#updateAptitudeForm-" + aptitudeId)[0]);
+
+                $.ajax({
+                    url: "{{ route('user.update_aptitudes', ':id') }}".replace(':id', aptitudeId),
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            $(`#aptitude-${aptitudeId}`).html(`
+                    <td>${response.aptitude.date_examen}</td>
+                    <td>${response.aptitude.validite}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm edit-aptitude" data-id="${response.aptitude.id}">Modifier</button>
+                        <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">Supprimer</button>
+                    </td>
+                `);
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Aptitude mise à jour avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la mise à jour.',
+                        });
+                    }
+                });
+            });
+            $(document).on("click", ".delete-aptitude", function() {
+                let aptitudeId = $(this).data("id");
+                let row = $(this).closest("tr");
+
+                Swal.fire({
+                    title: "Êtes-vous sûr ?",
+                    text: "Cette action est irréversible !",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, supprimer !",
+                    cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result) {
+                        $.ajax({
+                            url: "{{ route('user.destroy_aptitudes', ':id') }}".replace(
+                                ':id', aptitudeId),
+                            type: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function() {
+                                row.remove();
+                                Swal.fire({
+                                    title: 'Succès',
+                                    text: 'Aptitude supprimée !',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: 'Erreur',
+                                    text: 'Erreur lors de la suppression !',
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
             // Soumission du formulaire avec AJAX
             $("#submitDocument").click(function(e) {
                 e.preventDefault();
@@ -2303,7 +2817,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    console.log(result);
+
 
                     if (result) {
                         $.ajax({
@@ -2338,6 +2852,7 @@
                     }
                 });
             });
+
         });
 
         function toggleEditForm(id, type) {

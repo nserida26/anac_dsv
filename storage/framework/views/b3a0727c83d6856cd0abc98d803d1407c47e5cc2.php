@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pilot ID Card</title>
+    <title>ID Card</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @font-face {
@@ -176,6 +176,13 @@
                         <li>TRE (A) (B737 NG) [31-Mas-2027]</li>
                     </ul>
                     </p>
+                    <?php
+                        $langStartDate = $competence_demandeur->date;
+                        $langStartDate = Carbon::parse($langStartDate);
+                        $langExpiryDate = $langStartDate->copy()->addMonths($competence_demandeur->validite);
+                        $langExpiryDate = $langExpiryDate->format('d-M-Y');
+                    ?>
+                    <p>XIII E L P (<?php echo e($competence_demandeur->niveau); ?> [<?php echo e($langExpiryDate); ?>])</p>
                     <p>XIVa Recurent training (B737 NG [31- JUL-2025]; ERJ170 [30- Apr- 2025])</p>
                     <p>XIVb Medical certificat (<?php echo e($class); ?> [<?php echo e($medicalExpiryDate); ?>])</p>
                     <p>XIVc Licence updated by: DSV ANAC at <?php echo e($date_mise_a_jour); ?></p>
