@@ -13,6 +13,7 @@
     <?php echo app('translator')->get('user.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
+    <link href="<?php echo e(asset('assets/admin/plugins/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet">
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
 
@@ -956,9 +957,6 @@
                     </div>
                 </div>
 
-
-
-
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         Contrôles de compétence les plus récents
@@ -966,8 +964,7 @@
 
                     <div class="card-body">
 
-                        <form action="<?php echo e(route('user.store_competences')); ?>" method="POST"
-                            enctype="multipart/form-data">
+                        <form id="competenceForm" enctype="multipart/form-data">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" value="<?php echo e($id); ?>" id="demande_id" name="demande_id">
                             <div class="row">
@@ -1084,20 +1081,14 @@
                                                                 class="fas fa-download"></i></a>
                                                     </td>
                                                     <td>
-                                                        <?php if(!$competence_demandeur->valider): ?>
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="toggleEditForm(<?php echo e($competence_demandeur->id); ?>, 'competence')">
 
-                                                                Modifier</button>
+                                                        <?php if(!$competence_demandeur->valider): ?>
+                                                            <button class="btn btn-warning btn-sm edit-competence"
+                                                                data-id="<?php echo e($competence_demandeur->id); ?>">Modifier</button>
                                                         <?php endif; ?>
-                                                        <form
-                                                            action="<?php echo e(route('user.destroy_competences', $competence_demandeur)); ?>"
-                                                            method="POST" class="d-inline">
-                                                            <?php echo csrf_field(); ?>
-                                                            <?php echo method_field('DELETE'); ?>
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
-                                                        </form>
+                                                        <button class="btn btn-danger btn-sm delete-competence"
+                                                            data-id="<?php echo e($competence_demandeur->id); ?>">Supprimer</button>
+
                                                     </td>
                                                 </tr>
 
@@ -1105,9 +1096,8 @@
                                                 <tr id="edit-form-competence-<?php echo e($competence_demandeur->id); ?>"
                                                     style="display: none;">
                                                     <td colspan="7">
-                                                        <form
-                                                            action="<?php echo e(route('user.update_competences', $competence_demandeur)); ?>"
-                                                            method="POST" enctype="multipart/form-data">
+                                                        <form id="updateCompetenceForm-<?php echo e($competence_demandeur->id); ?>"
+                                                            enctype="multipart/form-data">
                                                             <?php echo csrf_field(); ?>
                                                             <?php echo method_field('PUT'); ?>
                                                             <input type="hidden" name="competence_id"
@@ -2186,6 +2176,7 @@
                             $("#licenceForm")[0].reset();
                             Swal.fire({
                                 title: 'Succès',
+                                icon: 'success',
                                 text: 'Licence créée avec succès !',
                                 confirmButtonText: 'OK'
                             }).then(() => {
@@ -2196,6 +2187,7 @@
                     error: function(xhr) {
                         Swal.fire({
                             title: 'Erreur',
+                            icon: 'error',
                             text: 'Une erreur est survenue lors de la création.',
                         });
                     }
@@ -2231,6 +2223,7 @@
                     `);
                             Swal.fire({
                                 title: 'Succès',
+                                icon: 'success',
                                 text: 'Licence mise à jour avec succès !',
                                 confirmButtonText: 'OK'
                             }).then(() => {
@@ -2241,6 +2234,7 @@
                     error: function() {
                         Swal.fire({
                             title: 'Erreur',
+                            icon: 'error',
                             text: 'Une erreur est survenue lors de la mise à jour.',
                         });
                     }
@@ -2273,6 +2267,7 @@
                                 row.remove();
                                 Swal.fire({
                                     title: 'Succès',
+                                    icon: 'success',
                                     text: 'Licence supprimée !',
                                     confirmButtonText: 'OK'
                                 }).then(() => {
@@ -2282,6 +2277,7 @@
                             error: function() {
                                 Swal.fire({
                                     title: 'Erreur',
+                                    icon: 'error',
                                     text: 'Erreur lors de la suppression !',
                                 });
                             }
@@ -2683,6 +2679,135 @@
                                 Swal.fire({
                                     title: 'Succès',
                                     text: 'Aptitude supprimée !',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: 'Erreur',
+                                    text: 'Erreur lors de la suppression !',
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+            $("#competenceForm").submit(function(e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: "<?php echo e(route('user.store_competences')); ?>",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            // Ajouter la nouvelle ligne dans le tableau
+                            let newRow = `
+                        <tr id="competence-${response.competence.id}">
+                            <td>${response.competence.type}</td>
+                            <td>${response.competence.niveau}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm edit-competence" data-id="${response.competence.id}">Modifier</button>
+                                <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">Supprimer</button>
+                            </td>
+                        </tr>
+                    `;
+                            $("#competenceTable tbody").append(newRow);
+                            $("#competenceForm")[0].reset();
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Compétence créée avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la création.',
+                        });
+                    }
+                });
+            });
+            $(".edit-competence").click(function() {
+                let competenceId = $(this).data("id");
+                $("#edit-form-competence-" + competenceId).toggle();
+            });
+
+            $(".update-competence").click(function(e) {
+                e.preventDefault();
+                let competenceId = $(this).data("id");
+                let formData = new FormData($("#updateCompetenceForm-" + competenceId)[0]);
+
+                $.ajax({
+                    url: "<?php echo e(route('user.update_competences', ':id')); ?>".replace(':id',
+                        competenceId),
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            $(`#competence-${competenceId}`).html(`
+                    <td>${response.competence.type}</td>
+                    <td>${response.competence.niveau}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm edit-competence" data-id="${response.competence.id}">Modifier</button>
+                        <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">Supprimer</button>
+                    </td>
+                `);
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Compétence mise à jour avec succès !',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la mise à jour.',
+                        });
+                    }
+                });
+            });
+            $(document).on("click", ".delete-competence", function() {
+                let competenceId = $(this).data("id");
+                let row = $(this).closest("tr");
+
+                Swal.fire({
+                    title: "Êtes-vous sûr ?",
+                    text: "Cette action est irréversible !",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, supprimer !",
+                    cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result) {
+                        $.ajax({
+                            url: "<?php echo e(route('user.destroy_competences', ':id')); ?>".replace(
+                                ':id', competenceId),
+                            type: "DELETE",
+                            data: {
+                                _token: "<?php echo e(csrf_token()); ?>"
+                            },
+                            success: function() {
+                                row.remove();
+                                Swal.fire({
+                                    title: 'Succès',
+                                    text: 'Compétence supprimée !',
                                     confirmButtonText: 'OK'
                                 }).then(() => {
                                     location.reload();

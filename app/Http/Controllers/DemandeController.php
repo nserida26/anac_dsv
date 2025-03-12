@@ -396,7 +396,11 @@ class DemandeController extends Controller
 
         $medical_examination = MedicalExamination::create(array_merge($request->all(), ['document' => $documentPath]));
 
-        return redirect()->back()->with('success', 'Aptitude créée avec succès.');
+
+        return response()->json([
+            'success' => 'Aptitude créée avec succès.',
+            'aptitude' => $medical_examination
+        ]);
     }
     public function updateAptitudes(Request $request, MedicalExamination $medical_examination)
     {
@@ -413,7 +417,11 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $md = $medical_examination->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Aptitude mis a jour avec succès.');
+
+        return response()->json([
+            'success' => 'Aptitude mis a jour avec succès.',
+            'aptitude' => $md
+        ]);
     }
     public function destroyAptitudes(MedicalExamination $medical_examination)
     {
@@ -421,7 +429,10 @@ class DemandeController extends Controller
         $medical_examination->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Aptitude supprimée avec succès.');
+
+        return response()->json([
+            'success' => 'Aptitude supprimée avec succès.',
+        ]);
     }
 
 
@@ -487,7 +498,10 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $competence_demandeur = CompetenceDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Competence créée avec succès.');
+        return response()->json([
+            'success' => 'Competence créée avec succès.',
+            'competence' => $competence_demandeur
+        ]);
     }
 
     public function updateCompetences(Request $request, CompetenceDemandeur $competence_demandeur)
@@ -506,7 +520,11 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $cd = $competence_demandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Competence mis a jour avec succès.');
+
+        return response()->json([
+            'success' => 'Competence mis a jour avec succès.',
+            'competence' => $cd
+        ]);
     }
 
     public function destroyCompetences(CompetenceDemandeur $competence_demandeur)
@@ -515,7 +533,10 @@ class DemandeController extends Controller
         $competence_demandeur->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Competence supprimée avec succès.');
+
+        return response()->json([
+            'success' => 'Competence supprimée avec succès.'
+        ]);
     }
 
     public function storeEntrainements(Request $request)
