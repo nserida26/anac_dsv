@@ -44,4 +44,8 @@ class Demandeur extends Model
     {
         return $this->hasMany(Demande::class);
     }
+    public function formations()
+    {
+        return $this->hasMany(Formation::class, 'demandeur_id');
+    }
 }

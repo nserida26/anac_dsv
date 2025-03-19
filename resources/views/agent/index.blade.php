@@ -41,13 +41,19 @@
                                         <tr>
                                             <td>{{ $demande->code }}</td>
                                             <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->objet_licence }}</td>
+                                            <td>{{ $demande->type_demande }}</td>
                                             <td>{{ $demande->type_licence }}</td>
                                             <td>{{ $demande->status }}</td>
                                             <td>
-                                                @if (optional($demande)->dg_signer === 1 && optional($demande)->dsv_signer === 1)
+                                                @if (optional($demande)->dg_signer === 1 &&
+                                                        optional($demande)->dsv_signer === 1 &&
+                                                        optional($demande)->agent_imprimer !== 1)
                                                     <a href="{{ route('agent.imprimer', $demande->demande_id) }}"
                                                         class="btn btn-primary btn-sm" target="_blank">Print</a>
+                                                @endif
+                                                @if (optional($demande)->dg_signer === 1 &&
+                                                        optional($demande)->dsv_signer === 1 &&
+                                                        optional($demande)->agent_imprimer !== 1)
                                                     <form action="{{ route('agent.valider', $demande->demande_id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf

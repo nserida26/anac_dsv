@@ -25,7 +25,8 @@ use App\Models\TrainingDemandeur;
 use App\Models\Facture;
 use App\Models\LicenceDemandeur;
 use App\Models\Paiement;
-
+use App\Models\TypeDemande;
+use App\Models\TypeLicence;
 use Illuminate\Http\Request;
 
 class DemandeController extends Controller
@@ -55,8 +56,10 @@ class DemandeController extends Controller
     }
     public function create()
     {
-        $demandeur = Demandeur::all();
-        return view('user.create', compact('demandeur'));
+
+        $type_demandes = TypeDemande::all();
+        $type_licences = TypeLicence::all();
+        return view('user.create', compact('type_demandes', 'type_licences'));
     }
 
     public function pay($id)
@@ -70,9 +73,8 @@ class DemandeController extends Controller
 
         $demandeur = Demandeur::where('user_id', auth()->id())->first();
         $request->validate([
-            'objet_licence' => 'required|string',
-            'type_licence' => 'required|string',
-            'specialite' => 'nullable|string',
+            'type_demande_id' => 'required|integer|exists:type_demandes,id',
+            'type_licence_id' => 'required|integer|exists:type_licences,id',
         ]);
 
 
@@ -88,7 +90,8 @@ class DemandeController extends Controller
     public function edit($id)
     {
         $demande = Demande::find($id);
-        $qualifications = Qualification::all();
+
+        $qualifications = $demande->typeLicence->qualifications;
         $centre_formations = CentreFormation::all();
         $simulateurs = Simulateur::all();
         $centre_medicals = CentreMedical::all();
@@ -452,7 +455,10 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $experience_demandeur = ExperienceDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Experience créée avec succès.');
+        return response()->json([
+            'success' => 'Experience créée avec succès.',
+            'experience' => $experience_demandeur
+        ]);
     }
     public function updateExpriences(Request $request, ExperienceDemandeur $experience_demandeur)
     {
@@ -470,7 +476,10 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $ed = $experience_demandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Experience mis a jour avec succès.');
+        return response()->json([
+            'success' => 'Experience mis a jour avec succès.',
+            'experience' => $ed
+        ]);
     }
     public function destroyExpriences(ExperienceDemandeur $experience_demandeur)
     {
@@ -478,7 +487,9 @@ class DemandeController extends Controller
         $experience_demandeur->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Experience supprimée avec succès.');
+        return response()->json([
+            'success' => 'Experience supprimée avec succès.'
+        ]);
     }
 
 
@@ -554,7 +565,11 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $training_demandeur = TrainingDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Entrainement créée avec succès.');
+
+        return response()->json([
+            'success' => 'Entrainement créée avec succès.',
+            'entrainement' => $training_demandeur
+        ]);
     }
 
     public function updateEntrainements(Request $request, TrainingDemandeur $training_demandeur)
@@ -572,7 +587,11 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $training_demandeur = $training_demandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Entrainement mis a jour avec succès.');
+
+        return response()->json([
+            'success' => 'Entrainement mis a jour avec succès.',
+            'entrainement' => $training_demandeur
+        ]);
     }
 
     public function destroyEntrainements(TrainingDemandeur $training_demandeur)
@@ -581,7 +600,10 @@ class DemandeController extends Controller
         $training_demandeur->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Entrainement supprimée avec succès.');
+        return response()->json([
+            'success' => 'Entrainement supprimée avec succès.',
+
+        ]);
     }
 
     public function storeDocuments(Request $request)
@@ -655,7 +677,10 @@ class DemandeController extends Controller
         }
 
         $interruptionDemandeur = InterruptionDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Interruption créée avec succès.');
+        return response()->json([
+            'success' => 'Interruption créée avec succès.',
+            'interruption' => $interruptionDemandeur
+        ]);
     }
     public function updateInterruptions(Request $request, InterruptionDemandeur $interruptionDemandeur)
     {
@@ -674,7 +699,10 @@ class DemandeController extends Controller
         }
 
         $interruptionDemandeur = $interruptionDemandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Interruption créée avec succès.');
+        return response()->json([
+            'success' => 'Interruption mis a jour avec succès.',
+            'interruption' => $interruptionDemandeur
+        ]);
     }
     public function destroyInterruptions(InterruptionDemandeur $interruptionDemandeur)
     {
@@ -682,7 +710,10 @@ class DemandeController extends Controller
         $interruptionDemandeur->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Interruption supprimée avec succès.');
+        return response()->json([
+            'success' => 'Interruption supprimée avec succès.',
+
+        ]);
     }
 
 
@@ -701,7 +732,10 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $experience_maintenance_demandeur = ExperienceMaintenanceDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Experience Maintenance créée avec succès.');
+        return response()->json([
+            'success' => 'Experience Maintenance créée avec succès.',
+            'maintenance' => $experience_maintenance_demandeur
+        ]);
     }
     public function updateMaintenances(Request $request, ExperienceMaintenanceDemandeur $experience_maintenance_demandeur)
     {
@@ -718,7 +752,11 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $experience_maintenance_demandeur = $experience_maintenance_demandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Experience Maintenance créée avec succès.');
+
+        return response()->json([
+            'success' => 'Experience Maintenance mis a jour avec succès.',
+            'maintenance' => $experience_maintenance_demandeur
+        ]);
     }
     public function destroyMaintenances(ExperienceMaintenanceDemandeur $experience_maintenance_demandeur)
     {
@@ -726,7 +764,10 @@ class DemandeController extends Controller
         $experience_maintenance_demandeur->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Experience Maintenance supprimée avec succès.');
+        return response()->json([
+            'success' => 'Experience Maintenance supprimée avec succès.',
+
+        ]);
     }
 
 
@@ -745,7 +786,10 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $employeurDemandeur = EmployeurDemandeur::create(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Employeur créée avec succès.');
+        return response()->json([
+            'success' => 'Employeur créée avec succès.',
+            'employeur' => $employeurDemandeur
+        ]);
     }
     public function updateEmployeurs(Request $request, EmployeurDemandeur $employeur_demandeur)
     {
@@ -762,7 +806,11 @@ class DemandeController extends Controller
             $documentPath = null;
         }
         $employeurDemandeur = $employeur_demandeur->update(array_merge($request->all(), ['document' => $documentPath]));
-        return redirect()->back()->with('success', 'Employeur créée avec succès.');
+
+        return response()->json([
+            'success' => 'Employeur mis a jour avec succès.',
+            'employeur' => $employeurDemandeur
+        ]);
     }
     public function destroyEmployeurs(EmployeurDemandeur $employeurDemandeur)
     {
@@ -770,6 +818,10 @@ class DemandeController extends Controller
         $employeurDemandeur->delete();
 
         // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Employeur supprimée avec succès.');
+
+        return response()->json([
+            'success' => 'Employeur supprimée avec succès.',
+
+        ]);
     }
 }

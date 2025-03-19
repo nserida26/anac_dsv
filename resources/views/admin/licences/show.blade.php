@@ -103,7 +103,7 @@
                                 @csrf
 
                                 <div class="row">
-                                    @if ($licence->demande->objet_licence === 'Delivrance')
+                                    @if ($licence->demande->type_demande === 'Delivrance')
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label for="date_deliverance">Date de delivreance</label>
@@ -112,7 +112,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if ($licence->demande->objet_licence === 'Renouvellement')
+                                    @if ($licence->demande->type_demande === 'Renouvellement')
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label for="date_mise_a_jour">Date de mise a jour</label>

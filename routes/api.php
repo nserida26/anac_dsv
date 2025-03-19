@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AgentController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\Auth\CodeCheckController;
@@ -23,7 +24,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware("localization")->group(function () {});
-Route::get('/demandeurs', [AgentController::class, 'index']);
-Route::post('/enrollement', [AgentController::class, 'enroler']);
-Route::post('/verification', [AgentController::class, 'verifier']);
+// Routes pour l'authentification
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+// Routes protégées par authentification
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/enrolement', [AgentController::class, 'store']);
+    Route::post('/verification', [AgentController::class, 'verify']);
+});

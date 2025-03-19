@@ -20,7 +20,12 @@ class QualificationDemandeur extends Model
         'document',
         'type_avion_id',
         'type_moteur',
-        'type_privilege'
+        'type_privilege',
+        'machine',
+        'amt',
+        'rpa',
+        'atc',
+        'ulm'
     ];
 
     public function demande()

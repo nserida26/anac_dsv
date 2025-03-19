@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 /**
  * Class Qualification
@@ -38,5 +40,9 @@ class Qualification extends Model
   public function qualificationDemandeurs()
   {
     return $this->hasMany('App\Models\QualificationDemandeur', 'qualification_id', 'id');
+  }
+  public function typeLicences(): BelongsToMany
+  {
+    return $this->belongsToMany(TypeLicence::class, 'type_licence_qualification', 'qualification_id', 'type_licence_id');
   }
 }

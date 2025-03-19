@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AutoriteController;
 use App\Http\Controllers\Admin\QualificationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DemandeController;
 use Illuminate\Support\Facades\Auth;
@@ -76,6 +77,11 @@ Route::group(
                 Route::patch('/dsv/valider/{id}', [App\Http\Controllers\DgDsvController::class, 'validerDsv'])->name('dsv.valider');
                 Route::patch('/dsv/rejeter/{id}', [App\Http\Controllers\DgDsvController::class, 'rejeterDSV'])->name('dsv.rejeter');
                 Route::patch('/dsv/signer/{id}', [App\Http\Controllers\DgDsvController::class, 'signerDsv'])->name('dsv.signer');
+
+                Route::patch('/dg/signer/{id}', [App\Http\Controllers\DgDsvController::class, 'signerDg'])->name('dsv.signerDg');
+                Route::patch('/dg/valider/{id}', [App\Http\Controllers\DgDsvController::class, 'validerDg'])->name('dsv.validerDg');
+                Route::patch('/dg/rejeter/{id}', [App\Http\Controllers\DgDsvController::class, 'rejeter'])->name('dsv.rejeterDg');
+
 
                 Route::get('/dg', [App\Http\Controllers\DgDsvController::class, 'index'])->name('dg');
                 Route::get('/dg/show/{id}', [App\Http\Controllers\DgDsvController::class, 'show'])->name('dg.show');
@@ -261,6 +267,7 @@ Route::group(
                 Route::resource('users', UserController::class);
                 Route::resource('qualifications', QualificationController::class);
                 Route::resource('autorites', AutoriteController::class);
+                Route::resource('settings', SettingController::class);
 
                 Route::post('users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign-roles');
             });

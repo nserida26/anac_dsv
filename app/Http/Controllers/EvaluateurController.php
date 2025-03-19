@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Demande;
 use Illuminate\Http\Request;
 use App\Models\ExamenMedical;
 
@@ -15,9 +16,10 @@ class EvaluateurController extends Controller
     public function index()
     {
 
+        $demandes = Demande::with('demandeur')->where('status', '<>', 'En attente')->get();
 
         $examens = ExamenMedical::with(['demandeur', 'examinateur'])->get();
-        return view('evaluateur.index', compact('examens'));
+        return view('evaluateur.index', compact('examens', 'demandes'));
     }
 
     // Afficher un examen

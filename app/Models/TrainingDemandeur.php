@@ -9,7 +9,7 @@ class TrainingDemandeur extends Model
 {
     use HasFactory;
 
-    
+
 
     protected $fillable = [
         'type',
@@ -17,11 +17,16 @@ class TrainingDemandeur extends Model
         'validite',
         'centre_formation_id',
         'demande_id',
-        'document'
+        'document',
+        'simulateur_id'
     ];
 
     public function demande()
     {
         return $this->belongsTo(Demandeur::class);
+    }
+    public function simulateur()
+    {
+        return $this->belongsTo(Simulateur::class, 'simulateur_id');
     }
 }

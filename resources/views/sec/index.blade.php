@@ -33,6 +33,7 @@
                                         <th>Phase</th>
                                         <th>Type de licence</th>
                                         <th>Status</th>
+                                        <th></th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -41,9 +42,15 @@
                                         <tr>
                                             <td>{{ $demande->code }}</td>
                                             <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->objet_licence }}</td>
+                                            <td>{{ $demande->type_demande }}</td>
                                             <td>{{ $demande->type_licence }}</td>
                                             <td>{{ $demande->status }}</td>
+                                            <td>
+                                                @empty($demande->demandeur->examens)
+                                                    
+                                                @endempty
+
+                                            </td>
                                             <td>
 
 
@@ -57,8 +64,8 @@
                                                             optional($demande->etatDemande)->dsv_annoter === 1 &&
                                                             optional($demande->etatDemande)->dsv_rejeter !== 1 &&
                                                             optional($demande->etatDemande)->pel_annoter === 1 &&
-                                                            optional($demande->etatDemande)->sl_valider !== 1 &&
-                                                            optional($demande->demandeur)->formations->isNotEmpty())
+                                                            optional($demande->etatDemande)->sl_valider !== 1)
+                                                        <!-- motif de rejet-->
                                                         <form action="{{ route('sla.valider', $demande->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
@@ -80,8 +87,9 @@
                                                             optional($demande->etatDemande)->dsv_annoter === 1 &&
                                                             optional($demande->etatDemande)->dsv_rejeter !== 1 &&
                                                             optional($demande->etatDemande)->pel_annoter === 1 &&
-                                                            optional($demande->etatDemande)->sm_valider !== 1 &&
-                                                            optional($demande->demandeur)->examens->isNotEmpty())
+                                                            optional($demande->etatDemande)->sm_valider !== 1)
+                                                        {{-- &&
+                                                            optional($demande->demandeur->examens)->isNotEmpty() --}}
                                                         <form action="{{ route('sma.valider', $demande->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf

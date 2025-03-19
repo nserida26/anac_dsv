@@ -43,6 +43,7 @@ class AdminController extends Controller
     public function licences()
     {
         $licences = Licence::all();
+
         return view('admin.licences.index', compact('licences'));
 
         //
@@ -51,6 +52,7 @@ class AdminController extends Controller
     public function showLicence(Licence $licence)
     {
         //
+
         return view('admin.licences.show', compact('licence'));
     }
 

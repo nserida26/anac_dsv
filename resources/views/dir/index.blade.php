@@ -41,7 +41,7 @@
                                         <tr>
                                             <td>{{ $demande->code }}</td>
                                             <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->objet_licence }}</td>
+                                            <td>{{ $demande->type_demande }}</td>
                                             <td>{{ $demande->type_licence }}</td>
                                             <td>{{ $demande->status }}</td>
                                             <td>
@@ -52,7 +52,6 @@
                                                         <a href="{{ route('dg.show', $demande->id) }}"
                                                             class="btn btn-info btn-sm">View</a>
                                                     @endif
-
 
                                                     @if (optional($demande->etatDemande)->dg_annoter !== 1 && optional($demande->etatDemande)->dg_rejeter !== 1)
                                                         <form action="{{ route('dg.annoter', $demande->id) }}"
@@ -111,6 +110,17 @@
                                                             class="btn btn-info btn-sm">View</a>
                                                     @endif
 
+                                                    @if (optional($demande->etatDemande)->dg_annoter !== 1 && optional($demande->etatDemande)->dg_rejeter !== 1)
+                                                        <form action="{{ route('dg.annoter', $demande->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Confirmer l\' annotation vers DSV ?')">
+                                                                Annoter DSV
+                                                            </button>
+                                                        </form>
+                                                    @endif
 
                                                     @if (optional($demande->etatDemande)->dg_annoter === 1 &&
                                                             optional($demande->etatDemande)->dg_rejeter !== 1 &&
@@ -159,7 +169,8 @@
                                                             optional($demande->etatDemande)->dg_valider === 1 &&
                                                             optional($demande->ordre)->statut !== 'Généré')
                                                         <a href="{{ route('dsv.create', $demande->id) }}"
-                                                            class="btn btn-primary btn-sm">Generer l'Ordre de recette</a>
+                                                            class="btn btn-primary btn-sm">Generer l'Ordre de
+                                                            recette</a>
                                                     @endif
                                                     @if (optional($demande->paiement)->statut === 'Payé' &&
                                                             optional($demande->etatDemande)->dg_signer === 1 &&

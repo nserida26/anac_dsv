@@ -15,9 +15,8 @@ class Demande extends Model
         'description',
         'signature',
         'nom_responsable',
-        'objet_licence',
-        'type_licence',
-        'specialite',
+        'type_demande_id',
+        'type_licence_id',
         'status',
         'demandeur_id'
     ];
@@ -46,10 +45,21 @@ class Demande extends Model
         return $this->hasOne(OrdreRecette::class, 'demande_id');
     }
 
+    public function typeDemande()
+    {
+        return $this->belongsTo(TypeDemande::class, 'type_demande_id');
+    }
+
+    public function typeLicence()
+    {
+        return $this->belongsTo(TypeLicence::class, 'type_licence_id');
+    }
+
     public function documents()
     {
         return $this->hasMany(Document::class);
     }
+
 
     public function medicalExaminations()
     {
@@ -74,9 +84,5 @@ class Demande extends Model
     public function trainings()
     {
         return $this->hasMany(TrainingDemandeur::class);
-    }
-    public function formations()
-    {
-        return $this->hasMany(Formation::class, 'demandeur_id');
     }
 }

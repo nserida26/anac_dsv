@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Simulateur extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'libelle',
+
+    ];
+    public function trainingDemandeurs()
+    {
+        return $this->hasMany(TrainingDemandeur::class, 'simulateur_id');
+    }
 }

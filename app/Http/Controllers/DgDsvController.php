@@ -378,7 +378,7 @@ class DgDsvController extends Controller
             # code...
         }
         //$qualifications = $demande->qualifications->where('');
-        if ($demande->objet_licence === 'Delivrance') {
+        if ($demande->type_demande === 'Delivrance') {
             $licence = Licence::create(
                 [
                     'demande_id' => $demande->id,

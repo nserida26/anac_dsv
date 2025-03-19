@@ -36,10 +36,20 @@
         .photo {
             width: 100px;
             height: 120px;
-            /*border: 2px solid black;*/
             position: absolute;
             top: 20px;
             left: 20px;
+        }
+
+        .qr-code {
+            position: absolute;
+            top: 200px;
+            /* Adjust this value to position the QR code below the photo */
+            left: 20px;
+            width: 100px;
+            /* Match the width of the photo */
+            text-align: center;
+            /* Center the QR code */
         }
 
         .id-details {
@@ -75,8 +85,12 @@
         <div id="idCardContainer" class="mt-2">
             <!-- Front Side -->
             <div class="id-card" id="frontSide">
+
                 <img style="margin-top: 50px" src="{{ asset('/uploads/' . $licence->photo) }}" alt="Profile Photo"
                     class="photo">
+                <div class="qr-code">
+                    XIVe {!! QrCode::size(100)->errorCorrection('H')->margin(0)->encoding('UTF-8')->generate(json_encode($licence)) !!}
+                </div>
                 <!-- Placeholder for profile photo -->
                 <div class="id-details" style="margin-top: 50px">
                     <h6 style="text-align: center;"> {{ $licence->categorie_licence }}</h6>
@@ -97,24 +111,6 @@
                         $date_mise_a_jour = Carbon::parse($licence->date_mise_a_jour);
                         $date_mise_a_jour = $date_mise_a_jour->format('d-M-Y');
 
-                        $medicalStartDate = $medical_certificat->date_examen;
-                        $medicalStartDate = Carbon::parse($medicalStartDate);
-                        $medicalExpiryDate = $medicalStartDate->copy()->addMonths($medical_certificat->validite);
-                        $medicalExpiryDate = $medicalExpiryDate->format('d-M-Y');
-
-                        $class = '';
-                        $class1 = ['CPL', 'ATPL'];
-                        $class2 = ['PPL', 'PNC'];
-                        $class3 = ['ATM', 'ATE', 'ATC'];
-
-                        if (in_array($licence->type_licence, $class1)) {
-                            # code...
-                            $class = 'Class1';
-                        } elseif (in_array($licence->type_licence, $class2)) {
-                            $class = 'Class2';
-                        } else {
-                            $class = 'Class3';
-                        }
                     @endphp
                     <p>IVa {{ $date_naissance }}</p>
                     <p>V {{ $licence->adresse }}</p>
@@ -134,22 +130,29 @@
 
                     <p>X Issued on {{ $date_deliverance }} <img src="{{ asset('/assets/admin/imgs/signature.png') }}"
                             width="150" height="40"></p>
-                    <p>XI <img src="{{ asset('/assets/admin/imgs/cachet.jpg') }}" width="100" height="100"> XIVe
-                        {!! QrCode::size(100)->errorCorrection('H')->margin(2)->encoding('UTF-8')->generate(json_encode($licence->numero_licence)) !!}
+                    <p>XI <img src="{{ asset('/assets/admin/imgs/cachet.jpg') }}" width="100" height="100">
                     </p>
                     <p>
-                        @foreach ($qualification_types as $qualification_type)
+                        @php
+                            $typeDetails = [];
+                        @endphp
+                        @if (!empty($qualification_types))
+                            @foreach ($qualification_types as $qualification_type)
+                                @php
+                                    $typeStartDate = $qualification_type->date_examen;
+                                    $typeStartDate = Carbon::parse($typeStartDate);
+                                    $typeExpiryDate = $typeStartDate->copy()->addMonths(12);
+                                    $typeExpiryDate = $typeExpiryDate->format('d-M-Y');
+                                    $codeAirCraft = $qualification_type->code;
+
+                                    $typeDetails[] = "{$codeAirCraft} [{$typeExpiryDate}]";
+                                @endphp
+                            @endforeach
                             @php
-                                $typeStartDate = $qualification_type->date_examen;
-                                $typeStartDate = Carbon::parse($typeStartDate);
-                                $typeExpiryDate = $typeStartDate->copy()->addMonths(12);
-                                $typeExpiryDate = $typeExpiryDate->format('d-M-Y');
-                                $codeAirCraft = $qualification_type->code;
-
+                                $typeString = implode('; ', $typeDetails);
                             @endphp
-                            <span>XII {{ $codeAirCraft }} [{{ $typeExpiryDate }}];</span>
-                        @endforeach
-
+                            <span>XII {{ $typeString }}</span>
+                        @endif
                     <ul class="no-bullets">
                         @if (!empty($qualification_ifr) && !empty($qualification_classe))
                             @php
@@ -167,36 +170,105 @@
 
                             @endphp
                             <li>IR [{{ $ifrExpiryDate }}]; {{ $qualification_classe->type_moteur }}
-                                [{{ $classeExpiryDate }}]</li>\
+                                [{{ $classeExpiryDate }}]</li>
                         @endif
+                        @if (!empty($qualification_instructeur))
+                            @php
 
-                        @php
+                                # code...
+                                $instructeurStartDate = $qualification_instructeur->date_examen;
+                                $instructeurStartDate = Carbon::parse($instructeurStartDate);
+                                $instExpiryDate = $instructeurStartDate->copy()->addMonths(12);
+                                $instExpiryDate = $instExpiryDate->format('d-M-Y');
 
-                            $instructeurStartDate = $qualification_instructeur->date_examen;
-                            $instructeurStartDate = Carbon::parse($instructeurStartDate);
-                            $instExpiryDate = $instructeurStartDate->copy()->addMonths(12);
-                            $instExpiryDate = $instExpiryDate->format('d-M-Y');
+                            @endphp
+                            <li>{{ $qualification_instructeur->privilege }}
+                                ({{ $qualification_instructeur->machine }})
+                                ({{ $qualification_examinateur->code }}) [{{ $instExpiryDate }}]</li>
+                        @endif
+                        @if (!empty($qualification_examinateur))
+                            @php
 
-                        @endphp
-                        <li>{{ $qualification_instructeur->privilege }} (A) (B737 NG) [{{ $instExpiryDate }}]</li>
-                        @php
-                            $examinateurStartDate = $qualification_examinateur->date_examen;
-                            $examinateurStartDate = Carbon::parse($examinateurStartDate);
-                            $examExpiryDate = $examinateurStartDate->copy()->addMonths(12);
-                            $examExpiryDate = $examExpiryDate->form;
-                        @endphp
-                        <li>{{ $qualification_examinateur->privilege }} (A) (B737 NG) [{{ $examExpiryDate }}]</li>
+                                # code...
+                                $examinateurStartDate = $qualification_examinateur->date_examen;
+                                $examinateurStartDate = Carbon::parse($examinateurStartDate);
+                                $examExpiryDate = $examinateurStartDate->copy()->addMonths(12);
+                                $examExpiryDate = $examExpiryDate->format('d-M-Y');
+
+                            @endphp
+                            <li>{{ $qualification_examinateur->privilege }}
+                                ({{ $qualification_examinateur->machine }})
+                                ({{ $qualification_examinateur->code }}) [{{ $examExpiryDate }}]</li>
+                        @endif
                     </ul>
                     </p>
-                    @php
-                        $langStartDate = $competence_demandeur->date;
-                        $langStartDate = Carbon::parse($langStartDate);
-                        $langExpiryDate = $langStartDate->copy()->addMonths($competence_demandeur->validite);
-                        $langExpiryDate = $langExpiryDate->format('d-M-Y');
-                    @endphp
-                    <p>XIII E L P ({{ $competence_demandeur->niveau }} [{{ $langExpiryDate }}])</p>
-                    <p>XIVa Recurent training (B737 NG [31- JUL-2025]; ERJ170 [30- Apr- 2025])</p>
-                    <p>XIVb Medical certificat ({{ $class }} [{{ $medicalExpiryDate }}])</p>
+                    @if (!empty($competence_demandeur))
+                        @php
+
+                            # code...
+                            $langStartDate = $competence_demandeur->date;
+                            $langStartDate = Carbon::parse($langStartDate);
+                            $langExpiryDate = $langStartDate->copy()->addMonths($competence_demandeur->validite);
+                            $langExpiryDate = $langExpiryDate->format('d-M-Y');
+
+                        @endphp
+                        <p>XIII E L P ({{ $competence_demandeur->niveau }} [{{ $langExpiryDate }}])</p>
+                    @endif
+
+                    @if (!empty($entrainement_demandeurs))
+                        @php
+                            $entrainementDetails = [];
+                        @endphp
+
+                        @foreach ($entrainement_demandeurs as $entrainement)
+                            @php
+                                $entrStartDate = Carbon::parse($entrainement->date);
+                                $entrExpiryDate = $entrStartDate->copy()->addMonths($entrainement->validite);
+                                $entrExpiryDateFormatted = $entrExpiryDate->format('d-M-Y');
+                                $entrainementDetails[] = "{$entrainement->type} [{$entrExpiryDateFormatted}]";
+                            @endphp
+                        @endforeach
+
+                        @php
+                            $entrainementString = implode('; ', $entrainementDetails);
+                        @endphp
+                        @if (!empty($entrainementString))
+                            <p>XIVa Recurent training
+
+                                ({{ $entrainementString }})
+
+
+                            </p>
+                        @endif
+
+
+                    @endif
+
+                    @if (!empty($medical_certificat))
+                        @php
+                            $medicalStartDate = $medical_certificat->date_examen;
+                            $medicalStartDate = Carbon::parse($medicalStartDate);
+                            $medicalExpiryDate = $medicalStartDate->copy()->addMonths($medical_certificat->validite);
+                            $medicalExpiryDate = $medicalExpiryDate->format('d-M-Y');
+
+                            $class = '';
+                            $class1 = ['CPL', 'ATPL'];
+                            $class2 = ['PPL', 'PNC'];
+                            $class3 = ['ATM', 'ATE', 'ATC'];
+
+                            if (in_array($licence->type_licence, $class1)) {
+                                # code...
+                                $class = 'Class 1';
+                            } elseif (in_array($licence->type_licence, $class2)) {
+                                $class = 'Class 2';
+                            } else {
+                                $class = 'Class 3';
+                            }
+                        @endphp
+                        <p>XIVb Medical certificat ({{ $class }} [{{ $medicalExpiryDate }}])</p>
+                    @endif
+
+
                     <p>XIVc Licence updated by: DSV ANAC at {{ $date_mise_a_jour }}</p>
                     <p>XIVd Licence expiry date:{{ $date_expiration }}</p>
 

@@ -76,14 +76,14 @@ class AgentController extends Controller
                 ->first();
             $qualification_instructeur = QualificationDemandeur::join('qualifications', 'qualifications.id', 'qualification_demandeurs.qualification_id')
                 ->join('demandes', 'demandes.id', 'qualification_demandeurs.demande_id')
-                ->select('qualification_demandeurs.date_examen', 'qualification_demandeurs.privilege')
+                ->select('qualification_demandeurs.date_examen', 'qualification_demandeurs.type_privilege')
                 ->where('qualifications.libelle', 'Qualification instructeur')
                 ->where('demandes.id', $id)
                 ->orderByDesc('qualification_demandeurs.id')
                 ->first();
             $qualification_examinateur = QualificationDemandeur::join('qualifications', 'qualifications.id', 'qualification_demandeurs.qualification_id')
                 ->join('demandes', 'demandes.id', 'qualification_demandeurs.demande_id')
-                ->select('qualification_demandeurs.date_examen', 'qualification_demandeurs.privilege')
+                ->select('qualification_demandeurs.date_examen', 'qualification_demandeurs.type_privilege')
                 ->where('qualifications.libelle', 'Autorisation examinateur')
                 ->where('demandes.id', $id)
                 ->orderByDesc('qualification_demandeurs.id')
@@ -94,10 +94,15 @@ class AgentController extends Controller
                 ->where('demandes.id', $id)
                 ->orderByDesc('competence_demandeurs.id')
                 ->first();
+            $entrainement_demandeurs = CompetenceDemandeur::join('demandes', 'demandes.id', 'competence_demandeurs.demande_id')
+                ->join('simulateurs', 'simulateurs.id', 'competence_demandeurs.simulateur_id')
+                ->select('competence_demandeurs.date', 'competence_demandeurs.validite', 'simulateurs.libelle')
+                ->where('competence_demandeurs.type', 'Hors Ligne (SIMU)')
+                ->where('demandes.id', $id)
+                ->orderByDesc('competence_demandeurs.id')
+                ->get();
 
-
-
-            return view('agent.print', compact('competence_demandeur', 'qualification_classe', 'qualification_ifr', 'qualification_types', 'demande', 'demandeur', 'licence', 'medical_certificat'));
+            return view('agent.print', compact('entrainement_demandeurs', 'competence_demandeur', 'qualification_examinateur', 'qualification_instructeur', 'qualification_classe', 'qualification_ifr', 'qualification_types', 'demande', 'demandeur', 'licence', 'medical_certificat'));
         } else {
             return redirect()->back()->with('error', 'Licence n\' est pas encore valide.');
         }

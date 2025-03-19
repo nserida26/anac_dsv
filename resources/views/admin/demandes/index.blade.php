@@ -41,7 +41,7 @@
                                         <tr>
                                             <td>{{ $demande->code }}</td>
                                             <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->objet_licence }}</td>
+                                            <td>{{ $demande->type_demande }}</td>
                                             <td>{{ $demande->type_licence }}</td>
                                             <td>{{ $demande->status }}</td>
                                             <td>
