@@ -1,9 +1,21 @@
 @extends('layouts.admin')
-
-@section('template_title')
-    {{ $setting->name ?? "{{ __('Show') Setting" }}
+@section('title')
+    @lang('admin.dashboard')
 @endsection
-
+@section('contentheader')
+    @lang('admin.dashboard')
+@endsection
+@section('contentheaderlink')
+    <a href="">
+        @lang('admin.dashboard') </a>
+@endsection
+@section('contentheaderactive')
+    @lang('admin.dashboard')
+@endsection
+@push('css')
+    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+@endpush
 @section('content')
     <section class="content container-fluid">
         <div class="row">
@@ -19,7 +31,7 @@
                     </div>
 
                     <div class="card-body">
-                        
+
                         <div class="form-group">
                             <strong>Key:</strong>
                             {{ $setting->key }}

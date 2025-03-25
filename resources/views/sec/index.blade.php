@@ -33,7 +33,12 @@
                                         <th>Phase</th>
                                         <th>Type de licence</th>
                                         <th>Status</th>
-                                        <th></th>
+                                        @if (auth()->user()->hasRole('sla'))
+                                            <th>Formations</th>
+                                        @endif
+                                        @if (auth()->user()->hasRole('sma'))
+                                            <th>Examens</th>
+                                        @endif
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -42,15 +47,37 @@
                                         <tr>
                                             <td>{{ $demande->code }}</td>
                                             <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->type_demande }}</td>
-                                            <td>{{ $demande->type_licence }}</td>
-                                            <td>{{ $demande->status }}</td>
-                                            <td>
-                                                @empty($demande->demandeur->examens)
-                                                    
-                                                @endempty
-
+                                            <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en }}
                                             </td>
+                                            <td>{{ $demande->typeLicence->nom }}</td>
+                                            <td>{{ $demande->status }}</td>
+                                            @if (auth()->user()->hasRole('sla'))
+                                                <td>
+                                                    @if ($demande->demandeur->formations)
+                                                        <span class="badge badge-primary">
+                                                            OUI
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-danger">
+                                                            NON
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                            @endif
+                                            @if (auth()->user()->hasRole('sma'))
+                                                <td>
+                                                    @if ($demande->demandeur->examens)
+                                                        <span class="badge badge-primary">
+                                                            OUI
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-danger">
+                                                            NON
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                            @endif
+
                                             <td>
 
 
@@ -97,6 +124,23 @@
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation de dossier medical ?')">
                                                                 Valider
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (optional($demande->etatDemande)->dg_annoter === 1 &&
+                                                            optional($demande->etatDemande)->dg_rejeter !== 1 &&
+                                                            optional($demande->etatDemande)->dsv_annoter === 1 &&
+                                                            optional($demande->etatDemande)->dsv_rejeter !== 1 &&
+                                                            optional($demande->etatDemande)->pel_annoter === 1 &&
+                                                            optional($demande->etatDemande)->sm_valider !== 1 &&
+                                                            optional($demande->etatDemande)->evaluateur_annoter !== 1)
+                                                        <form action="{{ route('sma.annoter', $demande->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-warning btn-sm"
+                                                                onclick="return confirm('Confirmer l\' annotation vers Evaluateur ?')">
+                                                                Annoter
                                                             </button>
                                                         </form>
                                                     @endif

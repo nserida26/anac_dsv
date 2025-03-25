@@ -33,6 +33,9 @@
                                         <th>Phase</th>
                                         <th>Type de licence</th>
                                         <th>Status</th>
+                                        <?php if(auth()->user()->hasRole('dg')): ?>
+                                            <th>#</th>
+                                        <?php endif; ?>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -40,10 +43,29 @@
                                     <?php $__currentLoopData = $demandes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $demande): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
                                             <td><?php echo e($demande->code); ?></td>
-                                            <td><?php echo e($demande->demandeur->np); ?></td>
-                                            <td><?php echo e($demande->objet_licence); ?></td>
-                                            <td><?php echo e($demande->type_licence); ?></td>
+                                            <td><?php echo e(optional($demande->demandeur)->np); ?></td>
+                                            <td><?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en); ?>
+
+                                            </td>
+                                            <td><?php echo e($demande->typeLicence->nom); ?></td>
                                             <td><?php echo e($demande->status); ?></td>
+                                            <?php if(auth()->user()->hasRole('dg')): ?>
+                                                <td>
+
+                                                    <?php if($demande->etatDemande->dsv_dg_annoter): ?>
+                                                        <span class="badge badge-primary">Annoter par DSV</span>
+                                                    <?php endif; ?>
+                                                    <?php if($demande->etatDemande->dsv_dg_valider): ?>
+                                                        <span class="badge badge-primary">Valider par DSV</span>
+                                                    <?php endif; ?>
+                                                    <?php if($demande->etatDemande->dsv_dg_signer): ?>
+                                                        <span class="badge badge-primary">Signer par DSV</span>
+                                                    <?php endif; ?>
+
+
+                                                </td>
+                                            <?php endif; ?>
+
                                             <td>
 
 
@@ -90,7 +112,9 @@
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
-                                                    <?php if(optional($demande->paiement)->statut === 'Payé' && optional($demande->etatDemande)->dg_signer !== 1): ?>
+                                                    <?php if(optional($demande->paiement)->statut === 'Payé' &&
+                                                            optional($demande->etatDemande)->dg_signer !== 1 &&
+                                                            optional($demande->typeDemande)->id === 1): ?>
                                                         <form action="<?php echo e(route('dg.signer', $demande->id)); ?>"
                                                             method="POST" class="d-inline">
                                                             <?php echo csrf_field(); ?>
@@ -121,7 +145,6 @@
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
-
 
                                                     <?php if(optional($demande->etatDemande)->dg_annoter === 1 &&
                                                             optional($demande->etatDemande)->dg_rejeter !== 1 &&
@@ -168,14 +191,23 @@
                                                             optional($demande->etatDemande)->pel_valider === 1 &&
                                                             optional($demande->etatDemande)->dsv_valider === 1 &&
                                                             optional($demande->etatDemande)->dg_valider === 1 &&
-                                                            optional($demande->ordre)->statut !== 'Généré'): ?>
-                                                        <a href="<?php echo e(route('dsv.create', $demande->id)); ?>"
-                                                            class="btn btn-primary btn-sm">Generer l'Ordre de
-                                                            recette</a>
+                                                            empty($demande->ordre)): ?>
+                                                        
+                                                        <form action="<?php echo e(route('dsv.store', $demande)); ?>" method="POST"
+                                                            class="d-inline">
+                                                            <?php echo csrf_field(); ?>
+                                                            <?php echo method_field('PATCH'); ?>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Confirmer la generation ?')">
+                                                                Generer l'Ordre de
+                                                                recette
+                                                            </button>
+                                                        </form>
                                                     <?php endif; ?>
                                                     <?php if(optional($demande->paiement)->statut === 'Payé' &&
-                                                            optional($demande->etatDemande)->dg_signer === 1 &&
-                                                            optional($demande->etatDemande)->dsv_signer !== 1): ?>
+                                                            //optional($demande->etatDemande)->dg_signer === 1 &&
+                                                            optional($demande->etatDemande)->dsv_signer !== 1 &&
+                                                            optional($demande->typeDemande)->id !== 1): ?>
                                                         <form action="<?php echo e(route('dsv.signer', $demande->id)); ?>"
                                                             method="POST" class="d-inline">
                                                             <?php echo csrf_field(); ?>
@@ -218,7 +250,7 @@
                                             <th>Date recette</th>
                                             <th>Montant</th>
                                             <th>Status</th>
-                                            <th>Document</th>
+
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -231,17 +263,10 @@
                                                 <td><?php echo e($ordre->montant); ?></td>
 
                                                 <td><?php echo e($ordre->statut); ?></td>
-                                                <td>
-                                                    <a target="_blank" href="<?php echo e(asset('/uploads/' . $ordre->ordre)); ?>"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class="fas fa-download"></i>
-                                                    </a>
-                                                </td>
+
                                                 <td>
 
                                                     <?php if($ordre->statut !== 'Validé'): ?>
-                                                        <a href="<?php echo e(route('dsv.edit', $ordre)); ?>"
-                                                            class="btn btn-primary btn-sm">Edit</a>
                                                         <form action="<?php echo e(route('dsv.ordre.valider', $ordre)); ?>"
                                                             method="POST" class="d-inline">
                                                             <?php echo csrf_field(); ?>

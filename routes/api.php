@@ -31,6 +31,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 // Routes protégées par authentification
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/demandeurs', [AgentController::class, 'index']);
     Route::post('/enrolement', [AgentController::class, 'store']);
     Route::post('/verification', [AgentController::class, 'verify']);
 });

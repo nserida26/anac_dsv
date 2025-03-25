@@ -64,7 +64,7 @@
         }
 
         p {
-            font-size: 12px;
+            font-size: 11px;
             margin: 0 0;
         }
 
@@ -95,7 +95,7 @@
                 <!-- Placeholder for profile photo -->
                 <div class="id-details" style="margin-top: 50px">
                     <h6 style="text-align: center;"> <?php echo e($licence->categorie_licence); ?></h6>
-                    <p>II <?php echo e($licence->type_licence); ?>(<?php echo e($licence->machine_licence); ?>)</p>
+                    <p>II <?php echo e($licence->type_licence); ?></p>
                     <p>III <?php echo e($licence->numero_licence); ?></p>
                     <p>IV <?php echo e($licence->np); ?></p>
                     <?php
@@ -116,7 +116,8 @@
                     <p>IVa <?php echo e($date_naissance); ?></p>
                     <p>V <?php echo e($licence->adresse); ?></p>
                     <p>VI <?php echo e(strtoupper($licence->nationalite)); ?></p>
-                    <p>VII <img src="<?php echo e(asset('/assets/admin/imgs/signature.png')); ?>" width="150" height="40"></p>
+                    <p>VII <img src="<?php echo e(asset('/uploads/' . $licence->signature_dsv)); ?>" width="150" height="40">
+                    </p>
                     <p>VIII Issued in accordance with Mauritanian Regulation RTA1-PEL and compliant with applicable ICAO
                         Standards</p>
                     <p>IX HAS BEEN FOUND TO BE QUALIFIED TO EXERCISE THE PRILEGES OF THIS LICENCE</p>
@@ -129,15 +130,15 @@
             <div class="id-card" id="backSide">
                 <div class="id-details">
 
-                    <p>X Issued on <?php echo e($date_deliverance); ?> <img src="<?php echo e(asset('/assets/admin/imgs/signature.png')); ?>"
+                    <p>X Issued on <?php echo e($date_deliverance); ?> <img src="<?php echo e(asset('/uploads/' . $licence->signature_dg)); ?>"
                             width="150" height="40"></p>
-                    <p>XI <img src="<?php echo e(asset('/assets/admin/imgs/cachet.jpg')); ?>" width="100" height="100">
+                    <p>XI <img src="<?php echo e(asset('/uploads/' . $licence->cachet)); ?>" width="100" height="100">
                     </p>
                     <p>
                         <?php
                             $typeDetails = [];
                         ?>
-                        <?php if(!empty($qualification_types)): ?>
+                        <?php if(!empty($qualification_types) && $qualification_types->isNotEmpty()): ?>
                             <?php $__currentLoopData = $qualification_types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification_type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php
                                     $typeStartDate = $qualification_type->date_examen;
@@ -154,26 +155,107 @@
                             ?>
                             <span>XII <?php echo e($typeString); ?></span>
                         <?php endif; ?>
-                    <ul class="no-bullets">
-                        <?php if(!empty($qualification_ifr) && !empty($qualification_classe)): ?>
+                        <?php
+                            $amtDetails = [];
+                        ?>
+                        <?php if(!empty($qualification_amts) && $qualification_amts->isNotEmpty()): ?>
+                            <?php $__currentLoopData = $qualification_amts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification_amt): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php
+                                    $amtStartDate = $qualification_amt->date_examen;
+                                    $amtStartDate = Carbon::parse($amtStartDate);
+                                    $amtExpiryDate = $amtStartDate->copy()->addMonths(12);
+                                    $amtExpiryDate = $amtExpiryDate->format('d-M-Y');
+                                    $amt = $qualification_amt->amt;
+
+                                    $amtDetails[] = "{$amt} [{$amtExpiryDate}]";
+                                ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <?php
-                                $ifrStartDate = $qualification_ifr->date_examen;
-                                $ifrStartDate = Carbon::parse($ifrStartDate);
-                                $ifrExpiryDate = $ifrStartDate->copy()->addMonths(12);
-                                $ifrExpiryDate = $ifrExpiryDate->format('d-M-Y');
+                                $amtString = implode('; ', $amtDetails);
+                            ?>
+                            <span>XII <?php echo e($amtString); ?></span>
+                        <?php endif; ?>
+                        <?php
+                            $atcDetails = [];
+                        ?>
+                        <?php if(!empty($qualification_atcs) && $qualification_atcs->isNotEmpty()): ?>
+                            <?php $__currentLoopData = $qualification_atcs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification_atc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php
+                                    $atcStartDate = $qualification_atc->date_examen;
+                                    $atcStartDate = Carbon::parse($atcStartDate);
+                                    $atcExpiryDate = $atcStartDate->copy()->addMonths(12);
+                                    $atcExpiryDate = $atcExpiryDate->format('d-M-Y');
+                                    $atc = $qualification_atc->atc;
 
-                                $classeStartDate = $qualification_classe->date_examen;
-                                $classeStartDate = Carbon::parse($classeStartDate);
-                                $classeExpiryDate = $classeStartDate->copy()->addMonths(12);
-                                $classeExpiryDate = $classeExpiryDate->format('d-M-Y');
+                                    $amtDetails[] = "{$atc} [{$atcExpiryDate}]";
+                                ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php
+                                $atcString = implode('; ', $amtDetails);
+                            ?>
+                            <span>XII <?php echo e($atcString); ?></span>
+                        <?php endif; ?>
+                        <?php
+                            $rpaDetails = [];
+                        ?>
+                        <?php if(!empty($qualification_rpas) && $qualification_rpas->isNotEmpty()): ?>
+                            <?php $__currentLoopData = $qualification_rpas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification_rpa): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php
+                                    $rpaStartDate = $qualification_rpa->date_examen;
+                                    $rpaStartDate = Carbon::parse($rpaStartDate);
+                                    $rpaExpiryDate = $rpaStartDate->copy()->addMonths(12);
+                                    $rpaExpiryDate = $rpaExpiryDate->format('d-M-Y');
+                                    $rpa = $qualification_rpa->rpa;
 
-                                $codeAirCraft = $qualification_type->code;
+                                    $rpaDetails[] = "{$rpa} [{$rpaExpiryDate}]";
+                                ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php
+                                $rpaString = implode('; ', $rpaDetails);
+                            ?>
+                            <span>XII <?php echo e($rpaString); ?></span>
+                        <?php endif; ?>
+                    <ul class="no-bullets">
+
+                        <?php if(!empty($qualification_ifr) || !empty($qualification_classe)): ?>
+                            <?php
+                                $ifrExpiryDate = '';
+                                $classeExpiryDate = '';
+
+                                if (!empty($qualification_ifr)) {
+                                    $ifrStartDate = Carbon::parse($qualification_ifr->date_examen);
+                                    $ifrExpiryDate = $ifrStartDate->copy()->addMonths(12)->format('d-M-Y');
+                                }
+
+                                if (!empty($qualification_classe)) {
+                                    $classeStartDate = Carbon::parse($qualification_classe->date_examen);
+                                    $classeExpiryDate = $classeStartDate->copy()->addMonths(12)->format('d-M-Y');
+                                }
+                            ?>
+
+                            <li>
+                                <?php if(!empty($qualification_ifr)): ?>
+                                    IR [<?php echo e($ifrExpiryDate); ?>]
+                                <?php endif; ?>
+                                <?php if(!empty($qualification_classe)): ?>
+                                    <?php echo e($qualification_classe->type_moteur); ?> [<?php echo e($classeExpiryDate); ?>]
+                                <?php endif; ?>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if(!empty($qualification_ulm)): ?>
+                            <?php
+                                $ulmStartDate = $qualification_ulm->date_examen;
+                                $ulmStartDate = Carbon::parse($ulmStartDate);
+                                $ulmExpiryDate = $ulmStartDate->copy()->addMonths(12);
+                                $ulmExpiryDate = $ulmExpiryDate->format('d-M-Y');
 
                             ?>
-                            <li>IR [<?php echo e($ifrExpiryDate); ?>]; <?php echo e($qualification_classe->type_moteur); ?>
+                            <li><?php echo e($qualification_ulm->ulm); ?>
 
-                                [<?php echo e($classeExpiryDate); ?>]</li>
+                                [<?php echo e($ulmExpiryDate); ?>]</li>
                         <?php endif; ?>
+
                         <?php if(!empty($qualification_instructeur)): ?>
                             <?php
 
@@ -184,7 +266,7 @@
                                 $instExpiryDate = $instExpiryDate->format('d-M-Y');
 
                             ?>
-                            <li><?php echo e($qualification_instructeur->privilege); ?>
+                            <li><?php echo e($qualification_instructeur->type_privilege); ?>
 
                                 (<?php echo e($qualification_instructeur->machine); ?>)
                                 (<?php echo e($qualification_examinateur->code); ?>) [<?php echo e($instExpiryDate); ?>]</li>
@@ -199,7 +281,7 @@
                                 $examExpiryDate = $examExpiryDate->format('d-M-Y');
 
                             ?>
-                            <li><?php echo e($qualification_examinateur->privilege); ?>
+                            <li><?php echo e($qualification_examinateur->type_privilege); ?>
 
                                 (<?php echo e($qualification_examinateur->machine); ?>)
                                 (<?php echo e($qualification_examinateur->code); ?>) [<?php echo e($examExpiryDate); ?>]</li>
@@ -219,7 +301,7 @@
                         <p>XIII E L P (<?php echo e($competence_demandeur->niveau); ?> [<?php echo e($langExpiryDate); ?>])</p>
                     <?php endif; ?>
 
-                    <?php if(!empty($entrainement_demandeurs)): ?>
+                    <?php if(!empty($entrainement_demandeurs) && $entrainement_demandeurs->isNotEmpty()): ?>
                         <?php
                             $entrainementDetails = [];
                         ?>
@@ -229,7 +311,7 @@
                                 $entrStartDate = Carbon::parse($entrainement->date);
                                 $entrExpiryDate = $entrStartDate->copy()->addMonths($entrainement->validite);
                                 $entrExpiryDateFormatted = $entrExpiryDate->format('d-M-Y');
-                                $entrainementDetails[] = "{$entrainement->type} [{$entrExpiryDateFormatted}]";
+                                $entrainementDetails[] = "{$entrainement->libelle} [{$entrExpiryDateFormatted}]";
                             ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -259,14 +341,15 @@
                             $class1 = ['CPL', 'ATPL'];
                             $class2 = ['PPL', 'PNC'];
                             $class3 = ['ATM', 'ATE', 'ATC'];
+                            $prefix = substr($licence->type_licence, 0, 3);
 
-                            if (in_array($licence->type_licence, $class1)) {
+                            if (in_array($prefix, $class1)) {
                                 # code...
-                                $class = 'Class1';
-                            } elseif (in_array($licence->type_licence, $class2)) {
-                                $class = 'Class2';
-                            } else {
-                                $class = 'Class3';
+                                $class = 'Class 1';
+                            } elseif (in_array($prefix, $class2)) {
+                                $class = 'Class 2';
+                            } elseif (in_array($prefix, $class3)) {
+                                $class = 'Class 3';
                             }
                         ?>
                         <p>XIVb Medical certificat (<?php echo e($class); ?> [<?php echo e($medicalExpiryDate); ?>])</p>

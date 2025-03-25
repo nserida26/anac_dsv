@@ -64,7 +64,7 @@
         }
 
         p {
-            font-size: 12px;
+            font-size: 11px;
             margin: 0 0;
         }
 
@@ -94,7 +94,7 @@
                 <!-- Placeholder for profile photo -->
                 <div class="id-details" style="margin-top: 50px">
                     <h6 style="text-align: center;"> {{ $licence->categorie_licence }}</h6>
-                    <p>II {{ $licence->type_licence }}({{ $licence->machine_licence }})</p>
+                    <p>II {{ $licence->type_licence }}</p>
                     <p>III {{ $licence->numero_licence }}</p>
                     <p>IV {{ $licence->np }}</p>
                     @php
@@ -115,7 +115,8 @@
                     <p>IVa {{ $date_naissance }}</p>
                     <p>V {{ $licence->adresse }}</p>
                     <p>VI {{ strtoupper($licence->nationalite) }}</p>
-                    <p>VII <img src="{{ asset('/assets/admin/imgs/signature.png') }}" width="150" height="40"></p>
+                    <p>VII <img src="{{ asset('/uploads/' . $licence->signature_dsv) }}" width="150" height="40">
+                    </p>
                     <p>VIII Issued in accordance with Mauritanian Regulation RTA1-PEL and compliant with applicable ICAO
                         Standards</p>
                     <p>IX HAS BEEN FOUND TO BE QUALIFIED TO EXERCISE THE PRILEGES OF THIS LICENCE</p>
@@ -128,15 +129,15 @@
             <div class="id-card" id="backSide">
                 <div class="id-details">
 
-                    <p>X Issued on {{ $date_deliverance }} <img src="{{ asset('/assets/admin/imgs/signature.png') }}"
+                    <p>X Issued on {{ $date_deliverance }} <img src="{{ asset('/uploads/' . $licence->signature_dg) }}"
                             width="150" height="40"></p>
-                    <p>XI <img src="{{ asset('/assets/admin/imgs/cachet.jpg') }}" width="100" height="100">
+                    <p>XI <img src="{{ asset('/uploads/' . $licence->cachet) }}" width="100" height="100">
                     </p>
                     <p>
                         @php
                             $typeDetails = [];
                         @endphp
-                        @if (!empty($qualification_types))
+                        @if (!empty($qualification_types) && $qualification_types->isNotEmpty())
                             @foreach ($qualification_types as $qualification_type)
                                 @php
                                     $typeStartDate = $qualification_type->date_examen;
@@ -153,25 +154,106 @@
                             @endphp
                             <span>XII {{ $typeString }}</span>
                         @endif
-                    <ul class="no-bullets">
-                        @if (!empty($qualification_ifr) && !empty($qualification_classe))
+                        @php
+                            $amtDetails = [];
+                        @endphp
+                        @if (!empty($qualification_amts) && $qualification_amts->isNotEmpty())
+                            @foreach ($qualification_amts as $qualification_amt)
+                                @php
+                                    $amtStartDate = $qualification_amt->date_examen;
+                                    $amtStartDate = Carbon::parse($amtStartDate);
+                                    $amtExpiryDate = $amtStartDate->copy()->addMonths(12);
+                                    $amtExpiryDate = $amtExpiryDate->format('d-M-Y');
+                                    $amt = $qualification_amt->amt;
+
+                                    $amtDetails[] = "{$amt} [{$amtExpiryDate}]";
+                                @endphp
+                            @endforeach
                             @php
-                                $ifrStartDate = $qualification_ifr->date_examen;
-                                $ifrStartDate = Carbon::parse($ifrStartDate);
-                                $ifrExpiryDate = $ifrStartDate->copy()->addMonths(12);
-                                $ifrExpiryDate = $ifrExpiryDate->format('d-M-Y');
+                                $amtString = implode('; ', $amtDetails);
+                            @endphp
+                            <span>XII {{ $amtString }}</span>
+                        @endif
+                        @php
+                            $atcDetails = [];
+                        @endphp
+                        @if (!empty($qualification_atcs) && $qualification_atcs->isNotEmpty())
+                            @foreach ($qualification_atcs as $qualification_atc)
+                                @php
+                                    $atcStartDate = $qualification_atc->date_examen;
+                                    $atcStartDate = Carbon::parse($atcStartDate);
+                                    $atcExpiryDate = $atcStartDate->copy()->addMonths(12);
+                                    $atcExpiryDate = $atcExpiryDate->format('d-M-Y');
+                                    $atc = $qualification_atc->atc;
 
-                                $classeStartDate = $qualification_classe->date_examen;
-                                $classeStartDate = Carbon::parse($classeStartDate);
-                                $classeExpiryDate = $classeStartDate->copy()->addMonths(12);
-                                $classeExpiryDate = $classeExpiryDate->format('d-M-Y');
+                                    $amtDetails[] = "{$atc} [{$atcExpiryDate}]";
+                                @endphp
+                            @endforeach
+                            @php
+                                $atcString = implode('; ', $amtDetails);
+                            @endphp
+                            <span>XII {{ $atcString }}</span>
+                        @endif
+                        @php
+                            $rpaDetails = [];
+                        @endphp
+                        @if (!empty($qualification_rpas) && $qualification_rpas->isNotEmpty())
+                            @foreach ($qualification_rpas as $qualification_rpa)
+                                @php
+                                    $rpaStartDate = $qualification_rpa->date_examen;
+                                    $rpaStartDate = Carbon::parse($rpaStartDate);
+                                    $rpaExpiryDate = $rpaStartDate->copy()->addMonths(12);
+                                    $rpaExpiryDate = $rpaExpiryDate->format('d-M-Y');
+                                    $rpa = $qualification_rpa->rpa;
 
-                                $codeAirCraft = $qualification_type->code;
+                                    $rpaDetails[] = "{$rpa} [{$rpaExpiryDate}]";
+                                @endphp
+                            @endforeach
+                            @php
+                                $rpaString = implode('; ', $rpaDetails);
+                            @endphp
+                            <span>XII {{ $rpaString }}</span>
+                        @endif
+                    <ul class="no-bullets">
+
+                        @if (!empty($qualification_ifr) || !empty($qualification_classe))
+                            @php
+                                $ifrExpiryDate = '';
+                                $classeExpiryDate = '';
+
+                                if (!empty($qualification_ifr)) {
+                                    $ifrStartDate = Carbon::parse($qualification_ifr->date_examen);
+                                    $ifrExpiryDate = $ifrStartDate->copy()->addMonths(12)->format('d-M-Y');
+                                }
+
+                                if (!empty($qualification_classe)) {
+                                    $classeStartDate = Carbon::parse($qualification_classe->date_examen);
+                                    $classeExpiryDate = $classeStartDate->copy()->addMonths(12)->format('d-M-Y');
+                                }
+                            @endphp
+
+                            <li>
+                                @if (!empty($qualification_ifr))
+                                    IR [{{ $ifrExpiryDate }}]
+                                @endif
+                                @if (!empty($qualification_classe))
+                                    {{ $qualification_classe->type_moteur }} [{{ $classeExpiryDate }}]
+                                @endif
+                            </li>
+                        @endif
+
+                        @if (!empty($qualification_ulm))
+                            @php
+                                $ulmStartDate = $qualification_ulm->date_examen;
+                                $ulmStartDate = Carbon::parse($ulmStartDate);
+                                $ulmExpiryDate = $ulmStartDate->copy()->addMonths(12);
+                                $ulmExpiryDate = $ulmExpiryDate->format('d-M-Y');
 
                             @endphp
-                            <li>IR [{{ $ifrExpiryDate }}]; {{ $qualification_classe->type_moteur }}
-                                [{{ $classeExpiryDate }}]</li>
+                            <li>{{ $qualification_ulm->ulm }}
+                                [{{ $ulmExpiryDate }}]</li>
                         @endif
+
                         @if (!empty($qualification_instructeur))
                             @php
 
@@ -182,7 +264,7 @@
                                 $instExpiryDate = $instExpiryDate->format('d-M-Y');
 
                             @endphp
-                            <li>{{ $qualification_instructeur->privilege }}
+                            <li>{{ $qualification_instructeur->type_privilege }}
                                 ({{ $qualification_instructeur->machine }})
                                 ({{ $qualification_examinateur->code }}) [{{ $instExpiryDate }}]</li>
                         @endif
@@ -196,7 +278,7 @@
                                 $examExpiryDate = $examExpiryDate->format('d-M-Y');
 
                             @endphp
-                            <li>{{ $qualification_examinateur->privilege }}
+                            <li>{{ $qualification_examinateur->type_privilege }}
                                 ({{ $qualification_examinateur->machine }})
                                 ({{ $qualification_examinateur->code }}) [{{ $examExpiryDate }}]</li>
                         @endif
@@ -215,7 +297,7 @@
                         <p>XIII E L P ({{ $competence_demandeur->niveau }} [{{ $langExpiryDate }}])</p>
                     @endif
 
-                    @if (!empty($entrainement_demandeurs))
+                    @if (!empty($entrainement_demandeurs) && $entrainement_demandeurs->isNotEmpty())
                         @php
                             $entrainementDetails = [];
                         @endphp
@@ -225,7 +307,7 @@
                                 $entrStartDate = Carbon::parse($entrainement->date);
                                 $entrExpiryDate = $entrStartDate->copy()->addMonths($entrainement->validite);
                                 $entrExpiryDateFormatted = $entrExpiryDate->format('d-M-Y');
-                                $entrainementDetails[] = "{$entrainement->type} [{$entrExpiryDateFormatted}]";
+                                $entrainementDetails[] = "{$entrainement->libelle} [{$entrExpiryDateFormatted}]";
                             @endphp
                         @endforeach
 
@@ -255,13 +337,14 @@
                             $class1 = ['CPL', 'ATPL'];
                             $class2 = ['PPL', 'PNC'];
                             $class3 = ['ATM', 'ATE', 'ATC'];
+                            $prefix = substr($licence->type_licence, 0, 3);
 
-                            if (in_array($licence->type_licence, $class1)) {
+                            if (in_array($prefix, $class1)) {
                                 # code...
                                 $class = 'Class 1';
-                            } elseif (in_array($licence->type_licence, $class2)) {
+                            } elseif (in_array($prefix, $class2)) {
                                 $class = 'Class 2';
-                            } else {
+                            } elseif (in_array($prefix, $class3)) {
                                 $class = 'Class 3';
                             }
                         @endphp

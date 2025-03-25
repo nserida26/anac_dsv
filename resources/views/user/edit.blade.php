@@ -7,7 +7,8 @@
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('user') }}">
-        @lang('user.dashboard') </a>
+        @lang('user.dashboard')
+    </a>
 @endsection
 @section('contentheaderactive')
     @lang('user.dashboard')
@@ -24,12 +25,57 @@
             <div class="col-md-12">
                 <!-- general form elements -->
 
-                <h4 class="text-center">{{ $demande->typeDemande->nom_fr }} - {{ $demande->typeLicence->nom }}</h4>
+                <h4 class="text-center">
+                    {{ LaravelLocalization::getCurrentLocale() == 'fr' ? $demande->typeDemande->nom_fr : $demande->typeDemande->nom_en }}
+                    - {{ $demande->typeLicence->nom }}</h4>
+
+                @if ($demande->mise_a_jour)
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Tous les motifs de rejet
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                @foreach ($demande->qualifications as $qualification)
+                                    @if (isset($qualification->motif))
+                                        <li>{{ $qualification->motif }}</li>
+                                    @endif
+                                @endforeach
+                                @foreach ($demande->trainings as $training)
+                                    @if (isset($training->motif))
+                                        <li>{{ $training->motif }}</li>
+                                    @endif
+                                @endforeach
+                                @foreach ($demande->competences as $competence)
+                                    @if (isset($competence->motif))
+                                        <li>{{ $competence->motif }}</li>
+                                    @endif
+                                @endforeach
+                                @foreach ($demande->experiences as $experience)
+                                    @if (isset($experience->motif))
+                                        <li>{{ $experience->motif }}</li>
+                                    @endif
+                                @endforeach
+                                @foreach ($demande->medicalExamination as $medicalExamination)
+                                    @if (isset($medicalExamination->motif))
+                                        <li>{{ $medicalExamination->motif }}</li>
+                                    @endif
+                                @endforeach
+                                @foreach ($demande->documents as $document)
+                                    @if (isset($document->motif))
+                                        <li>{{ $document->motif }}</li>
+                                    @endif
+                                @endforeach
+
+                            </ul>
+                        </div>
+                    </div>
+                @endif
 
                 @if ($demande->typeDemande->id !== 1)
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Licence
+                            @lang('user.licence')
                         </div>
 
                         <div class="card-body">
@@ -39,20 +85,20 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="num_licence">Numéro de licence</label>
+                                            <label for="num_licence">@lang('user.licence_number')</label>
                                             <input type="text" class="form-control" id="num_licence" name="num_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_licence">Date de licence</label>
+                                            <label for="date_licence">@lang('user.licence_date')</label>
                                             <input type="date" class="form-control" id="date_licence"
                                                 name="date_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="autorite_id">Autorité de délivrance</label>
+                                            <label for="autorite_id">@lang('user.issuing_authority')</label>
                                             <select class="form-control" id="autorite_id" name="autorite_id">
                                                 @foreach ($autorites as $autorite)
                                                     <option value="{{ $autorite->id }}">{{ $autorite->libelle }}</option>
@@ -62,14 +108,14 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="lieu_delivrance">Lieu de délivrance</label>
+                                            <label for="lieu_delivrance">@lang('user.place_of_issue')</label>
                                             <input type="text" class="form-control" id="lieu_delivrance"
                                                 name="lieu_delivrance">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('user.justificatif')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -77,9 +123,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button type="submit" class="btn btn-success float-right"><i
-                                                class="fas fa-plus"></i>
-                                            Submit</button>
+                                        <button type="submit" class="btn btn-success float-right">
+                                            <i class="fas fa-plus"></i> @lang('user.submit')
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -91,12 +137,13 @@
                                         <table class="table table-striped table-bordered" id="licenceTable">
                                             <thead>
                                                 <tr>
-                                                    <th>Date de licence</th>
-                                                    <th>Numéro de licence</th>
-                                                    <th>Autorité de délivrance</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('user.licence_date')</th>
+                                                    <th>@lang('user.licence_number')</th>
+                                                    <th>@lang('user.issuing_authority')</th>
+                                                    <th>@lang('user.place_of_issue')</th>
+                                                    <th>@lang('user.justificatif')</th>
+
+                                                    <th>@lang('user.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -107,85 +154,19 @@
                                                         <td>{{ $licence_demandeur->autorite->libelle }}</td>
                                                         <td>{{ $licence_demandeur->lieu_delivrance }}</td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="{{ asset('/uploads/' . $licence_demandeur->document) }}"
-                                                                class="btn btn-primary btn-sm">
-                                                                <i class="fas fa-download"></i>
-                                                            </a>
+                                                            @if ($licence_demandeur->document)
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $licence_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             @if (!$licence_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-licence"
-                                                                    data-id="{{ $licence_demandeur->id }}">Modifier</button>
+                                                                    data-id="{{ $licence_demandeur->id }}">@lang('user.edit')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-licence"
-                                                                data-id="{{ $licence_demandeur->id }}">Supprimer</button>
-                                                        </td>
-                                                    </tr>
-
-                                                    {{-- Formulaire de mise à jour --}}
-                                                    <tr id="edit-form-licence-{{ $licence_demandeur->id }}"
-                                                        style="display: none;">
-                                                        <td colspan="6">
-                                                            <form id="updateLicenceForm-{{ $licence_demandeur->id }}"
-                                                                enctype="multipart/form-data">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <input type="hidden" name="licence_id"
-                                                                    value="{{ $licence_demandeur->id }}">
-                                                                <div class="row">
-                                                                    <div class="col-lg-2">
-                                                                        <div class="form-group">
-                                                                            <label>Numéro de licence</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="num_licence"
-                                                                                value="{{ $licence_demandeur->num_licence }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <div class="form-group">
-                                                                            <label>Date de licence</label>
-                                                                            <input type="date" class="form-control"
-                                                                                name="date_licence"
-                                                                                value="{{ $licence_demandeur->date_licence }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <div class="form-group">
-                                                                            <label>Autorité de délivrance</label>
-                                                                            <select class="form-control" name="autorite_id">
-                                                                                @foreach ($autorites as $autorite)
-                                                                                    <option value="{{ $autorite->id }}"
-                                                                                        {{ $licence_demandeur->autorite_id == $autorite->id ? 'selected' : '' }}>
-                                                                                        {{ $autorite->libelle }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <div class="form-group">
-                                                                            <label>Lieu de délivrance</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="lieu_delivrance"
-                                                                                value="{{ $licence_demandeur->lieu_delivrance }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <div class="form-group">
-                                                                            <label>Justificatif (Nouveau)</label>
-                                                                            <input type="file" class="form-control"
-                                                                                name="document" accept="application/pdf">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <button type="submit"
-                                                                    class="btn btn-primary btn-sm update-licence"
-                                                                    data-id="{{ $licence_demandeur->id }}">Enregistrer</button>
-                                                                <button type="button" class="btn btn-secondary btn-sm"
-                                                                    onclick="toggleEditForm({{ $licence_demandeur->id }}, 'licence')">Annuler</button>
-                                                            </form>
+                                                                data-id="{{ $licence_demandeur->id }}">@lang('user.delete')</button>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -227,8 +208,7 @@
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <label for="date_examen">Date de l'Examen</label>
-                                            <input type="date" class="form-control" id="date_examen"
-                                                name="date_examen">
+                                            <input type="date" class="form-control" id="date_examen" name="date_examen">
                                         </div>
                                     </div>
 
@@ -527,13 +507,9 @@
                                                         <td>{{ $qualification_demandeur->lieu }}</td>
                                                         <td>
                                                             @if ($qualification_demandeur->document)
-                                                                <a target="_blank"
-                                                                    href="{{ asset('/uploads/' . $qualification_demandeur->document) }}"
-                                                                    class="btn btn-primary btn-sm">
-                                                                    <i class="fas fa-download"></i>
-                                                                </a>
-                                                            @else
-                                                                Aucun fichier
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $qualification_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
@@ -561,10 +537,14 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-3">
                                                                         <label>Qualification</label>
-                                                                        <select class="form-control" name="qualification_id">
+                                                                        <select class="form-control"
+                                                                            id="qualification_update_id"
+                                                                            name="qualification_id">
                                                                             @foreach ($qualifications as $qualification)
                                                                                 <option value="{{ $qualification->id }}"
-                                                                                    {{ $qualification_demandeur->qualification_id == $qualification->id ? 'selected' : '' }}>
+                                                                                    {{ $qualification_demandeur->qualification_id == $qualification->id ? 'selected' : '' }}
+                                                                                    data-type="{{ $qualification->libelle }}"
+                                                                                    data-qualification-id="{{ $qualification->id }}">
                                                                                     {{ $qualification->libelle }}
                                                                                 </option>
                                                                             @endforeach
@@ -602,6 +582,320 @@
                                                                         <label>Justificatif</label>
                                                                         <input type="file" class="form-control"
                                                                             name="document" accept="application/pdf">
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Champ "Type d'Avion" caché par défaut -->
+                                                                <div class="col-lg-3"
+                                                                    id="type_avion_col_update_{{ $qualification_demandeur->id }}"
+                                                                    style="display: none;">
+                                                                    @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 36, 39]))
+                                                                        <div class="form-group">
+                                                                            <label for="type_avion_id">Type d'Avion</label>
+                                                                            <select class="form-control" id="type_avion_id"
+                                                                                name="type_avion_id">
+                                                                                @foreach ($type_avions as $type_avion)
+                                                                                    <option value="{{ $type_avion->id }}"
+                                                                                        {{ $qualification_demandeur->type_avion_id == $type_avion->id ? 'selected' : '' }}>
+                                                                                        {{ $type_avion->code }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                    @endif
+                                                                    @if ($demande->typeLicence->id === 34)
+                                                                        <div class="form-group">
+                                                                            <label for="rpa">Qualifications
+                                                                                RPA</label>
+                                                                            <select class="form-control" id="rpa"
+                                                                                name="rpa">
+                                                                                <option value="type1"
+                                                                                    {{ $qualification_demandeur->rpa == 'type1' ? 'selected' : '' }}>
+                                                                                    RPA type 1</option>
+                                                                                <option value="type2"
+                                                                                    {{ $qualification_demandeur->rpa == 'type2' ? 'selected' : '' }}>
+                                                                                    RPA type 2</option>
+                                                                                <option value="type3"
+                                                                                    {{ $qualification_demandeur->rpa == 'type3' ? 'selected' : '' }}>
+                                                                                    RPA type 3</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="type_engine_col_update_{{ $qualification_demandeur->id }}"
+                                                                    style="display: none;">
+                                                                    @if ($demande->typeLicence->id === 33)
+                                                                        <div class="form-group">
+                                                                            <label for="ulm">Qualifications
+                                                                                ULM</label>
+                                                                            <select class="form-control" id="ulm"
+                                                                                name="ulm">
+                                                                                <option value="Paramotor"
+                                                                                    {{ $qualification_demandeur->ulm == 'Paramotor' ? 'selected' : '' }}>
+                                                                                    Paramotor</option>
+                                                                                <option value="Glider type aircraft"
+                                                                                    {{ $qualification_demandeur->ulm == 'Glider type aircraft' ? 'selected' : '' }}>
+                                                                                    Glider type aircraft</option>
+                                                                                <option value="Multi Axes"
+                                                                                    {{ $qualification_demandeur->ulm == 'Multi Axes' ? 'selected' : '' }}>
+                                                                                    Multi Axes</option>
+                                                                                <option value="Ultra light airplane"
+                                                                                    {{ $qualification_demandeur->ulm == 'Ultra light airplane' ? 'selected' : '' }}>
+                                                                                    Ultra light airplane</option>
+                                                                                <option value="Ultralight oetostats"
+                                                                                    {{ $qualification_demandeur->ulm == 'Ultralight oetostats' ? 'selected' : '' }}>
+                                                                                    Ultralight oetostats</option>
+                                                                                <option value="Ultra light helicopter"
+                                                                                    {{ $qualification_demandeur->ulm == 'Ultra light helicopter' ? 'selected' : '' }}>
+                                                                                    Ultra light helicopter</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    @endif
+                                                                    @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32]))
+                                                                        <div class="form-group">
+                                                                            <label for="type_moteur">Type d'engins</label>
+                                                                            <select class="form-control" id="type_moteur"
+                                                                                name="type_moteur">
+                                                                                <option value="SE"
+                                                                                    {{ $qualification_demandeur->type_moteur == 'SE' ? 'selected' : '' }}>
+                                                                                    SE</option>
+                                                                                <option value="ME"
+                                                                                    {{ $qualification_demandeur->type_moteur == 'ME' ? 'selected' : '' }}>
+                                                                                    ME</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="instructeur_privilege_col_update_{{ $qualification_demandeur->id }}"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="type_privilege">Privilege</label>
+                                                                        <select class="form-control" id="type_privilege"
+                                                                            name="type_privilege">
+                                                                            @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33]))
+                                                                                <option value="TRI"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'TRI' ? 'selected' : '' }}>
+                                                                                    TRI</option>
+                                                                                <option value="IRI"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'IRI' ? 'selected' : '' }}>
+                                                                                    IRI</option>
+                                                                                <option value="FI"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'FI' ? 'selected' : '' }}>
+                                                                                    FI</option>
+                                                                                <option value="CRI"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'CRI' ? 'selected' : '' }}>
+                                                                                    CRI</option>
+                                                                                <option value="SFI"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'SFI' ? 'selected' : '' }}>
+                                                                                    SFI</option>
+                                                                                <option value="GI"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'GI' ? 'selected' : '' }}>
+                                                                                    GI</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 35)
+                                                                                <option value="ICQ"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'ICQ' ? 'selected' : '' }}>
+                                                                                    ICQ</option>
+                                                                            @endif
+                                                                            @if (in_array($demande->typeLicence->id, [37, 38]))
+                                                                                <option value="AMT Instructor"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'AMT Instructor' ? 'selected' : '' }}>
+                                                                                    AMT Instructor</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 39)
+                                                                                <option value="PNC Instructor"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'PNC Instructor' ? 'selected' : '' }}>
+                                                                                    PNC Instructor</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 36)
+                                                                                <option value="ATE Instructor"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'ATE Instructor' ? 'selected' : '' }}>
+                                                                                    ATE Instructor</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 34)
+                                                                                <option value="RPA Instructor"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'RPA Instructor' ? 'selected' : '' }}>
+                                                                                    RPA Instructor</option>
+                                                                            @endif
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="machine">Machine</label>
+                                                                        <select class="form-control" id="machine"
+                                                                            name="machine">
+                                                                            <option value="A"
+                                                                                {{ $qualification_demandeur->machine == 'A' ? 'selected' : '' }}>
+                                                                                A</option>
+                                                                            <option value="H"
+                                                                                {{ $qualification_demandeur->machine == 'H' ? 'selected' : '' }}>
+                                                                                H</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="type_avion_id">Type d'Avion</label>
+                                                                        <select class="form-control" id="type_avion_id"
+                                                                            name="type_avion_id">
+                                                                            @foreach ($type_avions as $type_avion)
+                                                                                <option value="{{ $type_avion->id }}"
+                                                                                    {{ $qualification_demandeur->type_avion_id == $type_avion->id ? 'selected' : '' }}>
+                                                                                    {{ $type_avion->code }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="examinateur_privilege_col_update_{{ $qualification_demandeur->id }}"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="type_privilege">Privilege</label>
+                                                                        <select class="form-control" id="type_privilege"
+                                                                            name="type_privilege">
+                                                                            @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33]))
+                                                                                <option value="TRE"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'TRE' ? 'selected' : '' }}>
+                                                                                    TRE</option>
+                                                                                <option value="IRE"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'IRE' ? 'selected' : '' }}>
+                                                                                    IRE</option>
+                                                                                <option value="FE"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'FE' ? 'selected' : '' }}>
+                                                                                    FE</option>
+                                                                                <option value="CRE"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'CRE' ? 'selected' : '' }}>
+                                                                                    CRE</option>
+                                                                                <option value="SFE"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'SFE' ? 'selected' : '' }}>
+                                                                                    SFE</option>
+                                                                                <option value="FIE"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'FIE' ? 'selected' : '' }}>
+                                                                                    FIE</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 35)
+                                                                                <option value="ATC Examiner"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'ATC Examiner' ? 'selected' : '' }}>
+                                                                                    ATC Examiner</option>
+                                                                            @endif
+                                                                            @if (in_array($demande->typeLicence->id, [37, 38]))
+                                                                                <option value="AMT Examiner"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'AMT Examiner' ? 'selected' : '' }}>
+                                                                                    AMT Examiner</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 39)
+                                                                                <option value="PNC Examiner"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'PNC Examiner' ? 'selected' : '' }}>
+                                                                                    PNC Examiner</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 36)
+                                                                                <option value="ATE Examiner"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'ATE Examiner' ? 'selected' : '' }}>
+                                                                                    ATE Examiner</option>
+                                                                            @endif
+                                                                            @if ($demande->typeLicence->id === 34)
+                                                                                <option value="RPA Examiner"
+                                                                                    {{ $qualification_demandeur->type_privilege == 'RPA Examiner' ? 'selected' : '' }}>
+                                                                                    RPA Examiner</option>
+                                                                            @endif
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="machine">Machine</label>
+                                                                        <select class="form-control" id="machine"
+                                                                            name="machine">
+                                                                            <option value="A"
+                                                                                {{ $qualification_demandeur->machine == 'A' ? 'selected' : '' }}>
+                                                                                A</option>
+                                                                            <option value="H"
+                                                                                {{ $qualification_demandeur->machine == 'H' ? 'selected' : '' }}>
+                                                                                H</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="type_avion_id">Type d'Avion</label>
+                                                                        <select class="form-control" id="type_avion_id"
+                                                                            name="type_avion_id">
+                                                                            @foreach ($type_avions as $type_avion)
+                                                                                <option value="{{ $type_avion->id }}"
+                                                                                    {{ $qualification_demandeur->type_avion_id == $type_avion->id ? 'selected' : '' }}>
+                                                                                    {{ $type_avion->code }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="atc_qualifications_col_update_{{ $qualification_demandeur->id }}"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="atc">Qualifications ATC</label>
+                                                                        <select class="form-control" id="atc"
+                                                                            name="atc">
+                                                                            <option value="ADC"
+                                                                                {{ $qualification_demandeur->atc == 'ADC' ? 'selected' : '' }}>
+                                                                                ADC</option>
+                                                                            <option value="APP"
+                                                                                {{ $qualification_demandeur->atc == 'APP' ? 'selected' : '' }}>
+                                                                                APP</option>
+                                                                            <option value="APS"
+                                                                                {{ $qualification_demandeur->atc == 'APS' ? 'selected' : '' }}>
+                                                                                APS</option>
+                                                                            <option value="APRC"
+                                                                                {{ $qualification_demandeur->atc == 'APRC' ? 'selected' : '' }}>
+                                                                                APRC</option>
+                                                                            <option value="ACP"
+                                                                                {{ $qualification_demandeur->atc == 'ACP' ? 'selected' : '' }}>
+                                                                                ACP</option>
+                                                                            <option value="ACS"
+                                                                                {{ $qualification_demandeur->atc == 'ACS' ? 'selected' : '' }}>
+                                                                                ACS</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="amt_qualifications_col_update_{{ $qualification_demandeur->id }}"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="amt">Qualifications AMT</label>
+                                                                        <select class="form-control" id="amt"
+                                                                            name="amt">
+                                                                            <option value="A(A)"
+                                                                                {{ $qualification_demandeur->amt == 'A(A)' ? 'selected' : '' }}>
+                                                                                A(A)</option>
+                                                                            <option value="A(H)"
+                                                                                {{ $qualification_demandeur->amt == 'A(H)' ? 'selected' : '' }}>
+                                                                                A(H)</option>
+                                                                            <option value="B1(A)"
+                                                                                {{ $qualification_demandeur->amt == 'B1(A)' ? 'selected' : '' }}>
+                                                                                B1(A)</option>
+                                                                            <option value="B1(H)"
+                                                                                {{ $qualification_demandeur->amt == 'B1(H)' ? 'selected' : '' }}>
+                                                                                B1(H)</option>
+                                                                            <option value="B2(A)"
+                                                                                {{ $qualification_demandeur->amt == 'B2(A)' ? 'selected' : '' }}>
+                                                                                B2(A)</option>
+                                                                            <option value="B2(H)"
+                                                                                {{ $qualification_demandeur->amt == 'B2(H)' ? 'selected' : '' }}>
+                                                                                B2(H)</option>
+                                                                            <option value="B3(A)"
+                                                                                {{ $qualification_demandeur->amt == 'B3(A)' ? 'selected' : '' }}>
+                                                                                B3(A)</option>
+                                                                            <option value="B3(H)"
+                                                                                {{ $qualification_demandeur->amt == 'B3(H)' ? 'selected' : '' }}>
+                                                                                B3(H)</option>
+                                                                            <option value="C(A)"
+                                                                                {{ $qualification_demandeur->amt == 'C(A)' ? 'selected' : '' }}>
+                                                                                C(A)</option>
+                                                                            <option value="C(H)"
+                                                                                {{ $qualification_demandeur->amt == 'C(H)' ? 'selected' : '' }}>
+                                                                                C(H)</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
 
@@ -709,13 +1003,9 @@
                                                         <td>{{ $medical_examination->centre_medical }}</td>
                                                         <td>
                                                             @if ($medical_examination->document)
-                                                                <a target="_blank"
-                                                                    href="{{ asset('/uploads/' . $medical_examination->document) }}"
-                                                                    class="btn btn-primary btn-sm">
-                                                                    <i class="fas fa-download"></i>
-                                                                </a>
-                                                            @else
-                                                                Aucun fichier
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $medical_examination->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
                                                         </td>
                                                         <td>
@@ -1093,10 +1383,11 @@
                                                         <td>{{ $competence_demandeur->validite }}</td>
                                                         <td>{{ $competence_demandeur->centre_formation }}</td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="{{ asset('/uploads/' . $competence_demandeur->document) }}"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            @if ($competence_demandeur->document)
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $competence_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
                                                         </td>
                                                         <td>
 
@@ -1232,8 +1523,10 @@
                                         <div class="form-group">
                                             <label for="type">Type d'entraînement</label>
                                             <select class="form-control" id="type" name="type" placeholder="">
-                                                <option value="Hors Ligne (SIMU)">Hors Ligne (SIMU)
-                                                </option>
+                                                @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32]))
+                                                    <option value="Hors Ligne (SIMU)">Hors Ligne (SIMU)
+                                                    </option>
+                                                @endif
                                                 @if (in_array($demande->typeDemande->id, [1, 3]))
                                                     @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32, 39]))
                                                         <option value="En Ligne">
@@ -1368,10 +1661,11 @@
                                                         <td>{{ $entrainement_demandeur->centre_formation }}</td>
 
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="{{ asset('/uploads/' . $entrainement_demandeur->document) }}"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            @if ($entrainement_demandeur->document)
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $entrainement_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             @if (!$entrainement_demandeur->valider)
@@ -1586,10 +1880,11 @@
                                                         <td>{{ $formation_demandeur->centre_formation }}</td>
                                                         <td>{{ $formation_demandeur->lieu }}</td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="{{ asset('/uploads/' . $formation_demandeur->document) }}"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            @if ($formation_demandeur->document)
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $formation_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             @if (!$formation_demandeur->valider)
@@ -1681,22 +1976,23 @@
                         <div class="card-body">
                             <form id="interruptionForm" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" value="{{ $id }}" id="demande_id" name="demande_id">
+                                <input type="hidden" value="{{ $id }}" id="demande_id"
+                                    name="demande_id">
 
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <label for="date_debut">Date de debut</label>
-                                            <input type="date" class="form-control" id="date_debut" name="date_debut"
-                                                placeholder="">
+                                            <input type="date" class="form-control" id="date_debut"
+                                                name="date_debut" placeholder="">
 
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <label for="date_fin">Date de fin</label>
-                                            <input type="date" class="form-control" id="date_fin" name="date_fin"
-                                                placeholder="">
+                                            <input type="date" class="form-control" id="date_fin"
+                                                name="date_fin" placeholder="">
 
                                         </div>
                                     </div>
@@ -1710,8 +2006,8 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label for="document">Justificatif</label>
-                                            <input type="file" class="form-control" id="document" name="document"
-                                                placeholder="" accept="application/pdf">
+                                            <input type="file" class="form-control" id="document"
+                                                name="document" placeholder="" accept="application/pdf">
 
                                         </div>
                                     </div>
@@ -1749,10 +2045,11 @@
                                                         <td>{{ $interruption_demandeur->date_fin }}</td>
                                                         <td>{{ $interruption_demandeur->raison }}</td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="{{ asset('/uploads/' . $interruption_demandeur->document) }}"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            @if ($interruption_demandeur->document)
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $interruption_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             @if (!$interruption_demandeur->valider)
@@ -2082,10 +2379,11 @@
                                                         <td>{{ $employeur_demandeur->fonction }}</td>
 
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="{{ asset('/uploads/' . $employeur_demandeur->document) }}"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            @if ($employeur_demandeur->document)
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $employeur_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
                                                         </td>
                                                         <td>
 
@@ -2181,77 +2479,30 @@
                         <form method="POST" enctype="multipart/form-data" id="documentForm">
                             @csrf
                             <input type="hidden" value="{{ $id }}" id="demande_id" name="demande_id">
-                            <div class="row">
+                            <div class="row justify-content-center">
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="libele">Libellé de pièce</label>
-                                        <select class="form-control" id="libelle" name="libelle" placeholder="">
-                                            <option value="La carte nationale d'identité">
-                                                La carte nationale d'identité
-                                            </option>
-                                            <option
-                                                value="Les
-                                                                                                        Résultats des examens théoriques et pratiques">
-                                                Les
-                                                Résultats des examens théoriques et pratiques</option>
-                                            <option
-                                                value="Baccalauréat de
-                                                                                                        l'enseignement secondaire">
-                                                Baccalauréat de
-                                                l'enseignement secondaire</option>
 
-                                            <option
-                                                value="Copie des pages du passeport du demandeur
-                                                                                                        permettant son identification">
-                                                Copie des pages du passeport du demandeur
-                                                permettant son identification</option>
-                                            <option value="CV">CV</option>
-                                            <option
-                                                value="Copie authentifiée des diplômes et certificats
-                                                                                                        étrangers">
-                                                Copie authentifiée des diplômes et certificats
-                                                étrangers</option>
-                                            <option value="Copie de la licence étrangère">Copie de la licence étrangère
-                                            </option>
-                                            <option
-                                                value="Copie du baccalauréat (série scientifique ou
-                                                                                                        technologique) ou document équivalent certifié">
-                                                Copie du baccalauréat (série scientifique ou
-                                                technologique) ou document équivalent certifié</option>
-                                            <option
-                                                value="Attestation du pays émetteur
-                                                                                                        certifiant l'authenticité et le total des heures de vol">
-                                                Attestation du pays émetteur
-                                                certifiant l'authenticité et le total des heures de vol</option>
-                                            <option
-                                                value="Copie de l'ensemble des pages du carnet de vol
-                                                                                                        certifiées">
-                                                Copie de l'ensemble des pages du carnet de vol
-                                                certifiées</option>
-                                            <option
-                                                value="Relevé détaillé des heures de vol des six
-                                                                                                        derniers mois">
-                                                Relevé détaillé des heures de vol des six
-                                                derniers mois</option>
-                                            <option
-                                                value="Lettre de l'exploitant aérien mauritanien
-                                                                                                        employeur">
-                                                Lettre de l'exploitant aérien mauritanien
-                                                employeur</option>
-                                        </select>
+                                        <ol>
+                                            @foreach ($type_documents as $index => $type_document)
+                                                <li>
+                                                    <input type="hidden" value="{{ $type_document->id }}"
+                                                        id="type_document_id_{{ $index }}"
+                                                        name="type_document_id[]">
+                                                    {{ $type_document->nom_fr }}
+
+                                                    <input type="file" class="form-control"
+                                                        id="piece_{{ $index }}" name="pieces[]"
+                                                        accept="application/pdf">
+                                                </li>
+                                            @endforeach
+                                        </ol>
+
+
 
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="piece">Pièce</label>
-                                        <input type="file" class="form-control" id="piece" name="piece"
-                                            placeholder="" accept="application/pdf">
-
-                                    </div>
-                                </div>
-
                             </div>
                             <div class="row">
 
@@ -2281,7 +2532,8 @@
                                         <tbody>
                                             @foreach ($documents as $document)
                                                 <tr id="document-{{ $document->id }}">
-                                                    <td>{{ $document->libelle }}</td>
+                                                    <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? $document->nom_fr : $document->nom_en }}
+                                                    </td>
                                                     <td>
                                                         <a target="_blank"
                                                             href="{{ asset('/uploads/' . $document->url) }}"
@@ -2307,20 +2559,7 @@
                                                             <input type="hidden" name="document_id"
                                                                 value="{{ $document->id }}">
                                                             <div class="row">
-                                                                <div class="col-lg-6">
-                                                                    <div class="form-group">
-                                                                        <label>Libellé</label>
-                                                                        <select class="form-control" name="libelle">
-                                                                            <option value="La carte nationale d'identité"
-                                                                                {{ $document->libelle == 'La carte nationale d\'identité' ? 'selected' : '' }}>
-                                                                                La carte nationale d'identité</option>
-                                                                            <option
-                                                                                value="Les Résultats des examens théoriques et pratiques"
-                                                                                {{ $document->libelle == 'Les Résultats des examens théoriques et pratiques' ? 'selected' : '' }}>
-                                                                                Résultats des examens</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
+
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label>Pièce</label>
@@ -2422,6 +2661,7 @@
         $(document).ready(function() {
             // Soumission du formulaire avec AJAX
             $("#licenceForm").submit(function(e) {
+
                 e.preventDefault();
                 let formData = new FormData(this);
 
@@ -2692,9 +2932,35 @@
         });
         $(document).ready(function() {
 
+
+            $('#qualification_update_id').on('change click', function() {
+                let selectedText = $('#qualification_update_id option:selected').data('type');
+
+                const qualificationId = $('#qualification_update_id option:selected').attr(
+                    'data-qualification-id');
+
+
+                const toggleField = (selector, condition) => {
+                    if (selectedText.includes(condition)) {
+                        $(selector).show();
+                    } else {
+                        $(selector).hide().find('input, select').val('');
+                    }
+                };
+
+
+                toggleField('#type_avion_col_update_' + qualificationId, "Qualification Type Machine");
+                toggleField('#type_engine_col_update_' + qualificationId, "Qualification de Class");
+                toggleField('#instructeur_privilege_col_update_' + qualificationId,
+                    "Qualification instructeur");
+                toggleField('#examinateur_privilege_col_update_' + qualificationId,
+                    "Autorisation examinateur");
+                toggleField('#atc_qualifications_col_update_' + qualificationId, "Qualifications ATC");
+                toggleField('#amt_qualifications_col_update_' + qualificationId, "Qualifications AMT");
+
+            });
             $('#qualification_id').on('change click', function() {
                 let selectedText = $('#qualification_id option:selected').data('type');
-
 
                 const toggleField = (selector, condition) => {
                     if (selectedText.includes(condition)) {
@@ -2711,6 +2977,7 @@
                 toggleField('#atc_qualifications_col', "Qualifications ATC");
                 toggleField('#amt_qualifications_col', "Qualifications AMT");
                 //toggleField('#ulm_qualifications_col', "Qualifications ULM");
+
 
 
             });
@@ -3835,7 +4102,7 @@
             $("#submitDocument").click(function(e) {
                 e.preventDefault();
                 let formData = new FormData($("#documentForm")[0]);
-
+                $(this).prop("disabled", true);
                 $.ajax({
                     url: "{{ route('user.store_documents') }}",
                     type: "POST",
@@ -3843,22 +4110,25 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+
                         if (response.success) {
-                            let newRow = `
-                        <tr id="document-${response.document.id}">
-                            <td>${response.document.libelle}</td>
-                            <td>
-                                <a target="_blank" href="/storage/${response.document.url}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}">Supprimer</button>
-                            </td>
-                        </tr>
-                    `;
-                            $("#documentTable tbody").append(newRow);
+                            response.documents.forEach(function(document) {
+                                let newRow = `
+                                <tr id="document-${document.id}">
+                                    <td>${document.nom_fr}</td>
+                                    <td>
+                                        <a target="_blank" href="/storage/${document.url}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm edit-document" data-id="${document.id}">Modifier</button>
+                                        <button class="btn btn-danger btn-sm delete-document" data-id="${document.id}">Supprimer</button>
+                                    </td>
+                                </tr>
+                            `;
+                                $("#documentTable tbody").append(newRow);
+                            });
                             $("#documentForm")[0].reset();
                             // SweetAlert pour confirmer la mise à jour et recharger la page
                             Swal.fire({
@@ -3867,6 +4137,7 @@
                                 text: 'Document cree avec succès !',
                                 confirmButtonText: 'OK'
                             }).then(() => {
+                                $(this).prop("disabled", false);
                                 location
                                     .reload(); // Recharger la page après confirmation
                             });
@@ -3874,11 +4145,13 @@
                         }
                     },
                     error: function(xhr) {
+
                         Swal.fire({
 
                             title: 'Erreur',
                             text: 'Une erreur est survenue lors de la creation.',
                         });
+                        $(this).prop("disabled", false);
                     }
                 });
             });
@@ -3908,14 +4181,14 @@
 
                         if (response.success) {
                             $(`#document-${documentId}`).html(`
-                        <td>${response.document.libelle}</td>
+                        <td>${response.document.nom_fr}</td>
                         <td>
                             <a target="_blank" href="/storage/${response.document.url}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-download"></i>
                             </a>
                         </td>
                         <td>
-                            <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}" data-libelle="${response.document.libelle}">Modifier</button>
+                            <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}" data-libelle="${response.document.nom_fr}">Modifier</button>
                             <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}">Supprimer</button>
                         </td>
                     `);

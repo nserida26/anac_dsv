@@ -5,8 +5,11 @@ use App\Http\Controllers\Admin\QualificationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TypeDocumentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DemandeController;
+use App\Http\Controllers\SmaSlaController;
+use App\Models\TypeDocument;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -66,9 +69,9 @@ Route::group(
 
 
                 Route::get('/dsv/create/{id}', [App\Http\Controllers\DgDsvController::class, 'create'])->name('dsv.create');
-                Route::post('/dsv/store', [App\Http\Controllers\DgDsvController::class, 'store'])->name('dsv.store');
-                Route::get('/dsv/edit/{ordre}', [App\Http\Controllers\DgDsvController::class, 'edit'])->name('dsv.edit');
-                Route::post('/ordre/update/{ordre}', [App\Http\Controllers\DgDsvController::class, 'update'])->name('dsv.ordre.update');
+                Route::patch('/dsv/store/{demande}', [App\Http\Controllers\DgDsvController::class, 'store'])->name('dsv.store');
+                //Route::get('/dsv/edit/{ordre}', [App\Http\Controllers\DgDsvController::class, 'edit'])->name('dsv.edit');
+                //Route::post('/ordre/update/{ordre}', [App\Http\Controllers\DgDsvController::class, 'update'])->name('dsv.ordre.update');
                 Route::patch('/ordre/valider/{ordre}', [App\Http\Controllers\DgDsvController::class, 'valider'])->name('dsv.ordre.valider');
                 Route::delete('/ordre/destroy/{ordre}', [App\Http\Controllers\DgDsvController::class, 'destroy'])
                     ->name('dsv.ordre.destroy');
@@ -137,23 +140,28 @@ Route::group(
                 Route::get('/edit/{examen}', [App\Http\Controllers\EvaluateurController::class, 'edit'])->name('evaluateur.edit');
                 Route::get('/show/{examen}', [App\Http\Controllers\EvaluateurController::class, 'show'])->name('evaluateur.show');
                 Route::post('/update/{examen}', [App\Http\Controllers\EvaluateurController::class, 'update'])->name('evaluateur.update');
-                Route::patch('/valider/{examen}', [App\Http\Controllers\EvaluateurController::class, 'valider'])->name('evaluateur.valider');
+                Route::patch('/valider/{table}/{id}', [App\Http\Controllers\EvaluateurController::class, 'valider'])->name('evaluateur.valider');
+                //Route::patch('/valider/{table}/{id}', [App\Http\Controllers\EvaluateurController::class, 'valider'])->name('evaluateur.valider');
+                //Route::patch('/rejeter/{table}/{id}/{demande}', [App\Http\Controllers\SmaSlaController::class, 'rejeter'])->name('rejeter');
             });
 
-        Route::middleware(['auth:web', 'role:sma|sla'])
+        Route::middleware(['auth:web', 'role:sma|sla|admin'])
             ->prefix('sec')
             ->group(function () {
                 Route::get('/sma', [App\Http\Controllers\SmaSlaController::class, 'index'])->name('sma');
                 Route::get('/sma/show/{id}', [App\Http\Controllers\SmaSlaController::class, 'show'])->name('sma.show');
                 Route::patch('/sma/valider/{id}', [App\Http\Controllers\SmaSlaController::class, 'validerSma'])->name('sma.valider');
+                Route::patch('/sma/annoter/{id}', [App\Http\Controllers\SmaSlaController::class, 'annoter'])->name('sma.annoter');
 
                 Route::get('/sla', [App\Http\Controllers\SmaSlaController::class, 'index'])->name('sla');
                 Route::get('/sla/show/{id}', [App\Http\Controllers\SmaSlaController::class, 'show'])->name('sla.show');
                 Route::patch('/sla/valider/{id}', [App\Http\Controllers\SmaSlaController::class, 'validerSla'])->name('sla.valider');
-                Route::patch('/rejeter/{table}/{id}/{demande}', [App\Http\Controllers\SmaSlaController::class, 'rejeter'])->name('rejeter');
+                Route::post('/rejeter', [App\Http\Controllers\SmaSlaController::class, 'rejeter'])->name('rejeter');
 
                 //valider
                 Route::patch('/sma/valider_examen/{examen}', [App\Http\Controllers\SmaSlaController::class, 'valider'])->name('sma.valider_examen');
+                Route::post('/dsv/{demande}/checklist', [SmaSlaController::class, 'checklist'])
+                    ->name('dsv.checklist');
             });
         Route::middleware(['auth:web', 'role:user'])
             ->prefix('user')
@@ -164,7 +172,7 @@ Route::group(
                 Route::get('/', [App\Http\Controllers\DemandeController::class, 'index'])->name('user');
                 Route::get('/create', [App\Http\Controllers\DemandeController::class, 'create'])->name('user.create');
 
-                Route::get('/payer/{paiement}', [App\Http\Controllers\DemandeController::class, 'pay'])->name('user.pay');
+                Route::get('/payer/{id}', [App\Http\Controllers\DemandeController::class, 'pay'])->name('user.pay');
                 Route::post('/update/{paiement}', [App\Http\Controllers\DemandeController::class, 'update'])->name('user.update');
 
                 Route::get('/edit/{id}', [App\Http\Controllers\DemandeController::class, 'edit'])->name('user.edit');
@@ -255,10 +263,13 @@ Route::group(
                 Route::patch('/demandes/valider/{id}', [App\Http\Controllers\AdminController::class, 'valider'])->name('admin.valider');
                 Route::post('/demandes/update/{demande}', [App\Http\Controllers\AdminController::class, 'update'])->name('demandes.update');
 
+                Route::patch('/demandes/generer/{id}', [App\Http\Controllers\AdminController::class, 'generateLicence'])->name('admin.generer');
+
                 Route::get('/licences', [App\Http\Controllers\AdminController::class, 'licences'])->name('licences');
                 Route::get('/licences/show/{licence}', [App\Http\Controllers\AdminController::class, 'showLicence'])->name('licences.show');
                 Route::post('/licences/update/{licence}', [App\Http\Controllers\AdminController::class, 'updateLicence'])->name('licences.update');
                 Route::patch('/licences/valider/{licence}', [App\Http\Controllers\AdminController::class, 'validerLicence'])->name('licences.valider');
+                Route::patch('/licences/bloquer/{licence}', [App\Http\Controllers\AdminController::class, 'bloquerLicence'])->name('licences.bloquer');
 
                 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
                 Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
@@ -268,6 +279,7 @@ Route::group(
                 Route::resource('qualifications', QualificationController::class);
                 Route::resource('autorites', AutoriteController::class);
                 Route::resource('settings', SettingController::class);
+                Route::resource('type-documents', TypeDocumentController::class);
 
                 Route::post('users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign-roles');
             });

@@ -15,6 +15,18 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <style>
+        #documentViewer {
+
+            width: 105mm;
+            height: 148mm;
+            max-width: 100%;
+            /* Makes it responsive */
+            display: block;
+            margin: auto;
+            /* Center horizontally */
+        }
+    </style>
 @endpush
 @section('content')
     <div class="container">
@@ -22,132 +34,131 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('user.demandes')</div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="demandes">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
-                                        <th></th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($demandes as $demande)
-                                        <tr>
-                                            <td>{{ $demande->code }}</td>
-                                            <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->type_demande }}</td>
-                                            <td>{{ $demande->type_licence }}</td>
-                                            <td>{{ $demande->status }}</td>
-                                            <td>
-                                                @empty($demande->demandeur->examens)
-                                                @endempty
-
-                                            </td>
-                                            <td>
-
-
-
-
-                                                @if (optional($demande->etatDemande)->demandeur_cree_demande === 1)
-                                                    <a href="{{ route('sma.show', $demande->id) }}"
-                                                        class="btn btn-info btn-sm">View</a>
-                                                @endif
-                                                @if (optional($demande->etatDemande)->dg_annoter === 1 &&
-                                                        optional($demande->etatDemande)->dg_rejeter !== 1 &&
-                                                        optional($demande->etatDemande)->dsv_annoter === 1 &&
-                                                        optional($demande->etatDemande)->dsv_rejeter !== 1 &&
-                                                        optional($demande->etatDemande)->pel_annoter === 1 &&
-                                                        optional($demande->etatDemande)->sm_valider !== 1)
-                                                    {{-- &&
-                                                            optional($demande->demandeur->examens)->isNotEmpty() --}}
-                                                    <form action="{{ route('sma.valider', $demande->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Confirmer la validation de dossier medical ?')">
-                                                            Valider
-                                                        </button>
-                                                    </form>
-                                                @endif
-
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-
+                    <div class="card-header bg-primary text-white">
+                        Aptitude Médicale
                     </div>
+                    <div class="card-body">
+
+                        @isset($medical_examinations)
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Date de l'Examen</th>
+                                                <th>Validité en mois</th>
+                                                <th>Centre Médical</th>
+                                                <th> Justificatif</th>
+                                                <th>Actions </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($medical_examinations as $medical_examination)
+                                                <tr>
+                                                    <td>{{ $medical_examination->date_examen }}</td>
+                                                    <td>{{ $medical_examination->validite }}</td>
+                                                    <td>{{ $medical_examination->centre_medical }}</td>
+                                                    <td>
+                                                        @if ($medical_examination->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $medical_examination->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if (!$medical_examination->valider_evaluateur)
+                                                            <form
+                                                                action="{{ route('evaluateur.valider', ['table' => 'medical_examinations', 'id' => $medical_examination->id]) }}"
+                                                                method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('PATCH')
+                                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                                    onclick="return confirm('Confirmer la validation de cette  informtion ?')">
+                                                                    Valider
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            Valideé
+                                                        @endif
+
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endisset
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div class="row">
+        @if ($examens->isNotEmpty())
+            <div class="row">
 
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">@lang('evaluateur.examens')</div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="demandes">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-
-                                        <th>Date Examen</th>
-                                        <th>Aptitude</th>
-
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($examens as $examen)
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">@lang('evaluateur.examens')</div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped" id="demandes">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $examen->id }}</td>
-                                            <td>{{ $examen->demandeur->np }}</td>
-                                            <td>{{ $examen->date_examen }}</td>
-                                            <td>{{ $examen->aptitude }}</td>
+                                            <th>ID</th>
+                                            <th>Demandeur</th>
 
-                                            <td>
+                                            <th>Date Examen</th>
+                                            <th>Aptitude</th>
 
-                                                <a href="{{ route('evaluateur.show', $examen) }}"
-                                                    class="btn btn-info btn-sm">Show</a>
-                                                @if ($examen->valider_examinateur && !$examen->valider_evaluateur)
-                                                    <a href="{{ route('evaluateur.edit', $examen) }}"
-                                                        class="btn btn-primary btn-sm">Edit</a>
-
-                                                    <form action="{{ route('evaluateur.valider', $examen) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <button type="submit" class="btn btn-warning btn-sm"
-                                                            onclick="return confirm('Confirmer la validation ?')">Valider</button>
-                                                    </form>
-                                                @endif
-
-
-                                            </td>
+                                            <th>Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($examens as $examen)
+                                            <tr>
+                                                <td>{{ $examen->id }}</td>
+                                                <td>{{ $examen->demandeur->np }}</td>
+                                                <td>{{ $examen->date_examen }}</td>
+                                                <td>{{ $examen->aptitude }}</td>
+
+                                                <td>
+
+                                                    <a href="{{ route('evaluateur.show', $examen) }}"
+                                                        class="btn btn-info btn-sm">Show</a>
+                                                    @if ($examen->valider_examinateur && !$examen->valider_evaluateur)
+                                                        <a href="{{ route('evaluateur.edit', $examen) }}"
+                                                            class="btn btn-primary btn-sm">Edit</a>
+
+                                                        <form
+                                                            action="{{ route('evaluateur.valider', ['table' => 'examens_medicaux', 'id' => $examen->id]) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-warning btn-sm"
+                                                                onclick="return confirm('Confirmer la validation ?')">Valider</button>
+                                                        </form>
+                                                    @endif
+
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
 
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
+
     </div>
 @endsection
 @push('script')

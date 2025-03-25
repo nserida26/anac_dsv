@@ -66,14 +66,15 @@
                                             <th><?php echo app('translator')->get('daf.date_paiement'); ?></th>
                                             <td><?php echo e($paiement->date_paiement ?? '-'); ?></td>
                                         </tr>
-                                        
+
 
                                         <tr>
                                             <th><?php echo app('translator')->get('daf.quittance'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($paiement->quittance) && $paiement->quittance != ''): ?>
-                                                    <iframe id="documentViewer"
-                                                        src="<?php echo e(asset('/uploads/' . $paiement->quittance)); ?>">
+                                                    <button class="btn btn-primary"
+                                                        onclick="openPdfModal('<?php echo e(asset('/uploads/' . $paiement->quittance)); ?>')"><i
+                                                            class="fas fa-eye"></i></button>
                                                 <?php else: ?>
                                                     -
                                                 <?php endif; ?>
@@ -98,4 +99,5 @@
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('custom'); ?>
 <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make('daf.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\lapto\OneDrive\Documents\laravel\anac\resources\views/daf/show.blade.php ENDPATH**/ ?>

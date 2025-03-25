@@ -67,14 +67,15 @@
                                             <th>@lang('daf.date_paiement')</th>
                                             <td>{{ $paiement->date_paiement ?? '-' }}</td>
                                         </tr>
-                                        
+
 
                                         <tr>
                                             <th>@lang('daf.quittance')</th>
                                             <td class="text-center">
                                                 @if (isset($paiement->quittance) && $paiement->quittance != '')
-                                                    <iframe id="documentViewer"
-                                                        src="{{ asset('/uploads/' . $paiement->quittance) }}">
+                                                    <button class="btn btn-primary"
+                                                        onclick="openPdfModal('{{ asset('/uploads/' . $paiement->quittance) }}')"><i
+                                                            class="fas fa-eye"></i></button>
                                                 @else
                                                     -
                                                 @endif

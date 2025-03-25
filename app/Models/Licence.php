@@ -23,7 +23,13 @@ class Licence extends Model
         'date_deliverance',
         'date_mise_a_jour',
         'date_expiration',
-        'licence_valide'
+        'licence_valide',
+        'licence_bloque',
+        'signature_dg',
+        'signature_dsv',
+        'cachet',
+        'demande_id',
+        'demandeur_id'
     ];
 
     protected $casts = [
@@ -37,5 +43,9 @@ class Licence extends Model
     public function demande()
     {
         return $this->belongsTo(Demande::class, 'demande_id');
+    }
+    public function demandeur()
+    {
+        return $this->belongsTo(Demandeur::class, 'demandeur_id');
     }
 }

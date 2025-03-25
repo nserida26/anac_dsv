@@ -57,7 +57,7 @@
                                             <td><?php echo e($demandeur->adresse ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.employeur'); ?></th>
+                                            <th><?php echo app('translator')->get('user.compagnie'); ?></th>
                                             <td><?php echo e($demandeur->compagnie->nom_entreprise ?? '-'); ?></td>
                                         </tr>
                                         <tr>

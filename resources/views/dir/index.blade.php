@@ -33,6 +33,9 @@
                                         <th>Phase</th>
                                         <th>Type de licence</th>
                                         <th>Status</th>
+                                        @if (auth()->user()->hasRole('dg'))
+                                            <th>#</th>
+                                        @endif
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -40,10 +43,28 @@
                                     @foreach ($demandes as $demande)
                                         <tr>
                                             <td>{{ $demande->code }}</td>
-                                            <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->type_demande }}</td>
-                                            <td>{{ $demande->type_licence }}</td>
+                                            <td>{{ optional($demande->demandeur)->np }}</td>
+                                            <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en }}
+                                            </td>
+                                            <td>{{ $demande->typeLicence->nom }}</td>
                                             <td>{{ $demande->status }}</td>
+                                            @if (auth()->user()->hasRole('dg'))
+                                                <td>
+
+                                                    @if ($demande->etatDemande->dsv_dg_annoter)
+                                                        <span class="badge badge-primary">Annoter par DSV</span>
+                                                    @endif
+                                                    @if ($demande->etatDemande->dsv_dg_valider)
+                                                        <span class="badge badge-primary">Valider par DSV</span>
+                                                    @endif
+                                                    @if ($demande->etatDemande->dsv_dg_signer)
+                                                        <span class="badge badge-primary">Signer par DSV</span>
+                                                    @endif
+
+
+                                                </td>
+                                            @endif
+
                                             <td>
 
 
@@ -90,7 +111,9 @@
                                                             </button>
                                                         </form>
                                                     @endif
-                                                    @if (optional($demande->paiement)->statut === 'Payé' && optional($demande->etatDemande)->dg_signer !== 1)
+                                                    @if (optional($demande->paiement)->statut === 'Payé' &&
+                                                            optional($demande->etatDemande)->dg_signer !== 1 &&
+                                                            optional($demande->typeDemande)->id === 1)
                                                         <form action="{{ route('dg.signer', $demande->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
@@ -167,14 +190,25 @@
                                                             optional($demande->etatDemande)->pel_valider === 1 &&
                                                             optional($demande->etatDemande)->dsv_valider === 1 &&
                                                             optional($demande->etatDemande)->dg_valider === 1 &&
-                                                            optional($demande->ordre)->statut !== 'Généré')
-                                                        <a href="{{ route('dsv.create', $demande->id) }}"
+                                                            empty($demande->ordre))
+                                                        {{-- <a href="{{ route('dsv.create', $demande->id) }}"
                                                             class="btn btn-primary btn-sm">Generer l'Ordre de
-                                                            recette</a>
+                                                            recette</a> --}}
+                                                        <form action="{{ route('dsv.store', $demande) }}" method="POST"
+                                                            class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Confirmer la generation ?')">
+                                                                Generer l'Ordre de
+                                                                recette
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                     @if (optional($demande->paiement)->statut === 'Payé' &&
-                                                            optional($demande->etatDemande)->dg_signer === 1 &&
-                                                            optional($demande->etatDemande)->dsv_signer !== 1)
+                                                            //optional($demande->etatDemande)->dg_signer === 1 &&
+                                                            optional($demande->etatDemande)->dsv_signer !== 1 &&
+                                                            optional($demande->typeDemande)->id !== 1)
                                                         <form action="{{ route('dsv.signer', $demande->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
@@ -217,7 +251,7 @@
                                             <th>Date recette</th>
                                             <th>Montant</th>
                                             <th>Status</th>
-                                            <th>Document</th>
+
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -230,17 +264,10 @@
                                                 <td>{{ $ordre->montant }}</td>
 
                                                 <td>{{ $ordre->statut }}</td>
-                                                <td>
-                                                    <a target="_blank" href="{{ asset('/uploads/' . $ordre->ordre) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class="fas fa-download"></i>
-                                                    </a>
-                                                </td>
+
                                                 <td>
 
                                                     @if ($ordre->statut !== 'Validé')
-                                                        <a href="{{ route('dsv.edit', $ordre) }}"
-                                                            class="btn btn-primary btn-sm">Edit</a>
                                                         <form action="{{ route('dsv.ordre.valider', $ordre) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf

@@ -43,7 +43,7 @@
                                     <?php $__currentLoopData = $licences; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $licence): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
                                             <td><?php echo e($licence->categorie_licence); ?></td>
-                                            <td><?php echo e($licence->type_licence); ?> (<?php echo e($licence->machine_licence); ?>)</td>
+                                            <td><?php echo e($licence->type_licence); ?></td>
                                             <td><?php echo e($licence->numero_licence); ?></td>
                                             <td><?php echo e($licence->np); ?></td>
                                             <td><?php echo e($licence->date_naissance); ?></td>
@@ -58,7 +58,16 @@
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field('PATCH'); ?>
                                                         <button type="submit" class="btn btn-primary btn-sm"
-                                                            onclick="return confirm('Confirmer la licence ?')">Valider</button>
+                                                            onclick="return confirm('Confirmer la validation de la licence ?')">Valider</button>
+                                                    </form>
+                                                <?php endif; ?>
+                                                <?php if($licence->licence_valide): ?>
+                                                    <form action="<?php echo e(route('licences.bloquer', $licence)); ?>" method="POST"
+                                                        class="d-inline">
+                                                        <?php echo csrf_field(); ?>
+                                                        <?php echo method_field('PATCH'); ?>
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Confirmer la révocation  de la licence ?')">Révoquer</button>
                                                     </form>
                                                 <?php endif; ?>
 

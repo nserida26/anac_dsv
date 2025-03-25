@@ -7,7 +7,8 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('user')); ?>">
-        <?php echo app('translator')->get('user.dashboard'); ?> </a>
+        <?php echo app('translator')->get('user.dashboard'); ?>
+    </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
     <?php echo app('translator')->get('user.dashboard'); ?>
@@ -25,11 +26,25 @@
                 <!-- general form elements -->
 
                 <h4 class="text-center"><?php echo e($demande->typeDemande->nom_fr); ?> - <?php echo e($demande->typeLicence->nom); ?></h4>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Tous les motifs de rejet
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <?php $__currentLoopData = $demande->qualifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if(isset($qualification->motif)): ?>
+                                    <li><?php echo e($qualification->motif); ?></li>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
+                        </ul>
+                    </div>
+                </div>
                 <?php if($demande->typeDemande->id !== 1): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Licence
+                            <?php echo app('translator')->get('user.licence'); ?>
                         </div>
 
                         <div class="card-body">
@@ -39,20 +54,20 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="num_licence">Numéro de licence</label>
+                                            <label for="num_licence"><?php echo app('translator')->get('user.licence_number'); ?></label>
                                             <input type="text" class="form-control" id="num_licence" name="num_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_licence">Date de licence</label>
+                                            <label for="date_licence"><?php echo app('translator')->get('user.licence_date'); ?></label>
                                             <input type="date" class="form-control" id="date_licence"
                                                 name="date_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="autorite_id">Autorité de délivrance</label>
+                                            <label for="autorite_id"><?php echo app('translator')->get('user.issuing_authority'); ?></label>
                                             <select class="form-control" id="autorite_id" name="autorite_id">
                                                 <?php $__currentLoopData = $autorites; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $autorite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($autorite->id); ?>"><?php echo e($autorite->libelle); ?></option>
@@ -62,14 +77,14 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="lieu_delivrance">Lieu de délivrance</label>
+                                            <label for="lieu_delivrance"><?php echo app('translator')->get('user.place_of_issue'); ?></label>
                                             <input type="text" class="form-control" id="lieu_delivrance"
                                                 name="lieu_delivrance">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('user.justificatif'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -77,9 +92,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button type="submit" class="btn btn-success float-right"><i
-                                                class="fas fa-plus"></i>
-                                            Submit</button>
+                                        <button type="submit" class="btn btn-success float-right">
+                                            <i class="fas fa-plus"></i> <?php echo app('translator')->get('user.submit'); ?>
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -91,12 +106,13 @@
                                         <table class="table table-striped table-bordered" id="licenceTable">
                                             <thead>
                                                 <tr>
-                                                    <th>Date de licence</th>
-                                                    <th>Numéro de licence</th>
-                                                    <th>Autorité de délivrance</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('user.licence_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('user.licence_number'); ?></th>
+                                                    <th><?php echo app('translator')->get('user.issuing_authority'); ?></th>
+                                                    <th><?php echo app('translator')->get('user.place_of_issue'); ?></th>
+                                                    <th><?php echo app('translator')->get('user.justificatif'); ?></th>
+
+                                                    <th><?php echo app('translator')->get('user.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -107,86 +123,19 @@
                                                         <td><?php echo e($licence_demandeur->autorite->libelle); ?></td>
                                                         <td><?php echo e($licence_demandeur->lieu_delivrance); ?></td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="<?php echo e(asset('/uploads/' . $licence_demandeur->document)); ?>"
-                                                                class="btn btn-primary btn-sm">
-                                                                <i class="fas fa-download"></i>
-                                                            </a>
+                                                            <?php if($licence_demandeur->document): ?>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $licence_demandeur->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            <?php endif; ?>
                                                         </td>
                                                         <td>
                                                             <?php if(!$licence_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-licence"
-                                                                    data-id="<?php echo e($licence_demandeur->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($licence_demandeur->id); ?>"><?php echo app('translator')->get('user.edit'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-licence"
-                                                                data-id="<?php echo e($licence_demandeur->id); ?>">Supprimer</button>
-                                                        </td>
-                                                    </tr>
-
-                                                    
-                                                    <tr id="edit-form-licence-<?php echo e($licence_demandeur->id); ?>"
-                                                        style="display: none;">
-                                                        <td colspan="6">
-                                                            <form id="updateLicenceForm-<?php echo e($licence_demandeur->id); ?>"
-                                                                enctype="multipart/form-data">
-                                                                <?php echo csrf_field(); ?>
-                                                                <?php echo method_field('PUT'); ?>
-                                                                <input type="hidden" name="licence_id"
-                                                                    value="<?php echo e($licence_demandeur->id); ?>">
-                                                                <div class="row">
-                                                                    <div class="col-lg-2">
-                                                                        <div class="form-group">
-                                                                            <label>Numéro de licence</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="num_licence"
-                                                                                value="<?php echo e($licence_demandeur->num_licence); ?>">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <div class="form-group">
-                                                                            <label>Date de licence</label>
-                                                                            <input type="date" class="form-control"
-                                                                                name="date_licence"
-                                                                                value="<?php echo e($licence_demandeur->date_licence); ?>">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <div class="form-group">
-                                                                            <label>Autorité de délivrance</label>
-                                                                            <select class="form-control" name="autorite_id">
-                                                                                <?php $__currentLoopData = $autorites; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $autorite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                                    <option value="<?php echo e($autorite->id); ?>"
-                                                                                        <?php echo e($licence_demandeur->autorite_id == $autorite->id ? 'selected' : ''); ?>>
-                                                                                        <?php echo e($autorite->libelle); ?>
-
-                                                                                    </option>
-                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <div class="form-group">
-                                                                            <label>Lieu de délivrance</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="lieu_delivrance"
-                                                                                value="<?php echo e($licence_demandeur->lieu_delivrance); ?>">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <div class="form-group">
-                                                                            <label>Justificatif (Nouveau)</label>
-                                                                            <input type="file" class="form-control"
-                                                                                name="document" accept="application/pdf">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <button type="submit"
-                                                                    class="btn btn-primary btn-sm update-licence"
-                                                                    data-id="<?php echo e($licence_demandeur->id); ?>">Enregistrer</button>
-                                                                <button type="button" class="btn btn-secondary btn-sm"
-                                                                    onclick="toggleEditForm(<?php echo e($licence_demandeur->id); ?>, 'licence')">Annuler</button>
-                                                            </form>
+                                                                data-id="<?php echo e($licence_demandeur->id); ?>"><?php echo app('translator')->get('user.delete'); ?></button>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -229,8 +178,7 @@
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <label for="date_examen">Date de l'Examen</label>
-                                            <input type="date" class="form-control" id="date_examen"
-                                                name="date_examen">
+                                            <input type="date" class="form-control" id="date_examen" name="date_examen">
                                         </div>
                                     </div>
 
@@ -533,13 +481,9 @@
                                                         <td><?php echo e($qualification_demandeur->lieu); ?></td>
                                                         <td>
                                                             <?php if($qualification_demandeur->document): ?>
-                                                                <a target="_blank"
-                                                                    href="<?php echo e(asset('/uploads/' . $qualification_demandeur->document)); ?>"
-                                                                    class="btn btn-primary btn-sm">
-                                                                    <i class="fas fa-download"></i>
-                                                                </a>
-                                                            <?php else: ?>
-                                                                Aucun fichier
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $qualification_demandeur->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             <?php endif; ?>
 
                                                         </td>
@@ -567,10 +511,15 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-3">
                                                                         <label>Qualification</label>
-                                                                        <select class="form-control" name="qualification_id">
+                                                                        <select class="form-control"
+                                                                            id="qualification_update_id"
+                                                                            name="qualification_id">
                                                                             <?php $__currentLoopData = $qualifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                                 <option value="<?php echo e($qualification->id); ?>"
-                                                                                    <?php echo e($qualification_demandeur->qualification_id == $qualification->id ? 'selected' : ''); ?>>
+                                                                                    <?php echo e($qualification_demandeur->qualification_id == $qualification->id ? 'selected' : ''); ?>
+
+                                                                                    data-type="<?php echo e($qualification->libelle); ?>"
+                                                                                    data-qualification-id="<?php echo e($qualification->id); ?>">
                                                                                     <?php echo e($qualification->libelle); ?>
 
                                                                                 </option>
@@ -610,6 +559,323 @@
                                                                         <label>Justificatif</label>
                                                                         <input type="file" class="form-control"
                                                                             name="document" accept="application/pdf">
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Champ "Type d'Avion" caché par défaut -->
+                                                                <div class="col-lg-3"
+                                                                    id="type_avion_col_update_<?php echo e($qualification_demandeur->id); ?>"
+                                                                    style="display: none;">
+                                                                    <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 36, 39])): ?>
+                                                                        <div class="form-group">
+                                                                            <label for="type_avion_id">Type d'Avion</label>
+                                                                            <select class="form-control" id="type_avion_id"
+                                                                                name="type_avion_id">
+                                                                                <?php $__currentLoopData = $type_avions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type_avion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                    <option value="<?php echo e($type_avion->id); ?>"
+                                                                                        <?php echo e($qualification_demandeur->type_avion_id == $type_avion->id ? 'selected' : ''); ?>>
+                                                                                        <?php echo e($type_avion->code); ?>
+
+                                                                                    </option>
+                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    <?php endif; ?>
+                                                                    <?php if($demande->typeLicence->id === 34): ?>
+                                                                        <div class="form-group">
+                                                                            <label for="rpa">Qualifications
+                                                                                RPA</label>
+                                                                            <select class="form-control" id="rpa"
+                                                                                name="rpa">
+                                                                                <option value="type1"
+                                                                                    <?php echo e($qualification_demandeur->rpa == 'type1' ? 'selected' : ''); ?>>
+                                                                                    RPA type 1</option>
+                                                                                <option value="type2"
+                                                                                    <?php echo e($qualification_demandeur->rpa == 'type2' ? 'selected' : ''); ?>>
+                                                                                    RPA type 2</option>
+                                                                                <option value="type3"
+                                                                                    <?php echo e($qualification_demandeur->rpa == 'type3' ? 'selected' : ''); ?>>
+                                                                                    RPA type 3</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    <?php endif; ?>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="type_engine_col_update_<?php echo e($qualification_demandeur->id); ?>"
+                                                                    style="display: none;">
+                                                                    <?php if($demande->typeLicence->id === 33): ?>
+                                                                        <div class="form-group">
+                                                                            <label for="ulm">Qualifications
+                                                                                ULM</label>
+                                                                            <select class="form-control" id="ulm"
+                                                                                name="ulm">
+                                                                                <option value="Paramotor"
+                                                                                    <?php echo e($qualification_demandeur->ulm == 'Paramotor' ? 'selected' : ''); ?>>
+                                                                                    Paramotor</option>
+                                                                                <option value="Glider type aircraft"
+                                                                                    <?php echo e($qualification_demandeur->ulm == 'Glider type aircraft' ? 'selected' : ''); ?>>
+                                                                                    Glider type aircraft</option>
+                                                                                <option value="Multi Axes"
+                                                                                    <?php echo e($qualification_demandeur->ulm == 'Multi Axes' ? 'selected' : ''); ?>>
+                                                                                    Multi Axes</option>
+                                                                                <option value="Ultra light airplane"
+                                                                                    <?php echo e($qualification_demandeur->ulm == 'Ultra light airplane' ? 'selected' : ''); ?>>
+                                                                                    Ultra light airplane</option>
+                                                                                <option value="Ultralight oetostats"
+                                                                                    <?php echo e($qualification_demandeur->ulm == 'Ultralight oetostats' ? 'selected' : ''); ?>>
+                                                                                    Ultralight oetostats</option>
+                                                                                <option value="Ultra light helicopter"
+                                                                                    <?php echo e($qualification_demandeur->ulm == 'Ultra light helicopter' ? 'selected' : ''); ?>>
+                                                                                    Ultra light helicopter</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    <?php endif; ?>
+                                                                    <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32])): ?>
+                                                                        <div class="form-group">
+                                                                            <label for="type_moteur">Type d'engins</label>
+                                                                            <select class="form-control" id="type_moteur"
+                                                                                name="type_moteur">
+                                                                                <option value="SE"
+                                                                                    <?php echo e($qualification_demandeur->type_moteur == 'SE' ? 'selected' : ''); ?>>
+                                                                                    SE</option>
+                                                                                <option value="ME"
+                                                                                    <?php echo e($qualification_demandeur->type_moteur == 'ME' ? 'selected' : ''); ?>>
+                                                                                    ME</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    <?php endif; ?>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="instructeur_privilege_col_update_<?php echo e($qualification_demandeur->id); ?>"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="type_privilege">Privilege</label>
+                                                                        <select class="form-control" id="type_privilege"
+                                                                            name="type_privilege">
+                                                                            <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33])): ?>
+                                                                                <option value="TRI"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'TRI' ? 'selected' : ''); ?>>
+                                                                                    TRI</option>
+                                                                                <option value="IRI"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'IRI' ? 'selected' : ''); ?>>
+                                                                                    IRI</option>
+                                                                                <option value="FI"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'FI' ? 'selected' : ''); ?>>
+                                                                                    FI</option>
+                                                                                <option value="CRI"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'CRI' ? 'selected' : ''); ?>>
+                                                                                    CRI</option>
+                                                                                <option value="SFI"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'SFI' ? 'selected' : ''); ?>>
+                                                                                    SFI</option>
+                                                                                <option value="GI"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'GI' ? 'selected' : ''); ?>>
+                                                                                    GI</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 35): ?>
+                                                                                <option value="ICQ"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'ICQ' ? 'selected' : ''); ?>>
+                                                                                    ICQ</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if(in_array($demande->typeLicence->id, [37, 38])): ?>
+                                                                                <option value="AMT Instructor"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'AMT Instructor' ? 'selected' : ''); ?>>
+                                                                                    AMT Instructor</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 39): ?>
+                                                                                <option value="PNC Instructor"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'PNC Instructor' ? 'selected' : ''); ?>>
+                                                                                    PNC Instructor</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 36): ?>
+                                                                                <option value="ATE Instructor"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'ATE Instructor' ? 'selected' : ''); ?>>
+                                                                                    ATE Instructor</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 34): ?>
+                                                                                <option value="RPA Instructor"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'RPA Instructor' ? 'selected' : ''); ?>>
+                                                                                    RPA Instructor</option>
+                                                                            <?php endif; ?>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="machine">Machine</label>
+                                                                        <select class="form-control" id="machine"
+                                                                            name="machine">
+                                                                            <option value="A"
+                                                                                <?php echo e($qualification_demandeur->machine == 'A' ? 'selected' : ''); ?>>
+                                                                                A</option>
+                                                                            <option value="H"
+                                                                                <?php echo e($qualification_demandeur->machine == 'H' ? 'selected' : ''); ?>>
+                                                                                H</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="type_avion_id">Type d'Avion</label>
+                                                                        <select class="form-control" id="type_avion_id"
+                                                                            name="type_avion_id">
+                                                                            <?php $__currentLoopData = $type_avions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type_avion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <option value="<?php echo e($type_avion->id); ?>"
+                                                                                    <?php echo e($qualification_demandeur->type_avion_id == $type_avion->id ? 'selected' : ''); ?>>
+                                                                                    <?php echo e($type_avion->code); ?>
+
+                                                                                </option>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="examinateur_privilege_col_update_<?php echo e($qualification_demandeur->id); ?>"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="type_privilege">Privilege</label>
+                                                                        <select class="form-control" id="type_privilege"
+                                                                            name="type_privilege">
+                                                                            <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33])): ?>
+                                                                                <option value="TRE"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'TRE' ? 'selected' : ''); ?>>
+                                                                                    TRE</option>
+                                                                                <option value="IRE"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'IRE' ? 'selected' : ''); ?>>
+                                                                                    IRE</option>
+                                                                                <option value="FE"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'FE' ? 'selected' : ''); ?>>
+                                                                                    FE</option>
+                                                                                <option value="CRE"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'CRE' ? 'selected' : ''); ?>>
+                                                                                    CRE</option>
+                                                                                <option value="SFE"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'SFE' ? 'selected' : ''); ?>>
+                                                                                    SFE</option>
+                                                                                <option value="FIE"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'FIE' ? 'selected' : ''); ?>>
+                                                                                    FIE</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 35): ?>
+                                                                                <option value="ATC Examiner"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'ATC Examiner' ? 'selected' : ''); ?>>
+                                                                                    ATC Examiner</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if(in_array($demande->typeLicence->id, [37, 38])): ?>
+                                                                                <option value="AMT Examiner"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'AMT Examiner' ? 'selected' : ''); ?>>
+                                                                                    AMT Examiner</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 39): ?>
+                                                                                <option value="PNC Examiner"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'PNC Examiner' ? 'selected' : ''); ?>>
+                                                                                    PNC Examiner</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 36): ?>
+                                                                                <option value="ATE Examiner"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'ATE Examiner' ? 'selected' : ''); ?>>
+                                                                                    ATE Examiner</option>
+                                                                            <?php endif; ?>
+                                                                            <?php if($demande->typeLicence->id === 34): ?>
+                                                                                <option value="RPA Examiner"
+                                                                                    <?php echo e($qualification_demandeur->type_privilege == 'RPA Examiner' ? 'selected' : ''); ?>>
+                                                                                    RPA Examiner</option>
+                                                                            <?php endif; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="machine">Machine</label>
+                                                                        <select class="form-control" id="machine"
+                                                                            name="machine">
+                                                                            <option value="A"
+                                                                                <?php echo e($qualification_demandeur->machine == 'A' ? 'selected' : ''); ?>>
+                                                                                A</option>
+                                                                            <option value="H"
+                                                                                <?php echo e($qualification_demandeur->machine == 'H' ? 'selected' : ''); ?>>
+                                                                                H</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="type_avion_id">Type d'Avion</label>
+                                                                        <select class="form-control" id="type_avion_id"
+                                                                            name="type_avion_id">
+                                                                            <?php $__currentLoopData = $type_avions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type_avion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <option value="<?php echo e($type_avion->id); ?>"
+                                                                                    <?php echo e($qualification_demandeur->type_avion_id == $type_avion->id ? 'selected' : ''); ?>>
+                                                                                    <?php echo e($type_avion->code); ?>
+
+                                                                                </option>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="atc_qualifications_col_update_<?php echo e($qualification_demandeur->id); ?>"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="atc">Qualifications ATC</label>
+                                                                        <select class="form-control" id="atc"
+                                                                            name="atc">
+                                                                            <option value="ADC"
+                                                                                <?php echo e($qualification_demandeur->atc == 'ADC' ? 'selected' : ''); ?>>
+                                                                                ADC</option>
+                                                                            <option value="APP"
+                                                                                <?php echo e($qualification_demandeur->atc == 'APP' ? 'selected' : ''); ?>>
+                                                                                APP</option>
+                                                                            <option value="APS"
+                                                                                <?php echo e($qualification_demandeur->atc == 'APS' ? 'selected' : ''); ?>>
+                                                                                APS</option>
+                                                                            <option value="APRC"
+                                                                                <?php echo e($qualification_demandeur->atc == 'APRC' ? 'selected' : ''); ?>>
+                                                                                APRC</option>
+                                                                            <option value="ACP"
+                                                                                <?php echo e($qualification_demandeur->atc == 'ACP' ? 'selected' : ''); ?>>
+                                                                                ACP</option>
+                                                                            <option value="ACS"
+                                                                                <?php echo e($qualification_demandeur->atc == 'ACS' ? 'selected' : ''); ?>>
+                                                                                ACS</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3"
+                                                                    id="amt_qualifications_col_update_<?php echo e($qualification_demandeur->id); ?>"
+                                                                    style="display: none;">
+                                                                    <div class="form-group">
+                                                                        <label for="amt">Qualifications AMT</label>
+                                                                        <select class="form-control" id="amt"
+                                                                            name="amt">
+                                                                            <option value="A(A)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'A(A)' ? 'selected' : ''); ?>>
+                                                                                A(A)</option>
+                                                                            <option value="A(H)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'A(H)' ? 'selected' : ''); ?>>
+                                                                                A(H)</option>
+                                                                            <option value="B1(A)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'B1(A)' ? 'selected' : ''); ?>>
+                                                                                B1(A)</option>
+                                                                            <option value="B1(H)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'B1(H)' ? 'selected' : ''); ?>>
+                                                                                B1(H)</option>
+                                                                            <option value="B2(A)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'B2(A)' ? 'selected' : ''); ?>>
+                                                                                B2(A)</option>
+                                                                            <option value="B2(H)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'B2(H)' ? 'selected' : ''); ?>>
+                                                                                B2(H)</option>
+                                                                            <option value="B3(A)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'B3(A)' ? 'selected' : ''); ?>>
+                                                                                B3(A)</option>
+                                                                            <option value="B3(H)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'B3(H)' ? 'selected' : ''); ?>>
+                                                                                B3(H)</option>
+                                                                            <option value="C(A)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'C(A)' ? 'selected' : ''); ?>>
+                                                                                C(A)</option>
+                                                                            <option value="C(H)"
+                                                                                <?php echo e($qualification_demandeur->amt == 'C(H)' ? 'selected' : ''); ?>>
+                                                                                C(H)</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
 
@@ -718,13 +984,9 @@
                                                         <td><?php echo e($medical_examination->centre_medical); ?></td>
                                                         <td>
                                                             <?php if($medical_examination->document): ?>
-                                                                <a target="_blank"
-                                                                    href="<?php echo e(asset('/uploads/' . $medical_examination->document)); ?>"
-                                                                    class="btn btn-primary btn-sm">
-                                                                    <i class="fas fa-download"></i>
-                                                                </a>
-                                                            <?php else: ?>
-                                                                Aucun fichier
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $medical_examination->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             <?php endif; ?>
                                                         </td>
                                                         <td>
@@ -1104,10 +1366,11 @@
                                                         <td><?php echo e($competence_demandeur->validite); ?></td>
                                                         <td><?php echo e($competence_demandeur->centre_formation); ?></td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="<?php echo e(asset('/uploads/' . $competence_demandeur->document)); ?>"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            <?php if($competence_demandeur->document): ?>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $competence_demandeur->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            <?php endif; ?>
                                                         </td>
                                                         <td>
 
@@ -1244,8 +1507,10 @@
                                         <div class="form-group">
                                             <label for="type">Type d'entraînement</label>
                                             <select class="form-control" id="type" name="type" placeholder="">
-                                                <option value="Hors Ligne (SIMU)">Hors Ligne (SIMU)
-                                                </option>
+                                                <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32])): ?>
+                                                    <option value="Hors Ligne (SIMU)">Hors Ligne (SIMU)
+                                                    </option>
+                                                <?php endif; ?>
                                                 <?php if(in_array($demande->typeDemande->id, [1, 3])): ?>
                                                     <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32, 39])): ?>
                                                         <option value="En Ligne">
@@ -1382,10 +1647,11 @@
                                                         <td><?php echo e($entrainement_demandeur->centre_formation); ?></td>
 
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="<?php echo e(asset('/uploads/' . $entrainement_demandeur->document)); ?>"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            <?php if($entrainement_demandeur->document): ?>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $entrainement_demandeur->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            <?php endif; ?>
                                                         </td>
                                                         <td>
                                                             <?php if(!$entrainement_demandeur->valider): ?>
@@ -1603,10 +1869,11 @@
                                                         <td><?php echo e($formation_demandeur->centre_formation); ?></td>
                                                         <td><?php echo e($formation_demandeur->lieu); ?></td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="<?php echo e(asset('/uploads/' . $formation_demandeur->document)); ?>"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            <?php if($formation_demandeur->document): ?>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $formation_demandeur->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            <?php endif; ?>
                                                         </td>
                                                         <td>
                                                             <?php if(!$formation_demandeur->valider): ?>
@@ -1699,22 +1966,23 @@
                         <div class="card-body">
                             <form id="interruptionForm" enctype="multipart/form-data">
                                 <?php echo csrf_field(); ?>
-                                <input type="hidden" value="<?php echo e($id); ?>" id="demande_id" name="demande_id">
+                                <input type="hidden" value="<?php echo e($id); ?>" id="demande_id"
+                                    name="demande_id">
 
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <label for="date_debut">Date de debut</label>
-                                            <input type="date" class="form-control" id="date_debut" name="date_debut"
-                                                placeholder="">
+                                            <input type="date" class="form-control" id="date_debut"
+                                                name="date_debut" placeholder="">
 
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <label for="date_fin">Date de fin</label>
-                                            <input type="date" class="form-control" id="date_fin" name="date_fin"
-                                                placeholder="">
+                                            <input type="date" class="form-control" id="date_fin"
+                                                name="date_fin" placeholder="">
 
                                         </div>
                                     </div>
@@ -1728,8 +1996,8 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label for="document">Justificatif</label>
-                                            <input type="file" class="form-control" id="document" name="document"
-                                                placeholder="" accept="application/pdf">
+                                            <input type="file" class="form-control" id="document"
+                                                name="document" placeholder="" accept="application/pdf">
 
                                         </div>
                                     </div>
@@ -1767,10 +2035,11 @@
                                                         <td><?php echo e($interruption_demandeur->date_fin); ?></td>
                                                         <td><?php echo e($interruption_demandeur->raison); ?></td>
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="<?php echo e(asset('/uploads/' . $interruption_demandeur->document)); ?>"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            <?php if($interruption_demandeur->document): ?>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $interruption_demandeur->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            <?php endif; ?>
                                                         </td>
                                                         <td>
                                                             <?php if(!$interruption_demandeur->valider): ?>
@@ -2101,10 +2370,11 @@
                                                         <td><?php echo e($employeur_demandeur->fonction); ?></td>
 
                                                         <td>
-                                                            <a target="_blank"
-                                                                href="<?php echo e(asset('/uploads/' . $employeur_demandeur->document)); ?>"
-                                                                type="button" class="btn btn-primary btn-sm"><i
-                                                                    class="fas fa-download"></i></a>
+                                                            <?php if($employeur_demandeur->document): ?>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $employeur_demandeur->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            <?php endif; ?>
                                                         </td>
                                                         <td>
 
@@ -2200,77 +2470,32 @@
                         <form method="POST" enctype="multipart/form-data" id="documentForm">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" value="<?php echo e($id); ?>" id="demande_id" name="demande_id">
-                            <div class="row">
+                            <div class="row justify-content-center">
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="libele">Libellé de pièce</label>
-                                        <select class="form-control" id="libelle" name="libelle" placeholder="">
-                                            <option value="La carte nationale d'identité">
-                                                La carte nationale d'identité
-                                            </option>
-                                            <option
-                                                value="Les
-                                                                                                        Résultats des examens théoriques et pratiques">
-                                                Les
-                                                Résultats des examens théoriques et pratiques</option>
-                                            <option
-                                                value="Baccalauréat de
-                                                                                                        l'enseignement secondaire">
-                                                Baccalauréat de
-                                                l'enseignement secondaire</option>
 
-                                            <option
-                                                value="Copie des pages du passeport du demandeur
-                                                                                                        permettant son identification">
-                                                Copie des pages du passeport du demandeur
-                                                permettant son identification</option>
-                                            <option value="CV">CV</option>
-                                            <option
-                                                value="Copie authentifiée des diplômes et certificats
-                                                                                                        étrangers">
-                                                Copie authentifiée des diplômes et certificats
-                                                étrangers</option>
-                                            <option value="Copie de la licence étrangère">Copie de la licence étrangère
-                                            </option>
-                                            <option
-                                                value="Copie du baccalauréat (série scientifique ou
-                                                                                                        technologique) ou document équivalent certifié">
-                                                Copie du baccalauréat (série scientifique ou
-                                                technologique) ou document équivalent certifié</option>
-                                            <option
-                                                value="Attestation du pays émetteur
-                                                                                                        certifiant l'authenticité et le total des heures de vol">
-                                                Attestation du pays émetteur
-                                                certifiant l'authenticité et le total des heures de vol</option>
-                                            <option
-                                                value="Copie de l'ensemble des pages du carnet de vol
-                                                                                                        certifiées">
-                                                Copie de l'ensemble des pages du carnet de vol
-                                                certifiées</option>
-                                            <option
-                                                value="Relevé détaillé des heures de vol des six
-                                                                                                        derniers mois">
-                                                Relevé détaillé des heures de vol des six
-                                                derniers mois</option>
-                                            <option
-                                                value="Lettre de l'exploitant aérien mauritanien
-                                                                                                        employeur">
-                                                Lettre de l'exploitant aérien mauritanien
-                                                employeur</option>
-                                        </select>
+                                        <ol>
+                                            <?php $__currentLoopData = $type_documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $type_document): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <label for="libele">Libellé de pièce</label>
+                                                <li>
+                                                    <input type="hidden" value="<?php echo e($type_document->id); ?>"
+                                                        id="type_document_id_<?php echo e($index); ?>"
+                                                        name="type_document_id[]">
+                                                    <?php echo e($type_document->nom_fr); ?>
+
+
+                                                    <input type="file" class="form-control"
+                                                        id="piece_<?php echo e($index); ?>" name="pieces[]"
+                                                        accept="application/pdf">
+                                                </li>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </ol>
+
+
 
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="piece">Pièce</label>
-                                        <input type="file" class="form-control" id="piece" name="piece"
-                                            placeholder="" accept="application/pdf">
-
-                                    </div>
-                                </div>
-
                             </div>
                             <div class="row">
 
@@ -2300,7 +2525,9 @@
                                         <tbody>
                                             <?php $__currentLoopData = $documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $document): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr id="document-<?php echo e($document->id); ?>">
-                                                    <td><?php echo e($document->libelle); ?></td>
+                                                    <td><?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' ? $document->nom_fr : $document->nom_en); ?>
+
+                                                    </td>
                                                     <td>
                                                         <a target="_blank"
                                                             href="<?php echo e(asset('/uploads/' . $document->url)); ?>"
@@ -2326,20 +2553,7 @@
                                                             <input type="hidden" name="document_id"
                                                                 value="<?php echo e($document->id); ?>">
                                                             <div class="row">
-                                                                <div class="col-lg-6">
-                                                                    <div class="form-group">
-                                                                        <label>Libellé</label>
-                                                                        <select class="form-control" name="libelle">
-                                                                            <option value="La carte nationale d'identité"
-                                                                                <?php echo e($document->libelle == 'La carte nationale d\'identité' ? 'selected' : ''); ?>>
-                                                                                La carte nationale d'identité</option>
-                                                                            <option
-                                                                                value="Les Résultats des examens théoriques et pratiques"
-                                                                                <?php echo e($document->libelle == 'Les Résultats des examens théoriques et pratiques' ? 'selected' : ''); ?>>
-                                                                                Résultats des examens</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
+
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label>Pièce</label>
@@ -2441,6 +2655,7 @@
         $(document).ready(function() {
             // Soumission du formulaire avec AJAX
             $("#licenceForm").submit(function(e) {
+
                 e.preventDefault();
                 let formData = new FormData(this);
 
@@ -2711,9 +2926,35 @@
         });
         $(document).ready(function() {
 
+
+            $('#qualification_update_id').on('change click', function() {
+                let selectedText = $('#qualification_update_id option:selected').data('type');
+
+                const qualificationId = $('#qualification_update_id option:selected').attr(
+                    'data-qualification-id');
+
+
+                const toggleField = (selector, condition) => {
+                    if (selectedText.includes(condition)) {
+                        $(selector).show();
+                    } else {
+                        $(selector).hide().find('input, select').val('');
+                    }
+                };
+
+
+                toggleField('#type_avion_col_update_' + qualificationId, "Qualification Type Machine");
+                toggleField('#type_engine_col_update_' + qualificationId, "Qualification de Class");
+                toggleField('#instructeur_privilege_col_update_' + qualificationId,
+                    "Qualification instructeur");
+                toggleField('#examinateur_privilege_col_update_' + qualificationId,
+                    "Autorisation examinateur");
+                toggleField('#atc_qualifications_col_update_' + qualificationId, "Qualifications ATC");
+                toggleField('#amt_qualifications_col_update_' + qualificationId, "Qualifications AMT");
+
+            });
             $('#qualification_id').on('change click', function() {
                 let selectedText = $('#qualification_id option:selected').data('type');
-
 
                 const toggleField = (selector, condition) => {
                     if (selectedText.includes(condition)) {
@@ -2730,6 +2971,7 @@
                 toggleField('#atc_qualifications_col', "Qualifications ATC");
                 toggleField('#amt_qualifications_col', "Qualifications AMT");
                 //toggleField('#ulm_qualifications_col', "Qualifications ULM");
+
 
 
             });
@@ -3854,7 +4096,7 @@
             $("#submitDocument").click(function(e) {
                 e.preventDefault();
                 let formData = new FormData($("#documentForm")[0]);
-
+                $(this).prop("disabled", true);
                 $.ajax({
                     url: "<?php echo e(route('user.store_documents')); ?>",
                     type: "POST",
@@ -3862,22 +4104,25 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+
                         if (response.success) {
-                            let newRow = `
-                        <tr id="document-${response.document.id}">
-                            <td>${response.document.libelle}</td>
-                            <td>
-                                <a target="_blank" href="/storage/${response.document.url}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}">Supprimer</button>
-                            </td>
-                        </tr>
-                    `;
-                            $("#documentTable tbody").append(newRow);
+                            response.documents.forEach(function(document) {
+                                let newRow = `
+                                <tr id="document-${document.id}">
+                                    <td>${document.nom_fr}</td>
+                                    <td>
+                                        <a target="_blank" href="/storage/${document.url}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm edit-document" data-id="${document.id}">Modifier</button>
+                                        <button class="btn btn-danger btn-sm delete-document" data-id="${document.id}">Supprimer</button>
+                                    </td>
+                                </tr>
+                            `;
+                                $("#documentTable tbody").append(newRow);
+                            });
                             $("#documentForm")[0].reset();
                             // SweetAlert pour confirmer la mise à jour et recharger la page
                             Swal.fire({
@@ -3886,6 +4131,7 @@
                                 text: 'Document cree avec succès !',
                                 confirmButtonText: 'OK'
                             }).then(() => {
+                                $(this).prop("disabled", false);
                                 location
                                     .reload(); // Recharger la page après confirmation
                             });
@@ -3893,11 +4139,13 @@
                         }
                     },
                     error: function(xhr) {
+
                         Swal.fire({
 
                             title: 'Erreur',
                             text: 'Une erreur est survenue lors de la creation.',
                         });
+                        $(this).prop("disabled", false);
                     }
                 });
             });
@@ -3927,14 +4175,14 @@
 
                         if (response.success) {
                             $(`#document-${documentId}`).html(`
-                        <td>${response.document.libelle}</td>
+                        <td>${response.document.nom_fr}</td>
                         <td>
                             <a target="_blank" href="/storage/${response.document.url}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-download"></i>
                             </a>
                         </td>
                         <td>
-                            <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}" data-libelle="${response.document.libelle}">Modifier</button>
+                            <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}" data-libelle="${response.document.nom_fr}">Modifier</button>
                             <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}">Supprimer</button>
                         </td>
                     `);

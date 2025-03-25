@@ -48,4 +48,8 @@ class Demandeur extends Model
     {
         return $this->hasMany(Formation::class, 'demandeur_id');
     }
+    public function licence()
+    {
+        return $this->hasOne(Licence::class, 'demandeur_id');
+    }
 }

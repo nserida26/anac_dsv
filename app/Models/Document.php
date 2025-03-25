@@ -10,7 +10,7 @@ class Document extends Model
     use HasFactory;
 
     protected $fillable = [
-        'libelle',
+        'type_document_id',
         'url',
         'demande_id',
     ];
@@ -19,5 +19,8 @@ class Document extends Model
     {
         return $this->belongsTo(Demande::class);
     }
+    public function typeDocument()
+    {
+        return $this->belongsTo(TypeDocument::class, 'type_document_id');
+    }
 }
- 

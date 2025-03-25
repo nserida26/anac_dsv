@@ -85,6 +85,19 @@
                                 <p>@lang('sidebar.autorites')</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ url('admin/settings') }}" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('sidebar.settings')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('admin/type-documents') }}" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('sidebar.type-documents')</p>
+                            </a>
+                        </li>
+
 
                     </ul>
                 </li>

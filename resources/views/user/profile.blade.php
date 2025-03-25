@@ -57,7 +57,7 @@
                                             <td>{{ $demandeur->adresse ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.employeur')</th>
+                                            <th>@lang('user.compagnie')</th>
                                             <td>{{ $demandeur->compagnie->nom_entreprise ?? '-' }}</td>
                                         </tr>
                                         <tr>

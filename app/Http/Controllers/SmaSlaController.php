@@ -124,8 +124,9 @@ class SmaSlaController extends Controller
             ->select('employeur_demandeurs.*')
             ->get();
         $documents = Document::join('demandes', 'demandes.id', 'documents.demande_id')
+            ->join('type_documents', 'type_documents.id', 'documents.type_document_id')
             ->where('documents.demande_id', $id)
-            ->select('documents.*')
+            ->select('type_documents.*', 'documents.*')
             ->get();
 
 
@@ -155,6 +156,18 @@ class SmaSlaController extends Controller
     {
         //
     }
+    function annoter($id)
+    {
+
+        $etat_demande = EtatDemande::where('demande_id', $id)->update(
+            [
+
+                'evaluateur_annoter' => true,
+            ]
+        );
+
+        return back()->with('success', 'Demande annotée avec succès.');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -176,7 +189,7 @@ class SmaSlaController extends Controller
             ]
         );
 
-        return back()->with('success', 'Demande annotée avec succès.');
+        return back()->with('success', 'Demande validee avec succès.');
     }
     function validerSma($id)
     {
@@ -199,21 +212,27 @@ class SmaSlaController extends Controller
         );
         return redirect()->route('sma')->with('success', 'Examen médical validé.');
     }
-    public function rejeter($table, $id, Demande $demande)
+    public function rejeter(Request $request)
     {
-        // Vérifiez si la table existe dans la base de données
-        if (!DB::getSchemaBuilder()->hasTable($table)) {
+        $motif = $request->input('motif');
+        if (!DB::getSchemaBuilder()->hasTable($request->table)) {
             return redirect()->back()->with('error', 'Table non trouvée.');
         }
 
-        // Vérifiez si la colonne 'valider' existe dans la table
-        if (!DB::getSchemaBuilder()->hasColumn($table, 'valider')) {
-            return redirect()->back()->with('error', 'Colonne "valider" non trouvée dans la table.');
+        if (!DB::getSchemaBuilder()->hasColumn($request->table, 'valider') && !DB::getSchemaBuilder()->hasColumn($request->table, 'motif')) {
+            return redirect()->back()->with('error', 'Colonne non trouvée dans la table.');
         }
+        if (DB::getSchemaBuilder()->hasColumn($request->table, 'valider_evaluateur')) {
+            DB::table($request->table)->where('id', $request->id)->update(['valider_evaluateur' => 0]);
+        }
+        DB::table($request->table)->where('id', $request->id)->update(['valider' => 0, 'motif' => $motif]);
 
-        // Mettez à jour la valeur du booléen 'valider' à 0
-        DB::table($table)->where('id', $id)->update(['valider' => 0]);
-
+        $demande = Demande::find($request->demande_id);
+        $demande->update(
+            [
+                'mise_a_jour' => 1
+            ]
+        );
         $demande->etatDemande()->update(
             [
                 'demandeur_cree_demande' => 0
@@ -221,5 +240,28 @@ class SmaSlaController extends Controller
         );
 
         return redirect()->back()->with('success', 'Information rejetée avec succès.');
+    }
+    public function checklist(Request $request, Demande $demande)
+    {
+        $role = auth()->user()->getRoleNames()->first();
+
+        //
+        $request->validate([
+            'checklist' => 'required|file|mimes:pdf'
+        ]);
+
+        if ($request->hasFile('checklist')) {
+            $checklistPath = $request->file('checklist')->store('checklists', 'public');
+        } else {
+            $checklistPath = null;
+        }
+        $columnName = "checklist_$role";
+        $p = $demande->update(
+            [
+                $columnName => $checklistPath,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'CheckList enregistree avec succès.');
     }
 }

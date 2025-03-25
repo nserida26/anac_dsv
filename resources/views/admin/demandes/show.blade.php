@@ -51,8 +51,10 @@
                                             <td>{{ $demandeur->np ?? '-' }}</td>
                                         </tr>
                                         <tr>
+
                                             <th>@lang('user.date_naissance')</th>
-                                            <td>{{ $demandeur->date_naissance ?? '-' }}</td>
+                                            <td>{{ !empty($demandeur->date_naissance) ? date('Y-m-d', strtotime($demandeur->date_naissance)) : '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>@lang('user.lieu_naissance')</th>
@@ -91,6 +93,225 @@
                     </div>
                 </div>
 
+
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Aptitude Médicale par l'examinateur medical
+                    </div>
+                    <div class="card-body">
+
+                        @isset($medical_examinations)
+                            <div class="row">
+                                <div class="col-lg-12 table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Date de l'Examen</th>
+                                                <th>Validité en mois</th>
+                                                <th>Examinateur</th>
+                                                <th>Centre Médical</th>
+                                                <th>Avis de l'Examinateur</th>
+                                                <th>Avis de l'Evaluateur</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($examens as $examen)
+                                                <tr>
+                                                    <td>{{ $examen->date_examen }}</td>
+                                                    <td>{{ $examen->validite }}</td>
+                                                    <td>{{ $examen->examinateur->np }}</td>
+                                                    <td>{{ $examen->examinateur->centreMedical->libelle }}</td>
+                                                    <td>
+                                                        @if ($examen->valider_examinateur)
+                                                            Validé
+                                                        @else
+                                                            Non Validé
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($examen->valider_evaluateur)
+                                                            Validé
+                                                        @else
+                                                            Non Validé
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endisset
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Aptitude Médicale
+                    </div>
+                    <div class="card-body">
+
+                        @isset($medical_examinations)
+                            <div class="row">
+                                <div class="col-lg-12 table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Date de l'Examen</th>
+                                                <th>Validité en mois</th>
+                                                <th>Centre Médical</th>
+                                                <th> Justificatif</th>
+                                                <th> Valider par l'evaluateur</th>
+                                                <th>Actions </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($medical_examinations as $medical_examination)
+                                                <tr>
+                                                    <td>{{ $medical_examination->date_examen }}</td>
+                                                    <td>{{ $medical_examination->validite }}</td>
+                                                    <td>{{ $medical_examination->centre_medical }}</td>
+                                                    <td>
+                                                        @if ($medical_examination->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $medical_examination->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+
+
+                                                    </td>
+                                                    <td>
+                                                        @if ($medical_examination->valider_evaluateur)
+                                                            Valideé
+                                                        @else
+                                                            Non Valideé
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if (!$medical_examination->valider_evaluateur && $medical_examination->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('medical_examinations', '{{ $medical_examination->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endisset
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Formations , Qualifications et Entraînements periodiques
+                    </div>
+                    <div class="card-body">
+
+                        @isset($formations)
+                            <div class="row">
+                                <div class="col-lg-12 table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Centre de formation</th>
+                                                <th>Lieu</th>
+                                                <th>Date de formation</th>
+                                                <th>Attestation</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($formations as $formation)
+                                                <tr>
+                                                    <td>{{ $formation->typeFormation->nom }}</td>
+                                                    <td>{{ $formation->centreFormation->libelle }}</td>
+                                                    <td>{{ $formation->lieu }}</td>
+                                                    <td>{{ $formation->date_formation }}</td>
+                                                    <td>
+                                                        @if ($formation->attestation)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $formation->attestation) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+                                                    </td>
+
+
+
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endisset
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Licence
+                    </div>
+
+                    <div class="card-body">
+                        @isset($licence_demandeurs)
+                            <div class="row">
+                                <div class="col-lg-12 table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Date de licence</th>
+                                                <th>Numéro de licence</th>
+                                                <th>Autorité de délivrance</th>
+                                                <th>Lieu</th>
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($licence_demandeurs as $licence_demandeur)
+                                                <tr>
+                                                    <td>{{ $licence_demandeur->date_licence }}</td>
+                                                    <td>{{ $licence_demandeur->num_licence }}</td>
+                                                    <td>{{ $licence_demandeur->autorite->libelle }}</td>
+                                                    <td>{{ $licence_demandeur->lieu_delivrance }}</td>
+                                                    <td>
+                                                        @if ($licence_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $licence_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if ($licence_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('licence_demandeurs', '{{ $licence_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endisset
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         Formations
@@ -98,7 +319,7 @@
                     <div class="card-body">
                         @isset($formation_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -106,7 +327,8 @@
                                                 <th>Date de formation</th>
                                                 <th>Centre de formation</th>
                                                 <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -116,7 +338,24 @@
                                                     <td>{{ $formation_demandeur->date_formation }}</td>
                                                     <td>{{ $formation_demandeur->centre_formation }}</td>
                                                     <td>{{ $formation_demandeur->lieu }}</td>
+                                                    <td>
+                                                        @if ($formation_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $formation_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
 
+                                                    </td>
+                                                    <td>
+
+
+                                                        @if (!$formation_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('formation_demandeurs', '{{ $formation_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -136,25 +375,85 @@
                         <br>
                         @isset($qualification_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>Qualification</th>
+                                                @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 37, 38, 39]))
+                                                    <th>Type d'avion</th>
+                                                    <th>Machine</th>
+                                                @endif
+                                                @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32]))
+                                                    <th>Type de moteur</th>
+                                                @endif
+                                                @if ($demande->typeLicence->id !== 33)
+                                                    <th>Privilege</th>
+                                                @endif
+                                                @if ($demande->typeLicence->id === 11)
+                                                    <th>Qualification AMT</th>
+                                                @endif
+                                                @if (in_array($demande->typeLicence->id, [37, 38]))
+                                                    <th>Qualification ATC</th>
+                                                @endif
+                                                @if ($demande->typeLicence->id === 34)
+                                                    <th>Qualification RPA</th>
+                                                @endif
+                                                @if ($demande->typeLicence->id === 33)
+                                                    <th>Qualification ULM</th>
+                                                @endif
                                                 <th>Date de l'Examen</th>
                                                 <th>Simulateur</th>
                                                 <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($qualification_demandeurs as $qualification_demandeur)
                                                 <tr>
                                                     <td>{{ $qualification_demandeur->qualification }}</td>
+                                                    @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 37, 38, 39]))
+                                                        <td>{{ optional($qualification_demandeur->typeAvion)->code }}</td>
+                                                        <td>{{ $qualification_demandeur->machine }}</td>
+                                                    @endif
+                                                    @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32]))
+                                                        <td>{{ $qualification_demandeur->type_moteur }}</td>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id !== 33)
+                                                        <td>{{ $qualification_demandeur->type_privilege }}</td>
+                                                    @endif
+                                                    @if (in_array($demande->typeLicence->id, [37, 38]))
+                                                        <td>{{ $qualification_demandeur->amt }}</td>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id === 35)
+                                                        <td>{{ $qualification_demandeur->atc }}</td>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id === 34)
+                                                        <td>{{ $qualification_demandeur->rpa }}</td>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id === 33)
+                                                        <td>{{ $qualification_demandeur->ulm }}</td>
+                                                    @endif
                                                     <td>{{ $qualification_demandeur->date_examen }}</td>
                                                     <td>{{ $qualification_demandeur->centre_formation }}</td>
                                                     <td>{{ $qualification_demandeur->lieu }}</td>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <td>
+                                                        @if ($qualification_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $qualification_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if (!$qualification_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('qualification_demandeurs', '{{ $qualification_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -163,43 +462,6 @@
                             </div>
                         @endisset
 
-                    </div>
-
-                </div>
-                <!----->
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        Aptitude Médicale
-                    </div>
-                    <div class="card-body">
-
-                        @isset($medical_examinations)
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-
-                                                <th>Date de l'Examen</th>
-                                                <th>Validité en mois</th>
-                                                <th>Centre Médical</th>
-                                                {{-- <th>Actions</th> --}}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($medical_examinations as $medical_examination)
-                                                <tr>
-                                                    <td>{{ $medical_examination->date_examen }}</td>
-                                                    <td>{{ $medical_examination->validite }}</td>
-                                                    <td>{{ $medical_examination->centre_medical }}</td>
-
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        @endisset
                     </div>
 
                 </div>
@@ -211,7 +473,7 @@
                     <div class="card-body">
                         @isset($experience_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -220,7 +482,8 @@
                                                 <th>Total</th>
                                                 <th>Six (6) derniers mois</th>
                                                 <th>Trois (3) derniers mois</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -230,7 +493,22 @@
                                                     <td>{{ $experience_demandeur->total }}</td>
                                                     <td>{{ $experience_demandeur->six_mois }}</td>
                                                     <td>{{ $experience_demandeur->trois_mois }}</td>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <td>
+                                                        @if ($experience_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $experience_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if (!$experience_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('experience_demandeurs', '{{ $experience_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -248,7 +526,7 @@
                     <div class="card-body">
                         @isset($competence_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -258,7 +536,8 @@
                                                 <th>Date</th>
                                                 <th>Validité en mois</th>
                                                 <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -269,7 +548,22 @@
                                                     <td>{{ $competence_demandeur->date }}</td>
                                                     <td>{{ $competence_demandeur->validite }}</td>
                                                     <td>{{ $competence_demandeur->centre_formation }}</td>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <td>
+                                                        @if ($competence_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $competence_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if (!$competence_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('competence_demandeurs', '{{ $competence_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -288,7 +582,7 @@
                     <div class="card-body">
                         @isset($entrainement_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -298,7 +592,8 @@
                                                 <th>Date</th>
                                                 <th>Validité en mois</th>
                                                 <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -308,7 +603,22 @@
                                                     <td>{{ $entrainement_demandeur->date }}</td>
                                                     <td>{{ $entrainement_demandeur->validite }}</td>
                                                     <td>{{ $entrainement_demandeur->centre_formation }}</td>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <td>
+                                                        @if ($entrainement_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $entrainement_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        @if (!$entrainement_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('entrainement_demandeurs', '{{ $entrainement_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -329,17 +639,15 @@
                     <div class="card-body">
                         @isset($interruption_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-
-
-
                                                 <th>Date de debut</th>
                                                 <th>Date de fin</th>
                                                 <th>Raisons</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -348,8 +656,22 @@
                                                     <td>{{ $interruption_demandeur->date_debut }}</td>
                                                     <td>{{ $interruption_demandeur->date_fin }}</td>
                                                     <td>{{ $interruption_demandeur->raison }}</td>
+                                                    <td>
+                                                        @if ($interruption_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $interruption_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
 
-                                                    {{-- <th>Actions</th> --}}
+                                                    </td>
+                                                    <td>
+                                                        @if (!$interruption_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('interruption_demandeurs', '{{ $interruption_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -370,7 +692,7 @@
                     <div class="card-body">
                         @isset($experience_maintenance_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -380,7 +702,8 @@
                                                 <th>Date de debut</th>
                                                 <th>Date de fin</th>
                                                 <th>Descriptions</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -390,8 +713,22 @@
                                                     <td>{{ $experience_maintenance_demandeur->date_fin }}</td>
                                                     <td>{{ $experience_maintenance_demandeur->description_maintenance }}
                                                     </td>
+                                                    <td>
+                                                        @if ($experience_maintenance_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $experience_maintenance_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
 
-                                                    {{-- <th>Actions</th> --}}
+                                                    </td>
+                                                    <td>
+                                                        @if (!$experience_maintenance_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('experience_maintenance_demandeurs', '{{ $experience_maintenance_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -412,7 +749,7 @@
                     <div class="card-body">
                         @isset($employeur_demandeurs)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -422,7 +759,8 @@
                                                 <th>Date de debut</th>
                                                 <th>Date de fin</th>
                                                 <th>Fonction</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Justificatif</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -432,8 +770,23 @@
                                                     <td>{{ $employeur_demandeur->periode_du }}</td>
                                                     <td>{{ $employeur_demandeur->periode_au }}</td>
                                                     <td>{{ $employeur_demandeur->fonction }}</td>
+                                                    <td>
+                                                        @if ($experience_maintenance_demandeur->document)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $experience_maintenance_demandeur->document) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
 
-                                                    {{-- <th>Actions</th> --}}
+                                                    </td>
+                                                    <td>
+
+                                                        @if (!$experience_maintenance_demandeur->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('experience_maintenance_demandeurs', '{{ $experience_maintenance_demandeur->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -454,7 +807,7 @@
                     <div class="card-body">
                         @isset($documents)
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -462,20 +815,34 @@
                                                 <th>Libellé</th>
 
                                                 <th>Document</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($documents as $document)
                                                 <tr>
-                                                    <td>{{ $document->libelle }}</td>
+                                                    <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? $document->nom_fr : $document->nom_en }}
+                                                    </td>
                                                     <td>
-                                                        <iframe id="documentViewer"
-                                                            src="{{ asset('/uploads/' . $document->url) }}"
-                                                            frameborder="0"></iframe>
+                                                        @if (!empty($document->url))
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $document->url) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @else
+                                                            -
+                                                        @endif
 
                                                     </td>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <td>
+
+
+                                                        @if (!$document->valider)
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="openRejectionModal('documents', '{{ $document->id }}', '{{ $demande->id }}')">
+                                                                Rejeter
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -485,6 +852,7 @@
                         @endisset
                     </div>
                 </div>
+
             </div>
             <!-- /.card-body -->
         </div>
@@ -493,6 +861,37 @@
 
         <div class="row">
             <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Checklist
+                        @if (!empty($demande->checklist_admin))
+                            <div class="card-tools">
+                                <a href="{{ asset('uploads/' . $demande->checklist_admin) }}" target="_blank"
+                                    class="btn btn-sm btn-success">
+                                    <i class="fas fa-eye"></i> Voir
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="card-body">
+
+                        <form action="{{ route('dsv.checklist', ['demande' => $demande]) }}" method="POST"
+                            enctype="multipart/form-data" class="mb-4">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="checklistFile" class="form-label">Fichier Checklist (PDF
+                                    uniquement)</label>
+                                <input class="form-control" type="file" id="checklistFile" name="checklist"
+                                    accept=".pdf" required>
+                                <div class="form-text">Veuillez sélectionner un fichier PDF (max: 5MB)</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary float-right">
+                                {{ $demande->checklist_admin ? 'Mettre à jour' : 'Envoyer' }}
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         Description
@@ -519,12 +918,81 @@
         </div>
     </div>
 
+    <!-- Modale pour le motif de rejet -->
+    <div class="modal fade" id="rejectionModal" tabindex="-1" aria-labelledby="rejectionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectionModalLabel">Motif de rejet</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="rejectionForm" method="POST" class="d-inline">
+                        @csrf
 
+                        <div class="form-group">
+                            <label for="motif">Veuillez préciser le motif de rejet :</label>
+                            <textarea name="motif" id="motif" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <input type="hidden" name="table" id="table">
+                        <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="demande_id" id="demande_id">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" onclick="submitRejectionForm()">Rejeter</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
 @endpush
 @push('custom')
+    <script>
+        // Fonction pour ouvrir la modale et définir les valeurs du formulaire
+        function openRejectionModal(table, id, demande) {
+            // Définir les valeurs des champs cachés
+            document.getElementById('table').value = table;
+            document.getElementById('id').value = id;
+            document.getElementById('demande_id').value = demande;
+
+            // Ouvrir la modale
+            new bootstrap.Modal(document.getElementById('rejectionModal')).show();
+        }
+
+        function submitRejectionForm() {
+            const motif = document.getElementById('motif').value;
+            if (!motif) {
+                alert('Veuillez saisir un motif de rejet.');
+                return;
+            }
+
+            // Confirmer avant de soumettre
+            if (confirm('Confirmer le rejet de cette information ?')) {
+                const form = $('#rejectionForm');
+                const data = form.serialize();
+                $.ajax({
+                    url: "{{ route('rejeter') }}",
+                    type: 'POST',
+                    data: data,
+                    success: function(response) {
+
+                        alert('Rejet effectué avec succès !');
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        alert('Une erreur s\'est produite : ' + xhr.responseText);
+                    }
+                });
+
+
+            }
+        }
+    </script>
     <script>
         $(document).ready(function() {
             $('.summernote').summernote({

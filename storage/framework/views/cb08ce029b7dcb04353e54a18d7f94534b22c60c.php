@@ -46,7 +46,7 @@
                                             <td><?php echo e($ordre->statut); ?></td>
                                             <td>
 
-                                                <?php if($ordre->statut === 'Validé'): ?>
+                                                <?php if($ordre->statut === 'Validé' && empty($ordre->demande->facture)): ?>
                                                     <a href="<?php echo e(route('daf.create', $ordre)); ?>"
                                                         class="btn btn-primary btn-sm">Facturer</a>
                                                 <?php endif; ?>

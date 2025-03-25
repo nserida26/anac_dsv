@@ -48,7 +48,7 @@
                         @isset($demandeur)
                             <div class="row justify-content-center">
 
-                                <div class="col-lg-9">
+                                <div class="col-lg-9 table-responsive">
                                     <table class="table table-bordered table-striped">
                                         <tr>
                                             <th>@lang('user.np')</th>
@@ -106,7 +106,7 @@
 
                             @isset($medical_examinations)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -159,7 +159,7 @@
 
                             @isset($medical_examinations)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -168,6 +168,7 @@
                                                     <th>Validité en mois</th>
                                                     <th>Centre Médical</th>
                                                     <th> Justificatif</th>
+                                                    <th> Valider par l'evaluateur</th>
                                                     <th>Actions </th>
 
                                                 </tr>
@@ -180,23 +181,29 @@
                                                         <td>{{ $medical_examination->centre_medical }}</td>
                                                         <td>
                                                             @if ($medical_examination->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $medical_examination->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $medical_examination->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
+
+
+                                                        </td>
+                                                        <td>
+                                                            @if ($medical_examination->valider_evaluateur)
+                                                                Valideé
+                                                            @else
+                                                                Non Valideé
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'medical_examinations', 'id' => $medical_examination->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if (!$medical_examination->valider_evaluateur && $medical_examination->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('medical_examinations', '{{ $medical_examination->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
+
                                                         </td>
 
                                                     </tr>
@@ -219,7 +226,7 @@
 
                             @isset($formations)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -239,8 +246,12 @@
                                                         <td>{{ $formation->centreFormation->libelle }}</td>
                                                         <td>{{ $formation->lieu }}</td>
                                                         <td>{{ $formation->date_formation }}</td>
-                                                        <td><iframe id="documentViewer"
-                                                                src="{{ asset('/uploads/' . $formation->attestation) }}"></iframe>
+                                                        <td>
+                                                            @if ($formation->attestation)
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $formation->attestation) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @endif
                                                         </td>
 
 
@@ -263,7 +274,7 @@
                         <div class="card-body">
                             @isset($licence_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -284,23 +295,19 @@
                                                         <td>{{ $licence_demandeur->lieu_delivrance }}</td>
                                                         <td>
                                                             @if ($licence_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $licence_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $licence_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'licence_demandeurs', 'id' => $licence_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($licence_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('licence_demandeurs', '{{ $licence_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -318,7 +325,7 @@
                         <div class="card-body">
                             @isset($formation_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -339,25 +346,21 @@
                                                         <td>{{ $formation_demandeur->lieu }}</td>
                                                         <td>
                                                             @if ($formation_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $formation_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $formation_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
 
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'formation_demandeurs', 'id' => $formation_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
 
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($formation_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('formation_demandeurs', '{{ $formation_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -378,13 +381,33 @@
                             <br>
                             @isset($qualification_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Qualification</th>
-                                                    <th>Type d'avion</th>
-                                                    <th>Type de moteur</th>
+                                                    @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 37, 38, 39]))
+                                                        <th>Type d'avion</th>
+                                                        <th>Machine</th>
+                                                    @endif
+                                                    @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32]))
+                                                        <th>Type de moteur</th>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id !== 33)
+                                                        <th>Privilege</th>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id === 11)
+                                                        <th>Qualification AMT</th>
+                                                    @endif
+                                                    @if (in_array($demande->typeLicence->id, [37, 38]))
+                                                        <th>Qualification ATC</th>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id === 34)
+                                                        <th>Qualification RPA</th>
+                                                    @endif
+                                                    @if ($demande->typeLicence->id === 33)
+                                                        <th>Qualification ULM</th>
+                                                    @endif
                                                     <th>Date de l'Examen</th>
                                                     <th>Simulateur</th>
                                                     <th>Lieu</th>
@@ -396,31 +419,46 @@
                                                 @foreach ($qualification_demandeurs as $qualification_demandeur)
                                                     <tr>
                                                         <td>{{ $qualification_demandeur->qualification }}</td>
-                                                        <td>{{ optional($qualification_demandeur->typeAvion)->code }}</td>
-                                                        <td>{{ $qualification_demandeur->type_moteur }}</td>
+                                                        @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 37, 38, 39]))
+                                                            <td>{{ optional($qualification_demandeur->typeAvion)->code }}</td>
+                                                            <td>{{ $qualification_demandeur->machine }}</td>
+                                                        @endif
+                                                        @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32]))
+                                                            <td>{{ $qualification_demandeur->type_moteur }}</td>
+                                                        @endif
+                                                        @if ($demande->typeLicence->id !== 33)
+                                                            <td>{{ $qualification_demandeur->type_privilege }}</td>
+                                                        @endif
+                                                        @if (in_array($demande->typeLicence->id, [37, 38]))
+                                                            <td>{{ $qualification_demandeur->amt }}</td>
+                                                        @endif
+                                                        @if ($demande->typeLicence->id === 35)
+                                                            <td>{{ $qualification_demandeur->atc }}</td>
+                                                        @endif
+                                                        @if ($demande->typeLicence->id === 34)
+                                                            <td>{{ $qualification_demandeur->rpa }}</td>
+                                                        @endif
+                                                        @if ($demande->typeLicence->id === 33)
+                                                            <td>{{ $qualification_demandeur->ulm }}</td>
+                                                        @endif
                                                         <td>{{ $qualification_demandeur->date_examen }}</td>
                                                         <td>{{ $qualification_demandeur->centre_formation }}</td>
                                                         <td>{{ $qualification_demandeur->lieu }}</td>
                                                         <td>
                                                             @if ($qualification_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $qualification_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $qualification_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'qualification_demandeurs', 'id' => $qualification_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($qualification_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('qualification_demandeurs', '{{ $qualification_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -441,7 +479,7 @@
                         <div class="card-body">
                             @isset($experience_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -463,24 +501,19 @@
                                                         <td>{{ $experience_demandeur->trois_mois }}</td>
                                                         <td>
                                                             @if ($experience_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $experience_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $experience_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'experience_demandeurs', 'id' => $experience_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($experience_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('experience_demandeurs', '{{ $experience_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -499,7 +532,7 @@
                         <div class="card-body">
                             @isset($competence_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -523,24 +556,19 @@
                                                         <td>{{ $competence_demandeur->centre_formation }}</td>
                                                         <td>
                                                             @if ($competence_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $competence_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $competence_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'competence_demandeurs', 'id' => $competence_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($competence_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('competence_demandeurs', '{{ $competence_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -560,7 +588,7 @@
                         <div class="card-body">
                             @isset($entrainement_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -583,23 +611,19 @@
                                                         <td>{{ $entrainement_demandeur->centre_formation }}</td>
                                                         <td>
                                                             @if ($entrainement_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $entrainement_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $entrainement_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'training_demandeurs', 'id' => $entrainement_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($entrainement_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('entrainement_demandeurs', '{{ $entrainement_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -621,7 +645,7 @@
                         <div class="card-body">
                             @isset($interruption_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -640,24 +664,19 @@
                                                         <td>{{ $interruption_demandeur->raison }}</td>
                                                         <td>
                                                             @if ($interruption_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $interruption_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $interruption_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'interruption_demandeurs', 'id' => $interruption_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($interruption_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('interruption_demandeurs', '{{ $interruption_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -679,7 +698,7 @@
                         <div class="card-body">
                             @isset($experience_maintenance_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -702,24 +721,19 @@
                                                         </td>
                                                         <td>
                                                             @if ($experience_maintenance_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $experience_maintenance_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $experience_maintenance_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'experience_maintenance_demandeurs', 'id' => $experience_maintenance_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($experience_maintenance_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('experience_maintenance_demandeurs', '{{ $experience_maintenance_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -741,7 +755,7 @@
                         <div class="card-body">
                             @isset($employeur_demandeurs)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -764,24 +778,20 @@
                                                         <td>{{ $employeur_demandeur->fonction }}</td>
                                                         <td>
                                                             @if ($experience_maintenance_demandeur->document)
-                                                                <iframe id="documentViewer"
-                                                                    src="{{ asset('/uploads/' . $experience_maintenance_demandeur->document) }}"
-                                                                    frameborder="0"></iframe>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $experience_maintenance_demandeur->document) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
                                                             @endif
 
                                                         </td>
                                                         <td>
 
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'employeur_demandeurs', 'id' => $employeur_demandeur->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+                                                            @if ($experience_maintenance_demandeur->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('experience_maintenance_demandeurs', '{{ $experience_maintenance_demandeur->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -803,7 +813,7 @@
                         <div class="card-body">
                             @isset($documents)
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
@@ -817,25 +827,27 @@
                                             <tbody>
                                                 @foreach ($documents as $document)
                                                     <tr>
-                                                        <td>{{ $document->libelle }}</td>
+                                                        <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? $document->nom_fr : $document->nom_en }}
+                                                        </td>
                                                         <td>
-                                                            <iframe id="documentViewer"
-                                                                src="{{ asset('/uploads/' . $document->url) }}"
-                                                                frameborder="0"></iframe>
+                                                            @if (!empty($document->url))
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('{{ asset('/uploads/' . $document->url) }}')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            @else
+                                                                -
+                                                            @endif
 
                                                         </td>
                                                         <td>
 
-                                                            <form
-                                                                action="{{ route('rejeter', ['table' => 'documents', 'id' => $document->id, 'demande' => $demande]) }}"
-                                                                method="POST" class="d-inline">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Confirmer le rejet de cette  informtion ?')">
+
+                                                            @if ($document->valider)
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('documents', '{{ $document->id }}', '{{ $demande->id }}')">
                                                                     Rejeter
                                                                 </button>
-                                                            </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -850,10 +862,125 @@
             </div>
             <!-- /.card-body -->
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Checklist
 
+                        @if (auth()->user()->hasRole('sma') && !empty($demande->checklist_sma))
+                            <div class="card-tools">
+                                <a href="{{ asset('uploads/' . $demande->checklist_sma) }}" target="_blank"
+                                    class="btn btn-sm btn-success">
+                                    <i class="fas fa-eye"></i> Voir
+                                </a>
+                            </div>
+                        @endif
+                        @if (auth()->user()->hasRole('sla') && !empty($demande->checklist_sla))
+                            <div class="card-tools">
+                                <a href="{{ asset('uploads/' . $demande->checklist_sla) }}" target="_blank"
+                                    class="btn btn-sm btn-success">
+                                    <i class="fas fa-eye"></i> Voir
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('dsv.checklist', ['demande' => $demande]) }}" method="POST"
+                            enctype="multipart/form-data" class="mb-4">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="checklistFile" class="form-label">Fichier Checklist (PDF
+                                    uniquement)</label>
+                                <input class="form-control" type="file" id="checklistFile" name="checklist"
+                                    accept=".pdf" required>
+                                <div class="form-text">Veuillez sélectionner un fichier PDF (max: 5MB)</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary float-right">
+                                @if (auth()->user()->hasRole('sla'))
+                                    {{ $demande->checklist_sla ? 'Mettre à jour' : 'Envoyer' }}
+                                @else
+                                    {{ $demande->checklist_sma ? 'Mettre à jour' : 'Envoyer' }}
+                                @endif
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modale pour le motif de rejet -->
+    <div class="modal fade" id="rejectionModal" tabindex="-1" aria-labelledby="rejectionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectionModalLabel">Motif de rejet</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="rejectionForm" method="POST" class="d-inline">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="motif">Veuillez préciser le motif de rejet :</label>
+                            <textarea name="motif" id="motif" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <input type="hidden" name="table" id="table">
+                        <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="demande_id" id="demande_id">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" onclick="submitRejectionForm()">Rejeter</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('script')
 @endpush
 @push('custom')
+    <script>
+        // Fonction pour ouvrir la modale et définir les valeurs du formulaire
+        function openRejectionModal(table, id, demande) {
+            // Définir les valeurs des champs cachés
+            document.getElementById('table').value = table;
+            document.getElementById('id').value = id;
+            document.getElementById('demande_id').value = demande;
+
+            // Ouvrir la modale
+            new bootstrap.Modal(document.getElementById('rejectionModal')).show();
+        }
+
+        function submitRejectionForm() {
+            const motif = document.getElementById('motif').value;
+            if (!motif) {
+                alert('Veuillez saisir un motif de rejet.');
+                return;
+            }
+
+            // Confirmer avant de soumettre
+            if (confirm('Confirmer le rejet de cette information ?')) {
+                const form = $('#rejectionForm');
+                const data = form.serialize();
+                $.ajax({
+                    url: "{{ route('rejeter') }}",
+                    type: 'POST',
+                    data: data,
+                    success: function(response) {
+
+                        alert('Rejet effectué avec succès !');
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        alert('Une erreur s\'est produite : ' + xhr.responseText);
+                    }
+                });
+
+
+            }
+        }
+    </script>
 @endpush

@@ -1,9 +1,9 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        
+
         <div class="form-group">
             {{ Form::label('key') }}
-            {{ Form::text('key', $setting->key, ['class' => 'form-control' . ($errors->has('key') ? ' is-invalid' : ''), 'placeholder' => 'Key']) }}
+            {{ Form::select('key', $options, $setting->key, ['class' => 'form-control' . ($errors->has('key') ? ' is-invalid' : ''), 'placeholder' => 'Select Key']) }}
             {!! $errors->first('key', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">

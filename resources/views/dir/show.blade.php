@@ -334,131 +334,139 @@
 
                 </div>
                 {{-- Interupptions --}}
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        Interruptions
-                    </div>
+                @if ($interruption_demandeurs->isNotEmpty())
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Interruptions
+                        </div>
 
-                    <div class="card-body">
-                        @isset($interruption_demandeurs)
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-
-
-
-                                                <th>Date de debut</th>
-                                                <th>Date de fin</th>
-                                                <th>Raisons</th>
-                                                {{-- <th>Actions</th> --}}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($interruption_demandeurs as $interruption_demandeur)
+                        <div class="card-body">
+                            @isset($interruption_demandeurs)
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $interruption_demandeur->date_debut }}</td>
-                                                    <td>{{ $interruption_demandeur->date_fin }}</td>
-                                                    <td>{{ $interruption_demandeur->raison }}</td>
 
+
+
+                                                    <th>Date de debut</th>
+                                                    <th>Date de fin</th>
+                                                    <th>Raisons</th>
                                                     {{-- <th>Actions</th> --}}
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($interruption_demandeurs as $interruption_demandeur)
+                                                    <tr>
+                                                        <td>{{ $interruption_demandeur->date_debut }}</td>
+                                                        <td>{{ $interruption_demandeur->date_fin }}</td>
+                                                        <td>{{ $interruption_demandeur->raison }}</td>
+
+                                                        {{-- <th>Actions</th> --}}
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
-                        @endisset
+                            @endisset
+                        </div>
+
+
                     </div>
+                @endif
 
-
-                </div>
                 {{-- Expérience en maintenance d'aéronefs --}}
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        Expérience en maintenance d'aéronefs
-                    </div>
+                @if ($experience_maintenance_demandeurs->isNotEmpty())
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Expérience en maintenance d'aéronefs
+                        </div>
 
-                    <div class="card-body">
-                        @isset($experience_maintenance_demandeurs)
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-
-
-
-                                                <th>Date de debut</th>
-                                                <th>Date de fin</th>
-                                                <th>Descriptions</th>
-                                                {{-- <th>Actions</th> --}}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($experience_maintenance_demandeurs as $experience_maintenance_demandeur)
+                        <div class="card-body">
+                            @isset($experience_maintenance_demandeurs)
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $experience_maintenance_demandeur->date_debut }}</td>
-                                                    <td>{{ $experience_maintenance_demandeur->date_fin }}</td>
-                                                    <td>{{ $experience_maintenance_demandeur->description_maintenance }}
-                                                    </td>
 
+
+
+                                                    <th>Date de debut</th>
+                                                    <th>Date de fin</th>
+                                                    <th>Descriptions</th>
                                                     {{-- <th>Actions</th> --}}
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($experience_maintenance_demandeurs as $experience_maintenance_demandeur)
+                                                    <tr>
+                                                        <td>{{ $experience_maintenance_demandeur->date_debut }}</td>
+                                                        <td>{{ $experience_maintenance_demandeur->date_fin }}</td>
+                                                        <td>{{ $experience_maintenance_demandeur->description_maintenance }}
+                                                        </td>
+
+                                                        {{-- <th>Actions</th> --}}
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
-                        @endisset
+                            @endisset
+                        </div>
+
+
                     </div>
-
-
-                </div>
+                @endif
                 {{-- Employeurs --}}
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        Employeurs
-                    </div>
+                @if ($employeur_demandeurs->isNotEmpty())
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Employeurs
+                        </div>
 
-                    <div class="card-body">
-                        @isset($employeur_demandeurs)
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-
-
-                                                <th>Employeur</th>
-                                                <th>Date de debut</th>
-                                                <th>Date de fin</th>
-                                                <th>Fonction</th>
-                                                {{-- <th>Actions</th> --}}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($employeur_demandeurs as $employeur_demandeur)
+                        <div class="card-body">
+                            @isset($employeur_demandeurs)
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $employeur_demandeur->employeur }}</td>
-                                                    <td>{{ $employeur_demandeur->periode_du }}</td>
-                                                    <td>{{ $employeur_demandeur->periode_au }}</td>
-                                                    <td>{{ $employeur_demandeur->fonction }}</td>
 
+
+                                                    <th>Employeur</th>
+                                                    <th>Date de debut</th>
+                                                    <th>Date de fin</th>
+                                                    <th>Fonction</th>
                                                     {{-- <th>Actions</th> --}}
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($employeur_demandeurs as $employeur_demandeur)
+                                                    <tr>
+                                                        <td>{{ $employeur_demandeur->employeur }}</td>
+                                                        <td>{{ $employeur_demandeur->periode_du }}</td>
+                                                        <td>{{ $employeur_demandeur->periode_au }}</td>
+                                                        <td>{{ $employeur_demandeur->fonction }}</td>
+
+                                                        {{-- <th>Actions</th> --}}
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
-                        @endisset
+                            @endisset
+                        </div>
+
+
                     </div>
-
-
-                </div>
+                @endif
                 {{-- --}}
+
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         Pièce-jointe
@@ -481,12 +489,14 @@
                                         <tbody>
                                             @foreach ($documents as $document)
                                                 <tr>
-                                                    <td>{{ $document->libelle }}</td>
+                                                    <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? $document->nom_fr : $document->nom_en }}
+                                                    </td>
                                                     <td>
-                                                        <iframe id="documentViewer"
-                                                            src="{{ asset('/uploads/' . $document->url) }}"
-                                                            frameborder="0"></iframe>
-
+                                                        @if ($document->url)
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('{{ asset('/uploads/' . $document->url) }}')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        @endif
                                                     </td>
                                                     {{-- <th>Actions</th> --}}
                                                 </tr>
@@ -503,8 +513,35 @@
         </div>
     </div>
 
+    <!-- Modal -->
+
+
+    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+                </div>
+                <div class="modal-body">
+                    <iframe id="pdfViewer" src="" width="100%" height="500px"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 @endsection
 @push('script')
+    <script>
+        function openPdfModal(pdfUrl) {
+            $("#pdfViewer").attr("src", pdfUrl);
+            $("#pdfModal").modal("show");
+        }
+    </script>
 @endpush
 @push('custom')
 @endpush

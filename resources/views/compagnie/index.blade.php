@@ -93,8 +93,9 @@
                                                             <tr>
                                                                 <td>{{ $demande->code }}</td>
                                                                 <td>{{ $demande->demandeur->np }}</td>
-                                                                <td>{{ $demande->type_demande }}</td>
-                                                                <td>{{ $demande->type_licence }}</td>
+                                                                <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en }}
+                                                                </td>
+                                                                <td>{{ $demande->typeLicence->nom }}</td>
                                                                 <td>{{ $demande->status }}</td>
                                                                 <td>
                                                                     @if (!empty($demande->paiement))

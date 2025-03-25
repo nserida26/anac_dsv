@@ -41,8 +41,9 @@
                                         <tr>
                                             <td>{{ $demande->code }}</td>
                                             <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ $demande->type_demande }}</td>
-                                            <td>{{ $demande->type_licence }}</td>
+                                            <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en }}
+                                            </td>
+                                            <td>{{ $demande->typeLicence->nom }}</td>
                                             <td>{{ $demande->status }}</td>
                                             <td>
 
@@ -77,6 +78,32 @@
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
                                                                 Valider
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (optional($demande->paiement)->statut === 'Payé' &&
+                                                            optional($demande->etatDemande)->dg_signer === 1 &&
+                                                            optional($demande->typeDemande)->id === 1)
+                                                        <form action="{{ route('admin.generer', $demande->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Generer la licence ?')">
+                                                                Generer un licence
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (optional($demande->paiement)->statut === 'Payé' &&
+                                                            optional($demande->etatDemande)->dsv_signer === 1 &&
+                                                            optional($demande->typeDemande)->id !== 1)
+                                                        <form action="{{ route('admin.generer', $demande->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-primary btn-sm"
+                                                                onclick="return confirm('Mis a jour de la licence ?')">
+                                                                Mis a jour de la licence
                                                             </button>
                                                         </form>
                                                     @endif

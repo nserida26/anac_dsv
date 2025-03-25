@@ -40,19 +40,19 @@
                                         <tr>
                                             <td><?php echo e($demande->code); ?></td>
                                             <td><?php echo e($demande->demandeur->np); ?></td>
-                                            <td><?php echo e($demande->objet_licence); ?></td>
-                                            <td><?php echo e($demande->type_licence); ?></td>
+                                            <td><?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en); ?>
+
+                                            </td>
+                                            <td><?php echo e($demande->typeLicence->nom); ?></td>
                                             <td><?php echo e($demande->status); ?></td>
                                             <td>
-                                                <?php if(optional($demande)->dg_signer === 1 &&
-                                                        optional($demande)->dsv_signer === 1 &&
-                                                        optional($demande)->agent_imprimer !== 1): ?>
+                                                <?php if(optional($demande)->dg_signer === 1 ||
+                                                        (optional($demande)->dsv_signer === 1 && optional($demande)->agent_imprimer !== 1)): ?>
                                                     <a href="<?php echo e(route('agent.imprimer', $demande->demande_id)); ?>"
                                                         class="btn btn-primary btn-sm" target="_blank">Print</a>
                                                 <?php endif; ?>
-                                                <?php if(optional($demande)->dg_signer === 1 &&
-                                                        optional($demande)->dsv_signer === 1 &&
-                                                        optional($demande)->agent_imprimer !== 1): ?>
+                                                <?php if(optional($demande)->dg_signer === 1 ||
+                                                        (optional($demande)->dsv_signer === 1 && optional($demande)->agent_imprimer !== 1)): ?>
                                                     <form action="<?php echo e(route('agent.valider', $demande->demande_id)); ?>"
                                                         method="POST" class="d-inline">
                                                         <?php echo csrf_field(); ?>

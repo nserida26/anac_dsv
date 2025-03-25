@@ -47,7 +47,8 @@
                                         <tr>
                                             <td>{{ $demande->code }}</td>
                                             <td>{{ $demande->demandeur->np }}</td>
-                                            <td>{{ optional($demande->typeDemande)->nom_fr }}</td>
+                                            <td>{{ LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en }}
+                                            </td>
                                             <td>{{ $demande->typeLicence->nom }}</td>
                                             <td>{{ $demande->status }}</td>
                                             <td>
@@ -75,8 +76,8 @@
                                                     </form>
                                                 @endif
 
-                                                @if ($demande->paiement && $demande->paiement->statut === 'En attente')
-                                                    <a href="{{ route('user.pay', $demande->paiement) }}"
+                                                @if (!empty($demande->paiement_id) && $demande->statut === 'En attente')
+                                                    <a href="{{ route('user.pay', $demande->paiement_id) }}"
                                                         class="btn btn-warning btn-sm">Payer</a>
                                                 @endif
                                             </td>

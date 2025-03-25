@@ -26,6 +26,7 @@ use App\Models\Facture;
 use App\Models\LicenceDemandeur;
 use App\Models\Paiement;
 use App\Models\TypeDemande;
+use App\Models\TypeDocument;
 use App\Models\TypeLicence;
 use Illuminate\Http\Request;
 
@@ -98,6 +99,13 @@ class DemandeController extends Controller
         $autorites = Autorite::all();
 
         $type_avions = TypeAvion::all();
+        $typeLicenceId = $demande->typeLicence->id;
+        $typeDemandeId =  $demande->typeDemande->id;
+        $type_documents = TypeDocument::where('type_licence_id', $typeLicenceId)
+            ->where('type_demande_id', $typeDemandeId)
+            ->select('id', 'nom_fr', 'nom_en')
+            ->get();
+
 
         $licence_demandeurs = LicenceDemandeur::join('demandes', 'demandes.id', 'licence_demandeurs.demande_id')
             ->where('licence_demandeurs.demande_id', $id)
@@ -152,13 +160,14 @@ class DemandeController extends Controller
             ->select('employeur_demandeurs.*')
             ->get();
         $documents = Document::join('demandes', 'demandes.id', 'documents.demande_id')
+            ->join('type_documents', 'type_documents.id', 'documents.type_document_id')
             ->where('documents.demande_id', $id)
-            ->select('documents.*')
+            ->select('type_documents.*', 'documents.*')
             ->get();
 
 
 
-        return view('user.edit', compact('type_avions', 'licence_demandeurs', 'autorites', 'id', 'employeur_demandeurs', 'experience_maintenance_demandeurs', 'interruption_demandeurs', 'formation_demandeurs', 'documents', 'entrainement_demandeurs', 'competence_demandeurs', 'experience_demandeurs', 'medical_examinations', 'qualification_demandeurs', 'demande', 'centre_formations', 'qualifications', 'simulateurs', 'centre_medicals'));
+        return view('user.edit', compact('type_documents', 'type_avions', 'licence_demandeurs', 'autorites', 'id', 'employeur_demandeurs', 'experience_maintenance_demandeurs', 'interruption_demandeurs', 'formation_demandeurs', 'documents', 'entrainement_demandeurs', 'competence_demandeurs', 'experience_demandeurs', 'medical_examinations', 'qualification_demandeurs', 'demande', 'centre_formations', 'qualifications', 'simulateurs', 'centre_medicals'));
     }
 
     public function update(Request $request, Paiement $paiement)
@@ -195,6 +204,7 @@ class DemandeController extends Controller
     {
         $demande = Demande::findOrFail($id);
         $demande->status = 'En cours de traitement';
+        $demande->mise_a_jour;
         $demande->save();
         $etat_demande = EtatDemande::where('demande_id', $id)->update(
             [
@@ -608,29 +618,40 @@ class DemandeController extends Controller
 
     public function storeDocuments(Request $request)
     {
+
         $request->validate([
-            'libelle' => 'required',
-            'piece' => 'required|mimes:pdf',
-            'demande_id' => 'required',
+            'type_document_id' => 'required|array', // Assurez-vous que c'est un tableau
+            'type_document_id.*' => 'required|exists:type_documents,id', // Valider chaque élément du tableau
+            'pieces' => 'required|array', // Assurez-vous que c'est un tableau
+            'pieces.*' => 'required|mimes:pdf|max:2048', // Valider chaque fichier
         ]);
+        $demandeId = $request->input('demande_id');
+        $documents = [];
 
+        foreach ($request->file('pieces') as $index => $file) {
+            $typeDocumentId = $request->input('type_document_id')[$index];
 
-        if ($request->hasFile('piece')) {
-            $documentPath = $request->file('piece')->store('documents', 'public');
-        } else {
-            $documentPath = null;
+            $fileName = 'document_' . $demandeId . '_' . $typeDocumentId . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+            $file->storeAs('documents', $fileName, 'public');
+            $document = Document::create([
+                'demande_id' => $demandeId,
+                'type_document_id' => $typeDocumentId,
+                'nom_fr' => TypeDocument::find($typeDocumentId)->nom_fr,
+                'url' => 'documents/' . $fileName,
+            ]);
+
+            $documents[] = $document;
         }
-        $document = Document::create(array_merge(['demande_id' => $request->demande_id], ['url' => $documentPath], ['libelle' => $request->libelle]));
         return response()->json([
             'success' => 'Document ajouté avec succès',
-            'document' => $document
+            'documents' => $documents
         ]);
     }
 
     public function updateDocuments(Request $request, Document $document)
     {
         $request->validate([
-            'libelle' => 'required',
             'piece' => 'required|mimes:pdf',
         ]);
         // Créer l Aptitude demande
@@ -640,7 +661,7 @@ class DemandeController extends Controller
         } else {
             $documentPath = null;
         }
-        $doc = $document->update(array_merge(['url' => $documentPath], ['libelle' => $request->libelle]));
+        $doc = $document->update(array_merge(['url' => $documentPath]));
         $updatedDocument = Document::find($document->id);
         return response()->json([
             'success' => 'Document mis à jour avec succès',

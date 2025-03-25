@@ -30,8 +30,8 @@
 
             <!-- Right navbar links -->
 
-            <ul class="<?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' || LaravelLocalization::getCurrentLocale() == 'en' ? 'navbar-nav ml-auto' : 'navbar-nav'); ?>"
-                >
+            <ul
+                class="<?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' || LaravelLocalization::getCurrentLocale() == 'en' ? 'navbar-nav ml-auto' : 'navbar-nav'); ?>">
 
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -82,6 +82,22 @@
     </div>
     <!-- ./wrapper -->
 
+    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+                </div>
+                <div class="modal-body">
+                    <iframe id="pdfViewer" src="" width="100%" height="500px"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -113,6 +129,14 @@
     <script src="<?php echo e(asset('assets/admin/dist/js/adminlte.min.js')); ?>"></script>
 
     <?php echo $__env->yieldPushContent('custom'); ?>
+    <script>
+        function openPdfModal(pdfUrl) {
+            console.log(pdfUrl);
+
+            $("#pdfViewer").attr("src", pdfUrl);
+            $("#pdfModal").modal("show");
+        }
+    </script>
 
 </body>
 

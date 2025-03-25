@@ -25,7 +25,8 @@ class QualificationDemandeur extends Model
         'amt',
         'rpa',
         'atc',
-        'ulm'
+        'ulm',
+        'motif'
     ];
 
     public function demande()

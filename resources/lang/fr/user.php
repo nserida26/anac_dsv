@@ -10,7 +10,6 @@ return [
     'add' => 'Ajouter',
     'add_role' => 'Ajouter un role',
     'create_user' => 'Creer un utilisateur',
-
     'dashboard' => 'Espace Demandeur',
     'demandes' => 'Demandes',
     'ajouter' => 'Ajouter',
@@ -19,8 +18,20 @@ return [
     'lieu_naissance' => 'Lieu de Naissance',
     'adresse' => 'Adresse',
     'adresse_employeur' => "Adresse de l'Employeur",
+    'nationalite' => 'Nationalité',
+    'compagnie' => 'Compagnie',
     'photo' => 'Photo',
     'signature' => 'Signature',
     'save_changes' => 'Enregistrer les modifications',
+    'licence' => 'Licence',
+    'licence_number' => 'Numéro de licence',
+    'licence_date' => 'Date de licence',
+    'issuing_authority' => 'Autorité de délivrance',
+    'place_of_issue' => 'Lieu de délivrance',
+    'justificatif' => 'Justificatif',
+    'submit' => 'Soumettre',
+    'actions' => 'Actions',
+    'edit' => 'Modifier',
+    'delete' => 'Supprimer',
 
 ];

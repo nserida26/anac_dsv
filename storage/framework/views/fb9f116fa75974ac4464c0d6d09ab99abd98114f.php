@@ -41,8 +41,10 @@
                                         <tr>
                                             <td><?php echo e($demande->code); ?></td>
                                             <td><?php echo e($demande->demandeur->np); ?></td>
-                                            <td><?php echo e($demande->objet_licence); ?></td>
-                                            <td><?php echo e($demande->type_licence); ?></td>
+                                            <td><?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en); ?>
+
+                                            </td>
+                                            <td><?php echo e($demande->typeLicence->nom); ?></td>
                                             <td><?php echo e($demande->status); ?></td>
                                             <td>
 
@@ -77,6 +79,32 @@
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
                                                                 Valider
+                                                            </button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    <?php if(optional($demande->paiement)->statut === 'Payé' &&
+                                                            optional($demande->etatDemande)->dg_signer === 1 &&
+                                                            optional($demande->typeDemande)->id === 1): ?>
+                                                        <form action="<?php echo e(route('admin.generer', $demande->id)); ?>"
+                                                            method="POST" class="d-inline">
+                                                            <?php echo csrf_field(); ?>
+                                                            <?php echo method_field('PATCH'); ?>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Generer la licence ?')">
+                                                                Generer un licence
+                                                            </button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    <?php if(optional($demande->paiement)->statut === 'Payé' &&
+                                                            optional($demande->etatDemande)->dsv_signer === 1 &&
+                                                            optional($demande->typeDemande)->id !== 1): ?>
+                                                        <form action="<?php echo e(route('admin.generer', $demande->id)); ?>"
+                                                            method="POST" class="d-inline">
+                                                            <?php echo csrf_field(); ?>
+                                                            <?php echo method_field('PATCH'); ?>
+                                                            <button type="submit" class="btn btn-primary btn-sm"
+                                                                onclick="return confirm('Mis a jour de la licence ?')">
+                                                                Mis a jour de la licence
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>

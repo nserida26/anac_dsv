@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Quittance(PDF)</label>
+                                <label class="form-label">Déclaration d'ajout à la dette (PDF)</label>
                                 <input type="file" name="quittance" class="form-control" accept="application/pdf"
                                     required>
                             </div>

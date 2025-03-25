@@ -1,7 +1,20 @@
-<?php $__env->startSection('template_title'); ?>
-    Setting
+<?php $__env->startSection('title'); ?>
+    <?php echo app('translator')->get('admin.dashboard'); ?>
 <?php $__env->stopSection(); ?>
-
+<?php $__env->startSection('contentheader'); ?>
+    <?php echo app('translator')->get('admin.dashboard'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('contentheaderlink'); ?>
+    <a href="">
+        <?php echo app('translator')->get('admin.dashboard'); ?> </a>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('contentheaderactive'); ?>
+    <?php echo app('translator')->get('admin.dashboard'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('css'); ?>
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')); ?>">
+<?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <div class="row">

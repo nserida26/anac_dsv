@@ -55,7 +55,10 @@
                                         </tr>
                                         <tr>
                                             <th><?php echo app('translator')->get('user.date_naissance'); ?></th>
-                                            <td><?php echo e($licence->date_naissance ?? '-'); ?></td>
+                                            <td><?php echo e(!empty($licence->date_naissance) ? date('Y-m-d', strtotime($licence->date_naissance)) : '-'); ?>
+
+                                            </td>
+
                                         </tr>
                                         <tr>
                                             <th><?php echo app('translator')->get('user.adresse'); ?></th>
@@ -74,15 +77,54 @@
                                         </tr>
                                         <tr>
                                             <th><?php echo app('translator')->get('user.date_deliverance'); ?></th>
-                                            <td><?php echo e($licence->date_deliverance ?? '-'); ?></td>
+                                            <td><?php echo e(!empty($licence->date_deliverance) ? date('Y-m-d', strtotime($licence->date_deliverance)) : '-'); ?>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th><?php echo app('translator')->get('user.date_mise_a_jour'); ?></th>
-                                            <td><?php echo e($licence->date_mise_a_jour ?? '-'); ?></td>
+                                            <td><?php echo e(!empty($licence->date_mise_a_jour) ? date('Y-m-d', strtotime($licence->date_mise_a_jour)) : '-'); ?>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th><?php echo app('translator')->get('user.date_expiration'); ?></th>
-                                            <td><?php echo e($licence->date_expiration ?? '-'); ?></td>
+                                            <td><?php echo e(!empty($licence->date_expiration) ? date('Y-m-d', strtotime($licence->date_expiration)) : '-'); ?>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><?php echo app('translator')->get('user.cachet'); ?></th>
+                                            <td class="text-center">
+                                                <?php if(isset($licence->cachet) && $licence->cachet != ''): ?>
+                                                    <img src="<?php echo e(asset('/uploads/' . $licence->cachet)); ?>" alt="User Signature"
+                                                        class="img-thumbnail" width="120">
+                                                <?php else: ?>
+                                                    -
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><?php echo app('translator')->get('user.signature_dg'); ?></th>
+                                            <td class="text-center">
+                                                <?php if(isset($licence->signature_dg) && $licence->signature_dg != ''): ?>
+                                                    <img src="<?php echo e(asset('/uploads/' . $licence->signature_dg)); ?>"
+                                                        alt="User Signature" class="img-thumbnail" width="120">
+                                                <?php else: ?>
+                                                    -
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><?php echo app('translator')->get('user.signature_dsv'); ?></th>
+                                            <td class="text-center">
+                                                <?php if(isset($licence->signature_dsv) && $licence->signature_dsv != ''): ?>
+                                                    <img src="<?php echo e(asset('/uploads/' . $licence->signature_dsv)); ?>"
+                                                        alt="User Signature" class="img-thumbnail" width="120">
+                                                <?php else: ?>
+                                                    -
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
@@ -93,53 +135,10 @@
                                         alt="Profile Picture" class="img-fluid rounded-circle"
                                         style="width: 150px; height: 150px; object-fit: cover;">
                                 </div>
+
                             </div>
                         <?php endif; ?>
-                        <?php if(
-                            (empty($licence->date_deliverance) && empty($licence->date_expiration)) ||
-                                (empty($licence->date_mise_a_jour) && empty($licence->date_expiration))): ?>
-                            <form action="<?php echo e(route('licences.update', $licence)); ?>" method="POST"
-                                enctype="multipart/form-data">
-                                <?php echo csrf_field(); ?>
-
-                                <div class="row">
-                                    <?php if($licence->demande->objet_licence === 'Delivrance'): ?>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label for="date_deliverance">Date de delivreance</label>
-                                                <input type="date" class="form-control" id="date_deliverance"
-                                                    name="date_deliverance" placeholder="">
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if($licence->demande->objet_licence === 'Renouvellement'): ?>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label for="date_mise_a_jour">Date de mise a jour</label>
-                                                <input type="date" class="form-control" id="date_mise_a_jour"
-                                                    name="date_mise_a_jour" placeholder="">
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label for="date_expiration">Date d'expiration</label>
-                                            <input type="date" class="form-control" id="date_expiration"
-                                                name="date_expiration" placeholder="">
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <button type="submit" class="btn btn-success float-right"><i
-                                                class="fas fa-plus"></i>
-                                            Ok</button>
-                                    </div>
-                                </div>
-                            </form>
-                        <?php endif; ?>
+                        
 
                     </div>
                 </div>

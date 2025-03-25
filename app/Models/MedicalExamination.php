@@ -22,4 +22,3 @@ class MedicalExamination extends Model
         return $this->belongsTo(Demande::class);
     }
 }
-

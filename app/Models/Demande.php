@@ -18,12 +18,15 @@ class Demande extends Model
         'type_demande_id',
         'type_licence_id',
         'status',
-        'demandeur_id'
+        'demandeur_id',
+        'checklist_admin',
+        'checklist_sla',
+        'checklist_sma'
     ];
 
     public function demandeur()
     {
-        return $this->belongsTo(Demandeur::class);
+        return $this->belongsTo(Demandeur::class, 'demandeur_id');
     }
 
     public function etatDemande()
@@ -43,6 +46,11 @@ class Demande extends Model
     public function ordre()
     {
         return $this->hasOne(OrdreRecette::class, 'demande_id');
+    }
+
+    public function facture()
+    {
+        return $this->hasOne(Facture::class, 'demande_id');
     }
 
     public function typeDemande()
@@ -83,6 +91,6 @@ class Demande extends Model
 
     public function trainings()
     {
-        return $this->hasMany(TrainingDemandeur::class);
+        return $this->hasMany(TrainingDemandeur::class, 'demande_id');
     }
 }

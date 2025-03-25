@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Licence;
+use App\Models\TypeDemande;
+use App\Models\TypeLicence;
 
 /**
  * Class SettingController
@@ -32,8 +35,22 @@ class SettingController extends Controller
      */
     public function create()
     {
+        $licences = TypeLicence::all();
+        $demandes = TypeDemande::all();
+        $options = collect();
+
+        foreach ($licences as $licence) {
+            foreach ($demandes as $demande) {
+                $options->push([
+                    'key' => $demande->nom_fr . '-' . $licence->nom, // Combinaison des IDs
+                    'nom' => $demande->nom_fr . '-' . $licence->nom, // Combinaison des noms
+                ]);
+            }
+        }
+        // Transformer en tableau pour Form::select
+        $options = $options->pluck('nom', 'key');
         $setting = new Setting();
-        return view('admin.settings.create', compact('setting'));
+        return view('admin.settings.create', compact('setting', 'options'));
     }
 
     /**

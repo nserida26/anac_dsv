@@ -22,6 +22,7 @@ use App\Models\InterruptionDemandeur;
 use App\Models\Licence;
 use App\Models\MedicalExamination;
 use App\Models\QualificationDemandeur;
+use App\Models\Setting;
 use App\Models\Signature;
 use App\Models\TrainingDemandeur;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,7 @@ class DgDsvController extends Controller
         //
         $demandes = Demande::with('demandeur')->with('paiement')->where('status', '<>', 'En attente')->get();
         $ordres = OrdreRecette::with('demande')->get();
+
 
         return view('dir.index', compact('demandes', 'ordres'));
     }
@@ -64,28 +66,22 @@ class DgDsvController extends Controller
      * @return \Illuminate\Http\Response
      */
     // Stocker un nouvel ordre de recette
-    public function store(Request $request)
+    public function store(Demande $demande)
     {
-        $request->validate([
-            'demande_id' => 'required|exists:demandes,id',
-            'montant' => 'required|numeric|min:0',
-            'date_ordre' => 'required|date'
-        ]);
 
-        if ($request->hasFile('ordre')) {
-            $ordrePath = $request->file('ordre')->store('paiements', 'public');
-        } else {
-            $ordrePath = null;
-        }
+        $key = $demande->typeDemande->nom_fr . '-' . $demande->typeLicence->nom;
+
+        $setting = Setting::where('key', $key)->orderBy('id', 'desc')->first();
+
+
         $ordre = OrdreRecette::create([
-            'demande_id' => $request->demande_id,
-            'montant' => $request->montant,
+            'demande_id' => $demande->id,
+            'montant' => !empty($setting) ? doubleval($setting->value) : 0,
             'reference' => 'OR-' . strtoupper(uniqid()), // Génération de référence unique
-            'date_ordre' => $request->date_ordre,
-            'statut' => 'Généré',
-            'ordre' => $ordrePath
+            'date_ordre' => date('Y-m-d'),
+            'statut' => 'Généré'
         ]);
-        $etat_demande = EtatDemande::where('demande_id', $request->demande_id)->update(
+        $etat_demande = $demande->etatDemande->update(
             [
                 'dsv_recette' =>  true
             ]
@@ -153,9 +149,11 @@ class DgDsvController extends Controller
             ->select('employeur_demandeurs.*')
             ->get();
         $documents = Document::join('demandes', 'demandes.id', 'documents.demande_id')
+            ->join('type_documents', 'type_documents.id', 'documents.type_document_id')
             ->where('documents.demande_id', $id)
-            ->select('documents.*')
+            ->select('type_documents.*', 'documents.*')
             ->get();
+
 
 
 
@@ -310,7 +308,9 @@ class DgDsvController extends Controller
 
         $etat_demande = EtatDemande::where('demande_id', $id)->update(
             [
-                'dg_valider' => true
+                'dg_valider' => true,
+                'dsv_dg_valider' => Auth::user()->hasRole('dsv')
+
             ]
         );
 
@@ -321,7 +321,8 @@ class DgDsvController extends Controller
 
         $etat_demande = EtatDemande::where('demande_id', $id)->update(
             [
-                'dg_annoter' => true
+                'dg_annoter' => true,
+                'dsv_dg_annoter' => Auth::user()->hasRole('dsv')
             ]
         );
 
@@ -333,7 +334,8 @@ class DgDsvController extends Controller
 
         $etat_demande = EtatDemande::where('demande_id', $id)->update(
             [
-                'dg_rejeter' => true
+                'dg_rejeter' => true,
+                'dsv_dg_rejeter' => Auth::user()->hasRole('dsv')
             ]
         );
 
@@ -356,75 +358,11 @@ class DgDsvController extends Controller
 
         $etat_demande = EtatDemande::where('demande_id', $id)->update(
             [
-                'dg_signer' => true
+                'dg_signer' => true,
+                'dsv_dg_signer' => Auth::user()->hasRole('dsv')
             ]
         );
-
-        $demande = Demande::findOrFail($id);
-        $demandeur = $demande->demandeur;
-        $categorie_licence = $this->getCategorieLicence($demande->type_licence);
-        $first_part_code = strtoupper(substr($demande->type_licence, 0, 1)) . '' . strtoupper(substr($demande->specialite, 0, 1));
-        $latestLicense = Licence::latest('id')->first();
-        $second_part_code = '';
-        if ($latestLicense) {
-            # code...
-            $hyphenPosition = strpos($latestLicense->numero_licence, '-');
-            if ($hyphenPosition !== false) {
-                $second_part_code = substr($latestLicense->numero_licence, $hyphenPosition + 1);
-            }
-        } else {
-
-            $second_part_code = '001';
-            # code...
-        }
-        //$qualifications = $demande->qualifications->where('');
-        if ($demande->type_demande === 'Delivrance') {
-            $licence = Licence::create(
-                [
-                    'demande_id' => $demande->id,
-                    'categorie_licence' => $categorie_licence,
-                    'machine_licence' => strtoupper(substr($demande->specialite, 0, 1)),
-                    'type_licence' => $demande->type_licence,
-                    'numero_licence' => $first_part_code . '-' . $second_part_code,
-                    'np' => $demandeur->np,
-                    'date_naissance' => $demandeur->date_naissance,
-                    'adresse' => $demandeur->adresse,
-                    'nationalite' => $demandeur->nationalite,
-                    'photo' => $demandeur->photo,
-                    'signature' =>  $demandeur->signature
-                ]
-            );
-            # code...
-        }
-
-
-
-
-        return back()->with('success', 'Demande signée et Licence cree avec succès.');
-    }
-    function getCategorieLicence($type_licence)
-    {
-        // Convert to uppercase to handle case insensitivity
-        $type_licence = strtoupper($type_licence);
-
-        switch ($type_licence) {
-            case 'ATPL':
-            case 'CPL':
-            case 'PPL':
-            case 'ULM':
-                return 'Flight Crew Licence';
-            case 'RPA':
-                return 'UA Pilot Licence';
-            case 'ATC':
-                return 'ATC Licence';
-            case 'ATE':
-                return 'Dispatcher Licence';
-            case 'AMT':
-                return 'Aircraft Maintenance Licence';
-            case 'MEC':
-                return 'Cabin Crew Licence';
-            default:
-                return 'Unknown Licence';
-        }
+        # code...
+        return back()->with('success', 'Demande signée avec succès.');
     }
 }

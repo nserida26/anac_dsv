@@ -33,7 +33,12 @@
                                         <th>Phase</th>
                                         <th>Type de licence</th>
                                         <th>Status</th>
-                                        <th></th>
+                                        <?php if(auth()->user()->hasRole('sla')): ?>
+                                            <th>Formations</th>
+                                        <?php endif; ?>
+                                        <?php if(auth()->user()->hasRole('sma')): ?>
+                                            <th>Examens</th>
+                                        <?php endif; ?>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -42,15 +47,38 @@
                                         <tr>
                                             <td><?php echo e($demande->code); ?></td>
                                             <td><?php echo e($demande->demandeur->np); ?></td>
-                                            <td><?php echo e($demande->objet_licence); ?></td>
-                                            <td><?php echo e($demande->type_licence); ?></td>
-                                            <td><?php echo e($demande->status); ?></td>
-                                            <td>
-                                                <?php if(empty($demande->demandeur->examens)): ?>
-                                                    
-                                                <?php endif; ?>
+                                            <td><?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en); ?>
 
                                             </td>
+                                            <td><?php echo e($demande->typeLicence->nom); ?></td>
+                                            <td><?php echo e($demande->status); ?></td>
+                                            <?php if(auth()->user()->hasRole('sla')): ?>
+                                                <td>
+                                                    <?php if($demande->demandeur->formations): ?>
+                                                        <span class="badge badge-primary">
+                                                            OUI
+                                                        </span>
+                                                    <?php else: ?>
+                                                        <span class="badge badge-danger">
+                                                            NON
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            <?php endif; ?>
+                                            <?php if(auth()->user()->hasRole('sma')): ?>
+                                                <td>
+                                                    <?php if($demande->demandeur->examens): ?>
+                                                        <span class="badge badge-primary">
+                                                            OUI
+                                                        </span>
+                                                    <?php else: ?>
+                                                        <span class="badge badge-danger">
+                                                            NON
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            <?php endif; ?>
+
                                             <td>
 
 
@@ -96,6 +124,23 @@
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation de dossier medical ?')">
                                                                 Valider
+                                                            </button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    <?php if(optional($demande->etatDemande)->dg_annoter === 1 &&
+                                                            optional($demande->etatDemande)->dg_rejeter !== 1 &&
+                                                            optional($demande->etatDemande)->dsv_annoter === 1 &&
+                                                            optional($demande->etatDemande)->dsv_rejeter !== 1 &&
+                                                            optional($demande->etatDemande)->pel_annoter === 1 &&
+                                                            optional($demande->etatDemande)->sm_valider !== 1 &&
+                                                            optional($demande->etatDemande)->evaluateur_annoter !== 1): ?>
+                                                        <form action="<?php echo e(route('sma.annoter', $demande->id)); ?>"
+                                                            method="POST" class="d-inline">
+                                                            <?php echo csrf_field(); ?>
+                                                            <?php echo method_field('PATCH'); ?>
+                                                            <button type="submit" class="btn btn-warning btn-sm"
+                                                                onclick="return confirm('Confirmer l\' annotation vers Evaluateur ?')">
+                                                                Annoter
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>

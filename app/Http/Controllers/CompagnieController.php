@@ -42,7 +42,7 @@ class CompagnieController extends Controller
         $compagnie = $user->compagnie;
         $compagnie->update(
             [
-                'panier' => doubleval($paiement->montant)
+                'panier' => $compagnie->panier + doubleval($paiement->montant)
             ]
         );
 

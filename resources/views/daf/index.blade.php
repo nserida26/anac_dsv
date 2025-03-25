@@ -47,7 +47,7 @@
                                             <td>{{ $ordre->statut }}</td>
                                             <td>
 
-                                                @if ($ordre->statut === 'Validé')
+                                                @if ($ordre->statut === 'Validé' && empty($ordre->demande->facture))
                                                     <a href="{{ route('daf.create', $ordre) }}"
                                                         class="btn btn-primary btn-sm">Facturer</a>
                                                 @endif

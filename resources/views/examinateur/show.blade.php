@@ -69,15 +69,16 @@
                                         </tr>
                                         <tr>
                                             <th>@lang('examinateur.rapport')</th>
-                                            <td>{!!$examen->rapport ?? '-' !!}</td>
+                                            <td>{!! $examen->rapport ?? '-' !!}</td>
                                         </tr>
 
                                         <tr>
                                             <th>@lang('examinateur.attestation')</th>
                                             <td class="text-center">
                                                 @if (isset($examen->attestation) && $examen->attestation != '')
-                                                    <iframe id="documentViewer"
-                                                        src="{{ asset('/uploads/' . $examen->attestation) }}">
+                                                    <button class="btn btn-primary"
+                                                        onclick="openPdfModal('{{ asset('/uploads/' . $examen->attestation) }}')"><i
+                                                            class="fas fa-eye"></i></button>
                                                 @else
                                                     -
                                                 @endif

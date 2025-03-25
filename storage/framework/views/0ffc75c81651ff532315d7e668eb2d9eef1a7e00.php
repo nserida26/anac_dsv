@@ -47,7 +47,9 @@
                                         <tr>
                                             <td><?php echo e($demande->code); ?></td>
                                             <td><?php echo e($demande->demandeur->np); ?></td>
-                                            <td><?php echo e(optional($demande->typeDemande)->nom_fr); ?></td>
+                                            <td><?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' ? optional($demande->typeDemande)->nom_fr : optional($demande->typeDemande)->nom_en); ?>
+
+                                            </td>
                                             <td><?php echo e($demande->typeLicence->nom); ?></td>
                                             <td><?php echo e($demande->status); ?></td>
                                             <td>
@@ -75,8 +77,8 @@
                                                     </form>
                                                 <?php endif; ?>
 
-                                                <?php if($demande->paiement && $demande->paiement->statut === 'En attente'): ?>
-                                                    <a href="<?php echo e(route('user.pay', $demande->paiement)); ?>"
+                                                <?php if(!empty($demande->paiement_id) && $demande->statut === 'En attente'): ?>
+                                                    <a href="<?php echo e(route('user.pay', $demande->paiement_id)); ?>"
                                                         class="btn btn-warning btn-sm">Payer</a>
                                                 <?php endif; ?>
                                             </td>

@@ -55,7 +55,9 @@
                                         </tr>
                                         <tr>
                                             <th>@lang('user.date_naissance')</th>
-                                            <td>{{ $licence->date_naissance ?? '-' }}</td>
+                                            <td>{{ !empty($licence->date_naissance) ? date('Y-m-d', strtotime($licence->date_naissance)) : '-' }}
+                                            </td>
+
                                         </tr>
                                         <tr>
                                             <th>@lang('user.adresse')</th>
@@ -74,15 +76,51 @@
                                         </tr>
                                         <tr>
                                             <th>@lang('user.date_deliverance')</th>
-                                            <td>{{ $licence->date_deliverance ?? '-' }}</td>
+                                            <td>{{ !empty($licence->date_deliverance) ? date('Y-m-d', strtotime($licence->date_deliverance)) : '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>@lang('user.date_mise_a_jour')</th>
-                                            <td>{{ $licence->date_mise_a_jour ?? '-' }}</td>
+                                            <td>{{ !empty($licence->date_mise_a_jour) ? date('Y-m-d', strtotime($licence->date_mise_a_jour)) : '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>@lang('user.date_expiration')</th>
-                                            <td>{{ $licence->date_expiration ?? '-' }}</td>
+                                            <td>{{ !empty($licence->date_expiration) ? date('Y-m-d', strtotime($licence->date_expiration)) : '-' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('user.cachet')</th>
+                                            <td class="text-center">
+                                                @if (isset($licence->cachet) && $licence->cachet != '')
+                                                    <img src="{{ asset('/uploads/' . $licence->cachet) }}" alt="User Signature"
+                                                        class="img-thumbnail" width="120">
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('user.signature_dg')</th>
+                                            <td class="text-center">
+                                                @if (isset($licence->signature_dg) && $licence->signature_dg != '')
+                                                    <img src="{{ asset('/uploads/' . $licence->signature_dg) }}"
+                                                        alt="User Signature" class="img-thumbnail" width="120">
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('user.signature_dsv')</th>
+                                            <td class="text-center">
+                                                @if (isset($licence->signature_dsv) && $licence->signature_dsv != '')
+                                                    <img src="{{ asset('/uploads/' . $licence->signature_dsv) }}"
+                                                        alt="User Signature" class="img-thumbnail" width="120">
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
@@ -93,11 +131,10 @@
                                         alt="Profile Picture" class="img-fluid rounded-circle"
                                         style="width: 150px; height: 150px; object-fit: cover;">
                                 </div>
+
                             </div>
                         @endisset
-                        @if (
-                            (empty($licence->date_deliverance) && empty($licence->date_expiration)) ||
-                                (empty($licence->date_mise_a_jour) && empty($licence->date_expiration)))
+                        {{-- @if ((empty($licence->date_deliverance) && empty($licence->date_expiration)) || (empty($licence->date_mise_a_jour) && empty($licence->date_expiration)))
                             <form action="{{ route('licences.update', $licence) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -139,7 +176,7 @@
                                     </div>
                                 </div>
                             </form>
-                        @endif
+                        @endif --}}
 
                     </div>
                 </div>

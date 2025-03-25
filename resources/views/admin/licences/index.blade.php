@@ -43,7 +43,7 @@
                                     @foreach ($licences as $licence)
                                         <tr>
                                             <td>{{ $licence->categorie_licence }}</td>
-                                            <td>{{ $licence->type_licence }} ({{ $licence->machine_licence }})</td>
+                                            <td>{{ $licence->type_licence }}</td>
                                             <td>{{ $licence->numero_licence }}</td>
                                             <td>{{ $licence->np }}</td>
                                             <td>{{ $licence->date_naissance }}</td>
@@ -58,7 +58,16 @@
                                                         @csrf
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-primary btn-sm"
-                                                            onclick="return confirm('Confirmer la licence ?')">Valider</button>
+                                                            onclick="return confirm('Confirmer la validation de la licence ?')">Valider</button>
+                                                    </form>
+                                                @endif
+                                                @if ($licence->licence_valide)
+                                                    <form action="{{ route('licences.bloquer', $licence) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Confirmer la révocation  de la licence ?')">Révoquer</button>
                                                     </form>
                                                 @endif
 

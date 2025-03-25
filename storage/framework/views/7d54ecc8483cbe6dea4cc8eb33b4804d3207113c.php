@@ -85,6 +85,19 @@
                                 <p><?php echo app('translator')->get('sidebar.autorites'); ?></p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?php echo e(url('admin/settings')); ?>" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo app('translator')->get('sidebar.settings'); ?></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo e(url('admin/type-documents')); ?>" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo app('translator')->get('sidebar.type-documents'); ?></p>
+                            </a>
+                        </li>
+
 
                     </ul>
                 </li>

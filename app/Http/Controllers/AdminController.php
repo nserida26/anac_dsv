@@ -20,6 +20,8 @@ use App\Models\Licence;
 use App\Models\MedicalExamination;
 use App\Models\QualificationDemandeur;
 use App\Models\TrainingDemandeur;
+use App\Models\User;
+use DateTime;
 
 class AdminController extends Controller
 {
@@ -69,6 +71,8 @@ class AdminController extends Controller
         //
         $demande = Demande::find($id);
         $demandeur = $demande->demandeur;
+        $examens = $demande->demandeur->examens;
+        $formations = $demande->demandeur->formations;
 
         //
         $formation_demandeurs = FormationDemandeur::join('demandes', 'demandes.id', 'formation_demandeurs.demande_id')
@@ -118,13 +122,13 @@ class AdminController extends Controller
             ->select('employeur_demandeurs.*')
             ->get();
         $documents = Document::join('demandes', 'demandes.id', 'documents.demande_id')
+            ->join('type_documents', 'type_documents.id', 'documents.type_document_id')
             ->where('documents.demande_id', $id)
-            ->select('documents.*')
+            ->select('type_documents.*', 'documents.*')
             ->get();
 
 
-
-        return view('admin.demandes.show', compact('demande', 'demandeur', 'employeur_demandeurs', 'experience_maintenance_demandeurs', 'interruption_demandeurs', 'formation_demandeurs', 'documents', 'entrainement_demandeurs', 'competence_demandeurs', 'experience_demandeurs', 'medical_examinations', 'qualification_demandeurs'));
+        return view('admin.demandes.show', compact('examens', 'formations', 'demande', 'demandeur', 'employeur_demandeurs', 'experience_maintenance_demandeurs', 'interruption_demandeurs', 'formation_demandeurs', 'documents', 'entrainement_demandeurs', 'competence_demandeurs', 'experience_demandeurs', 'medical_examinations', 'qualification_demandeurs'));
     }
 
     /**
@@ -151,7 +155,8 @@ class AdminController extends Controller
     {
         $etat_demande = $licence->update(
             [
-                'licence_valide' => true
+                'licence_valide' => true,
+                'licence_bloque' => false,
             ]
         );
 
@@ -162,6 +167,23 @@ class AdminController extends Controller
         );
 
         return back()->with('success', 'Licence validée avec succès.');
+    }
+
+    public function bloquerLicence(Licence $licence)
+    {
+        $etat_demande = $licence->update(
+            [
+                'licence_bloque' => true,
+                'licence_valide' => false,
+            ]
+        );
+        $etat_demande = $licence->demande->etatDemande->update(
+            [
+                'pel_licence_valider' => false
+            ]
+        );
+
+        return back()->with('success', 'Licence bloquée avec succès.');
     }
 
     /**
@@ -228,5 +250,114 @@ class AdminController extends Controller
         );
 
         return back()->with('success', 'Demandeur enrolée avec succès.');
+    }
+
+    function generateLicence($id)
+    {
+        $demande = Demande::findOrFail($id);
+        $demandeur = $demande->demandeur;
+        $entrainement_demandeurs = $demande->trainings;
+        $examen_demandeurs = $demande->medicalExaminations;
+        $competence_demandeurs = $demande->competences;
+        $maxExpirationDateCompetence = $competence_demandeurs->map(function ($item) {
+            $startDate = \Carbon\Carbon::parse($item->date);
+            $expirationDate = $startDate->copy()->addMonths($item->validite);
+            return $expirationDate->format('Y-m-d');
+        })->max();
+
+        $maxExpirationDateExamen = $examen_demandeurs->map(function ($item) {
+            $startDate = \Carbon\Carbon::parse($item->date_examen);
+            $expirationDate = $startDate->copy()->addMonths($item->validite);
+            return $expirationDate->format('Y-m-d');
+        })->max();
+
+        $maxExpirationDateEntrainement = $entrainement_demandeurs->map(function ($item) {
+            $startDate = \Carbon\Carbon::parse($item->date);
+            $expirationDate = $startDate->copy()->addMonths($item->validite);
+            return $expirationDate->format('Y-m-d');
+        })->max();
+
+
+        $maxExpirationDateEntrainement = new DateTime($maxExpirationDateEntrainement);
+        $maxExpirationDateExamen = new DateTime($maxExpirationDateExamen);
+        $maxExpirationDateCompetence = new DateTime($maxExpirationDateCompetence);
+        $dateExpiration  = min($maxExpirationDateEntrainement, $maxExpirationDateExamen, $maxExpirationDateCompetence);
+        $dateExpiration  =  $dateExpiration->format('Y-m-d');
+        $first_part_code = strtoupper(substr($demande->typeLicence->nom, 0, 1)) . '' . strtoupper(substr($demande->typeLicence->machine, 0, 1));
+        $countLicense = Licence::where('numero_licence', 'LIKE', $first_part_code . '-%')
+            ->count();
+
+        $nextNumber = str_pad(!empty($countLicense) ? $countLicense + 1 : 1, 3, '0', STR_PAD_LEFT);
+        $second_part_code = $nextNumber;
+        $dg = User::role('dg')->first();
+        $dsv = User::role('dsv')->first();
+
+
+        if (in_array($demande->typeDemande->id, array(1, 3, 7))) {
+            //D + C + V
+            $licence = Licence::create(
+                [
+                    'demande_id' => $demande->id,
+                    'demandeur_id' => $demandeur->id,
+                    'categorie_licence' => $demande->typeLicence->categorie,
+                    'machine_licence' => !empty($demande->typeLicence->machine) ? strtoupper(substr($demande->typeLicence->machine, 0, 1)) : '',
+                    'type_licence' => $demande->typeLicence->nom,
+                    'numero_licence' => $first_part_code . '-' . $second_part_code,
+                    'np' => $demandeur->np,
+                    'date_naissance' => $demandeur->date_naissance,
+                    'adresse' => $demandeur->adresse,
+                    'nationalite' => $demandeur->nationalite,
+                    'photo' => $demandeur->photo,
+                    'signature' =>  $demandeur->signature,
+                    'cachet' => empty($dg->cachet->cachet) ? '' : $dg->cachet->cachet,
+                    'signature_dg' => empty($dg->signature->signature) ? '' : $dg->signature->signature,
+                    'signature_dsv' => empty($dsv->signature->signature) ? '' : $dsv->signature->signature,
+                    'date_deliverance' => date('Y-m-d'),
+                    'date_expiration' => $dateExpiration,
+                ]
+            );
+        } else if ($demande->typeDemande->id === 9 && !empty($demandeur->licence)) {
+            // reemission
+        } else if (in_array($demande->typeDemande->id, array(2, 4, 5, 6, 8)) && !empty($demandeur->licence)) {
+            $licenceMiseAjour = $demandeur->licence;
+            $licenceMiseAjour->date_mise_a_jour = date('Y-m-d');
+            $licenceMiseAjour->save();
+            $oldDemande = $demandeur->licence->demande;
+            if (in_array($demande->typeDemande->id, array(2, 4))) {
+                # code...
+                foreach ($demande->qualifications as $qualification) {
+                    $newQualification = $qualification->replicate();
+                    $newQualification->demande_id = $oldDemande->id;
+                    $newQualification->save();
+                }
+            }
+            if (in_array($demande->typeDemande->id, array(5))) {
+                # code...
+                foreach ($demande->medicalExaminations as $medicalExamination) {
+                    $newMedicalExamination = $medicalExamination->replicate();
+                    $newMedicalExamination->demande_id = $oldDemande->id;
+                    $newMedicalExamination->save();
+                }
+            }
+            if (in_array($demande->typeDemande->id, array(6))) {
+                # code...
+                foreach ($demande->competences as $competence) {
+                    $newCompetence = $competence->replicate();
+                    $newCompetence->demande_id = $oldDemande->id;
+                    $newCompetence->save();
+                }
+            }
+            if (in_array($demande->typeDemande->id, array(6))) {
+                # code...
+                foreach ($demande->trainings as $training) {
+                    $newTraining = $training->replicate();
+                    $newTraining->demande_id = $oldDemande->id;
+                    $newTraining->save();
+                }
+            }
+        }
+
+
+        return redirect()->route('licences')->with('success', 'Licence cree avec succès.');
     }
 }
