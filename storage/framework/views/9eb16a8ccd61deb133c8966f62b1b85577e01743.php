@@ -1,15 +1,15 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('user.users'); ?>
+    <?php echo app('translator')->get('trans.users'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('user.users'); ?>
+    <?php echo app('translator')->get('trans.users'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
-    <a href="<?php echo e(route('users.index')); ?>"> <?php echo app('translator')->get('sidebar.users'); ?> </a>
+    <a href="<?php echo e(route('users.index')); ?>"> <?php echo app('translator')->get('trans..users'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('user.users'); ?>
+    <?php echo app('translator')->get('trans.users'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <!-- DataTables -->

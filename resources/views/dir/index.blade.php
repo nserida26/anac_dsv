@@ -1,16 +1,22 @@
 @extends('dir.layouts.app')
 @section('title')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheader')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheaderlink')
-    <a href="">
-        @lang('dir.dashboard') </a>
+    @if (auth()->user()->hasRole('dsv'))
+        <a href="{{ route('dsv') }}">
+            @lang('trans.dashboard_dir') </a>
+    @endif
+    @if (auth()->user()->hasRole('dg'))
+        <a href="{{ route('dg') }}">
+            @lang('trans.dashboard_dir') </a>
+    @endif
 @endsection
 @section('contentheaderactive')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,21 +28,21 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('user.demandes')</div>
+                    <div class="card-header">@lang('trans.applicants')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
+                                        <th>@lang('trans.id')</th>
+                                        <th>@lang('trans.applicant')</th>
+                                        <th>@lang('trans.type_application')</th>
+                                        <th>@lang('trans.type_license')</th>
+                                        <th>@lang('trans.status')</th>
                                         @if (auth()->user()->hasRole('dg'))
                                             <th>#</th>
                                         @endif
-                                        <th>Actions</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,13 +58,13 @@
                                                 <td>
 
                                                     @if ($demande->etatDemande->dsv_dg_annoter)
-                                                        <span class="badge badge-primary">Annoter par DSV</span>
+                                                        <span class="badge badge-primary">@lang('trans.annotated_dsv')</span>
                                                     @endif
                                                     @if ($demande->etatDemande->dsv_dg_valider)
-                                                        <span class="badge badge-primary">Valider par DSV</span>
+                                                        <span class="badge badge-primary">@lang('trans.validated_dsv')</span>
                                                     @endif
                                                     @if ($demande->etatDemande->dsv_dg_signer)
-                                                        <span class="badge badge-primary">Signer par DSV</span>
+                                                        <span class="badge badge-primary">@lang('trans.signed_dsv')</span>
                                                     @endif
 
 
@@ -71,7 +77,7 @@
                                                 @if (auth()->user()->hasRole('dg'))
                                                     @if (optional($demande->etatDemande)->demandeur_cree_demande === 1)
                                                         <a href="{{ route('dg.show', $demande->id) }}"
-                                                            class="btn btn-info btn-sm">View</a>
+                                                            class="btn btn-info btn-sm">@lang('trans.view')</a>
                                                     @endif
 
                                                     @if (optional($demande->etatDemande)->dg_annoter !== 1 && optional($demande->etatDemande)->dg_rejeter !== 1)
@@ -81,7 +87,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers DSV ?')">
-                                                                Annoter
+                                                                @lang('trans.annotate')
                                                             </button>
                                                         </form>
                                                         <form action="{{ route('dg.rejeter', $demande->id) }}"
@@ -90,7 +96,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-danger btn-sm"
                                                                 onclick="return confirm('Confirmer le rejeter ?')">
-                                                                Rejeter
+                                                                @lang('trans.reject')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -107,20 +113,18 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                @lang('trans.validate')
                                                             </button>
                                                         </form>
                                                     @endif
-                                                    @if (optional($demande->paiement)->statut === 'Payé' &&
-                                                            optional($demande->etatDemande)->dg_signer !== 1 &&
-                                                            optional($demande->typeDemande)->id === 1)
+                                                    @if (optional($demande->paiement)->statut === 'Payé' && optional($demande->etatDemande)->dg_signer !== 1)
                                                         <form action="{{ route('dg.signer', $demande->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la signature ?')">
-                                                                Signer
+                                                                @lang('trans.sign')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -130,7 +134,7 @@
                                                 @if (auth()->user()->hasRole('dsv'))
                                                     @if (optional($demande->etatDemande)->demandeur_cree_demande === 1)
                                                         <a href="{{ route('dsv.show', $demande->id) }}"
-                                                            class="btn btn-info btn-sm">View</a>
+                                                            class="btn btn-info btn-sm">@lang('trans.view')</a>
                                                     @endif
 
                                                     @if (optional($demande->etatDemande)->dg_annoter !== 1 && optional($demande->etatDemande)->dg_rejeter !== 1)
@@ -140,7 +144,33 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers DSV ?')">
-                                                                Annoter DSV
+                                                                @lang('trans.annotate_dg')
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (optional($demande->etatDemande)->sl_valider === 1 &&
+                                                            optional($demande->etatDemande)->sm_valider === 1 &&
+                                                            optional($demande->etatDemande)->pel_valider === 1 &&
+                                                            optional($demande->etatDemande)->dsv_valider === 1 &&
+                                                            optional($demande->etatDemande)->dg_valider !== 1)
+                                                        <form action="{{ route('dg.valider', $demande->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Confirmer la validation ?')">
+                                                                @lang('trans.validate_dg')
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (optional($demande->paiement)->statut === 'Payé' && optional($demande->etatDemande)->dg_signer !== 1)
+                                                        <form action="{{ route('dg.signer', $demande->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Confirmer la signature ?')">
+                                                                @lang('trans.sign_dg')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -154,7 +184,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers Service PEL ?')">
-                                                                Annoter
+                                                                @lang('trans.annotate')
                                                             </button>
                                                         </form>
                                                         <form action="{{ route('dsv.rejeter', $demande->id) }}"
@@ -163,7 +193,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-danger btn-sm"
                                                                 onclick="return confirm('Confirmer le rejeter ?')">
-                                                                Rejeter
+                                                                @lang('trans.reject')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -179,7 +209,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                @lang('trans.validate')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -200,22 +230,20 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la generation ?')">
-                                                                Generer l'Ordre de
-                                                                recette
+                                                                @lang('trans.generate_order')
                                                             </button>
                                                         </form>
                                                     @endif
                                                     @if (optional($demande->paiement)->statut === 'Payé' &&
-                                                            //optional($demande->etatDemande)->dg_signer === 1 &&
-                                                            optional($demande->etatDemande)->dsv_signer !== 1 &&
-                                                            optional($demande->typeDemande)->id !== 1)
+                                                            optional($demande->etatDemande)->dg_signer === 1 &&
+                                                            optional($demande->etatDemande)->dsv_signer !== 1)
                                                         <form action="{{ route('dsv.signer', $demande->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la signature ?')">
-                                                                Signer
+                                                                @lang('trans.sign')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -235,24 +263,24 @@
                 </div>
             </div>
         </div>
-        @if (auth()->user()->hasRole('dsv') && !empty($ordres))
+        @if (auth()->user()->hasRole('dsv') && $ordres->isNotEmpty())
             <div class="row">
 
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">@lang('dir.ordres')</div>
+                        <div class="card-header">@lang('trans.orders')</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped" id="ordres">
                                     <thead>
                                         <tr>
-                                            <th>Reference</th>
-                                            <th>Demande</th>
-                                            <th>Date recette</th>
-                                            <th>Montant</th>
-                                            <th>Status</th>
+                                            <th>@lang('trans.ref')</th>
+                                            <th>@lang('trans.applicant')</th>
+                                            <th>@lang('trans.date')</th>
+                                            <th>@lang('trans.amount')</th>
+                                            <th>@lang('trans.status')</th>
 
-                                            <th>Actions</th>
+                                            <th>@lang('trans.actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -274,7 +302,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                @lang('trans.validate')
                                                             </button>
                                                         </form>
 
@@ -284,7 +312,7 @@
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn-sm"
                                                                 onclick="return confirm('Confirmer la suppression ?')">
-                                                                Supprimer
+                                                                @lang('trans.destroy')
                                                             </button>
                                                         </form>
                                                     @endif

@@ -59,15 +59,12 @@
                         <div class="col-lg-8">
                             <div class="card card-primary card-outline">
                                 <div class="card-header text-center">
-                                    <h5 class="m-0">SYSTEME DE GESTION DU PERSONNEL AERONAUTIQUE ET LA DELIVRANCE DES
-                                        LICENCES </h5>
+                                    <h5 class="m-0"> <?php echo app('translator')->get('trans.word1'); ?> </h5>
                                 </div>
                                 <div class="card-body">
 
 
-                                    <p class="card-text">Dans le cadre de la politique de l'ANAC en matière de sécurité
-                                        de l'aviation civile, la DSV compte mettre en place un système d'information
-                                        dédié à la gestion du personnel aéronautique et à la délivrance des licences</p>
+                                    <p class="card-text"><?php echo app('translator')->get('trans.word2'); ?></p>
 
                                 </div>
                             </div>

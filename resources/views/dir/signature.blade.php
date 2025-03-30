@@ -1,16 +1,22 @@
 @extends('dir.layouts.app')
 @section('title')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheader')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheaderlink')
-    <a href="{{route('dir')}}">
-        @lang('dir.dashboard') </a>
+    @if (auth()->user()->hasRole('dsv'))
+        <a href="{{ route('dsv') }}">
+            @lang('trans.dashboard_dir') </a>
+    @endif
+    @if (auth()->user()->hasRole('dg'))
+        <a href="{{ route('dg') }}">
+            @lang('trans.dashboard_dir') </a>
+    @endif
 @endsection
 @section('contentheaderactive')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @push('css')
 @endpush
@@ -29,7 +35,7 @@
                                     <h6 class="heading-small text-muted mb-4">User Profile Information</h6>
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>@lang('dir.signature')</th>
+                                            <th>@lang('trans.signature')</th>
                                             <td>
                                                 @if (isset($signature->signature))
                                                     <img src="{{ asset('/uploads/' . $signature->signature) }}"
@@ -41,7 +47,7 @@
 
                                         </tr>
                                         <tr>
-                                            <th>@lang('dir.cachet')</th>
+                                            <th>@lang('trans.stamp')</th>
                                             <td>
                                                 @if (isset($cachet->cachet))
                                                     <img src="{{ asset('/uploads/' . $cachet->cachet) }}" alt="User cachet"
@@ -66,7 +72,7 @@
             <div class="col-lg-12 order-lg-1">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Signature  et Cachet</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@lang('trans.signature') + @lang('trans.stamp')</h6>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('dir.store') }}" autocomplete="off"
@@ -77,14 +83,14 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="signature">@lang('dir.signature')</label>
+                                            <label class="form-control-label" for="signature">@lang('trans.signature')</label>
                                             <input type="file" class="form-control" id="signature" name="signature"
                                                 accept="image/*" onchange="previewSignature(event)">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="cachet">@lang('dir.cachet')</label>
+                                            <label class="form-control-label" for="cachet">@lang('trans.stamp')</label>
                                             <input type="file" class="form-control" id="cachet" name="cachet"
                                                 accept="image/*" onchange="previewCachet(event)">
                                         </div>

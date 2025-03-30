@@ -1,16 +1,16 @@
 @extends('user.layouts.app')
 @section('title')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheader')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('user.dashboard') </a>
+        @lang('trans.dashboard') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -23,23 +23,23 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('user.demandes')</div>
+                    <div class="card-header">@lang('trans.applicants')</div>
                     <div class="card-body">
                         @isset(Auth::user()->demandeur)
                             <a href="{{ url('user/create') }}" class="btn btn-success btn-sm" title="Add New RoleUser">
-                                <i class="fa fa-plus" aria-hidden="true"></i> @lang('user.ajouter')
+                                <i class="fa fa-plus" aria-hidden="true"></i> @lang('trans.add')
                             </a>
                         @endisset
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.id')</th>
+                                        <th>@lang('trans.applicant')</th>
+                                        <th>@lang('trans.type_application')</th>
+                                        <th>@lang('trans.type_license')</th>
+                                        <th>@lang('trans.status')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,7 +55,7 @@
 
                                                 @if (!$demande->demandeur_cree_demande)
                                                     <a href="{{ url('/user/edit/' . $demande->demande_id) }}"
-                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                        class="btn btn-warning btn-sm">@lang('trans.edit')</a>
 
                                                     <form action="{{ route('user.validate', $demande->demande_id) }}"
                                                         method="POST" class="d-inline">
@@ -63,7 +63,7 @@
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
+                                                            @lang('trans.validate')
                                                         </button>
                                                     </form>
 
@@ -72,7 +72,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
+                                                            onclick="return confirm('Confirmer la suppression ?')">@lang('trans.destroy')</button>
                                                     </form>
                                                 @endif
 

@@ -1,16 +1,16 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="">
-        <?php echo app('translator')->get('admin.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard_admin'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -22,21 +22,21 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('admin.licences'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.licences'); ?></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="licences">
                                 <thead>
                                     <tr>
 
-                                        <th>Categorie</th>
-                                        <th>Type</th>
-                                        <th>Numero de licence</th>
-                                        <th>Nom et Prenom</th>
-                                        <th>Date de naissance</th>
-                                        <th>Adresse</th>
-                                        <th>Nationalite</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.category'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.license_number'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.fl_name'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.dob'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.address'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.nationality'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,7 +58,7 @@
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field('PATCH'); ?>
                                                         <button type="submit" class="btn btn-primary btn-sm"
-                                                            onclick="return confirm('Confirmer la validation de la licence ?')">Valider</button>
+                                                            onclick="return confirm('Confirmer la validation de la licence ?')"><?php echo app('translator')->get('trans.validate'); ?></button>
                                                     </form>
                                                 <?php endif; ?>
                                                 <?php if($licence->licence_valide): ?>
@@ -67,7 +67,7 @@
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field('PATCH'); ?>
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Confirmer la révocation  de la licence ?')">Révoquer</button>
+                                                            onclick="return confirm('Confirmer la révocation  de la licence ?')"><?php echo app('translator')->get('trans.revoke'); ?></button>
                                                     </form>
                                                 <?php endif; ?>
 

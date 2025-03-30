@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheader')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('admin.dashboard') </a>
+        @lang('trans.dashboard_admin') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">

@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheader')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheaderlink')
-    <a href="{{ route('users.index') }}"> @lang('sidebar.users') </a>
+    <a href="{{ route('users.index') }}"> @lang('trans..users') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @push('css')
 @endpush

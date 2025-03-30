@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 @section('contentheader')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('qualifications.index') }}">
-        @lang('admin.qualifications') </a>
+        @lang('trans.qualifications') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 
 @section('content')
@@ -25,7 +25,8 @@
                         <span class="card-title">{{ __('Create') }} Qualification</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('qualifications.store') }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('qualifications.store') }}" role="form"
+                            enctype="multipart/form-data">
                             @csrf
 
                             @include('admin.qualifications.form')

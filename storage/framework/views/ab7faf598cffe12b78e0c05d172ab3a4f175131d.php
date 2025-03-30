@@ -1,17 +1,17 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('user')); ?>">
-        <?php echo app('translator')->get('user.dashboard'); ?>
+        <?php echo app('translator')->get('trans.dashboard'); ?>
     </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link href="<?php echo e(asset('assets/admin/plugins/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet">
@@ -25,26 +25,57 @@
             <div class="col-md-12">
                 <!-- general form elements -->
 
-                <h4 class="text-center"><?php echo e($demande->typeDemande->nom_fr); ?> - <?php echo e($demande->typeLicence->nom); ?></h4>
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        Tous les motifs de rejet
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <?php $__currentLoopData = $demande->qualifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if(isset($qualification->motif)): ?>
-                                    <li><?php echo e($qualification->motif); ?></li>
-                                <?php endif; ?>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <h4 class="text-center">
+                    <?php echo e(LaravelLocalization::getCurrentLocale() == 'fr' ? $demande->typeDemande->nom_fr : $demande->typeDemande->nom_en); ?>
 
-                        </ul>
+                    - <?php echo e($demande->typeLicence->nom); ?></h4>
+                <?php if($demande->mise_a_jour): ?>
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Tous les motifs de rejet
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <?php $__currentLoopData = $demande->qualifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(isset($qualification->motif)): ?>
+                                        <li><?php echo e($qualification->motif); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $demande->trainings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $training): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(isset($training->motif)): ?>
+                                        <li><?php echo e($training->motif); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $demande->competences; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $competence): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(isset($competence->motif)): ?>
+                                        <li><?php echo e($competence->motif); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $demande->experiences; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $experience): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(isset($experience->motif)): ?>
+                                        <li><?php echo e($experience->motif); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $demande->medicalExamination; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $medicalExamination): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(isset($medicalExamination->motif)): ?>
+                                        <li><?php echo e($medicalExamination->motif); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $demande->documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $document): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(isset($document->motif)): ?>
+                                        <li><?php echo e($document->motif); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
+
                 <?php if($demande->typeDemande->id !== 1): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            <?php echo app('translator')->get('user.licence'); ?>
+                            <?php echo app('translator')->get('trans.license'); ?>
                         </div>
 
                         <div class="card-body">
@@ -54,20 +85,20 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="num_licence"><?php echo app('translator')->get('user.licence_number'); ?></label>
+                                            <label for="num_licence"><?php echo app('translator')->get('trans.license_number'); ?></label>
                                             <input type="text" class="form-control" id="num_licence" name="num_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_licence"><?php echo app('translator')->get('user.licence_date'); ?></label>
+                                            <label for="date_licence"><?php echo app('translator')->get('trans.license_date'); ?></label>
                                             <input type="date" class="form-control" id="date_licence"
                                                 name="date_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="autorite_id"><?php echo app('translator')->get('user.issuing_authority'); ?></label>
+                                            <label for="autorite_id"><?php echo app('translator')->get('trans.authority'); ?></label>
                                             <select class="form-control" id="autorite_id" name="autorite_id">
                                                 <?php $__currentLoopData = $autorites; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $autorite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($autorite->id); ?>"><?php echo e($autorite->libelle); ?></option>
@@ -77,14 +108,14 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="lieu_delivrance"><?php echo app('translator')->get('user.place_of_issue'); ?></label>
+                                            <label for="lieu_delivrance"><?php echo app('translator')->get('trans.location'); ?></label>
                                             <input type="text" class="form-control" id="lieu_delivrance"
                                                 name="lieu_delivrance">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document"><?php echo app('translator')->get('user.justificatif'); ?></label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -93,7 +124,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right">
-                                            <i class="fas fa-plus"></i> <?php echo app('translator')->get('user.submit'); ?>
+                                            <i class="fas fa-plus"></i> <?php echo app('translator')->get('trans.send'); ?>
                                         </button>
                                     </div>
                                 </div>
@@ -106,13 +137,13 @@
                                         <table class="table table-striped table-bordered" id="licenceTable">
                                             <thead>
                                                 <tr>
-                                                    <th><?php echo app('translator')->get('user.licence_date'); ?></th>
-                                                    <th><?php echo app('translator')->get('user.licence_number'); ?></th>
-                                                    <th><?php echo app('translator')->get('user.issuing_authority'); ?></th>
-                                                    <th><?php echo app('translator')->get('user.place_of_issue'); ?></th>
-                                                    <th><?php echo app('translator')->get('user.justificatif'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.license_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.license_number'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.authority'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.justificatif'); ?></th>
 
-                                                    <th><?php echo app('translator')->get('user.actions'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -132,10 +163,10 @@
                                                         <td>
                                                             <?php if(!$licence_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-licence"
-                                                                    data-id="<?php echo e($licence_demandeur->id); ?>"><?php echo app('translator')->get('user.edit'); ?></button>
+                                                                    data-id="<?php echo e($licence_demandeur->id); ?>"><?php echo app('translator')->get('trans.edit'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-licence"
-                                                                data-id="<?php echo e($licence_demandeur->id); ?>"><?php echo app('translator')->get('user.delete'); ?></button>
+                                                                data-id="<?php echo e($licence_demandeur->id); ?>"><?php echo app('translator')->get('trans.delete'); ?></button>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -150,7 +181,7 @@
                 <?php if(!in_array($demande->typeDemande->id, [5, 6, 8, 9])): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Qualifications
+                            <?php echo app('translator')->get('trans.ratings'); ?>
                         </div>
 
                         <div class="card-body">
@@ -161,7 +192,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="qualification_id">Qualifications</label>
+                                            <label for="qualification_id"><?php echo app('translator')->get('trans.ratings'); ?></label>
                                             <select class="form-control" id="qualification_id" name="qualification_id">
 
                                                 <?php $__currentLoopData = $qualifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qualification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -177,14 +208,14 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_examen">Date de l'Examen</label>
+                                            <label for="date_examen"><?php echo app('translator')->get('trans.exam_date'); ?></label>
                                             <input type="date" class="form-control" id="date_examen" name="date_examen">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Simulateur</label>
+                                            <label for="centre_formation_id"><?php echo app('translator')->get('trans.training_center'); ?></label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id">
                                                 <?php $__currentLoopData = $centre_formations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $centre_formation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -199,14 +230,14 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="lieu">Lieu</label>
+                                            <label for="lieu"><?php echo app('translator')->get('trans.location'); ?></label>
                                             <input type="text" class="form-control" id="lieu" name="lieu">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -231,7 +262,7 @@
                                     <?php endif; ?>
                                     <?php if($demande->typeLicence->id === 34): ?>
                                         <div class="form-group">
-                                            <label for="rpa">Qualifications RPA</label>
+                                            <label for="rpa"><?php echo app('translator')->get('trans.rpa'); ?></label>
                                             <select class="form-control" id="rpa" name="rpa">
                                                 <option value="type1">RPA type 1</option>
                                                 <option value="type2">RPA type 2</option>
@@ -243,7 +274,7 @@
                                 <div class="col-lg-3" id="type_engine_col" style="display: none;">
                                     <?php if($demande->typeLicence->id === 33): ?>
                                         <div class="form-group">
-                                            <label for="ulm">Qualifications ULM</label>
+                                            <label for="ulm"><?php echo app('translator')->get('trans.ulm'); ?></label>
                                             <select class="form-control" id="ulm" name="ulm">
                                                 <option value="Paramotor">Paramotor</option>
                                                 <option value="Glider type aircraft">Glider type aircraft</option>
@@ -256,7 +287,7 @@
                                     <?php endif; ?>
                                     <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32])): ?>
                                         <div class="form-group">
-                                            <label for="type_moteur">Type d'engins</label>
+                                            <label for="type_moteur"><?php echo app('translator')->get('trans.engine_type'); ?></label>
 
                                             <select class="form-control" id="type_moteur" name="type_moteur">
 
@@ -273,7 +304,7 @@
                                 </div>
                                 <div class="col-lg-3" id="instructeur_privilege_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="type_privilege">Privilege</label>
+                                        <label for="type_privilege"><?php echo app('translator')->get('trans.privilege'); ?></label>
                                         <select class="form-control" id="type_privilege" name="type_privilege">
                                             <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33])): ?>
                                                 <option value="TRI">TRI</option>
@@ -304,14 +335,14 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="machine">Machine</label>
+                                        <label for="machine"><?php echo app('translator')->get('trans.machine'); ?></label>
                                         <select class="form-control" id="machine" name="machine">
                                             <option value="A">A</option>
                                             <option value="H">H</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="type_avion_id">Type d'Avion</label>
+                                        <label for="type_avion_id"><?php echo app('translator')->get('trans.plane_type'); ?></label>
                                         <select class="form-control" id="type_avion_id" name="type_avion_id">
                                             <?php $__currentLoopData = $type_avions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type_avion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <option value="<?php echo e($type_avion->id); ?>">
@@ -324,7 +355,7 @@
                                 </div>
                                 <div class="col-lg-3" id="examinateur_privilege_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="type_privilege">Privilege</label>
+                                        <label for="type_privilege"><?php echo app('translator')->get('trans.privilege'); ?></label>
                                         <select class="form-control" id="type_privilege" name="type_privilege">
                                             <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33])): ?>
                                                 <option value="TRE">TRE</option>
@@ -352,14 +383,14 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="machine">Machine</label>
+                                        <label for="machine"><?php echo app('translator')->get('trans.machine'); ?></label>
                                         <select class="form-control" id="machine" name="machine">
                                             <option value="A">A</option>
                                             <option value="H">H</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="type_avion_id">Type d'Avion</label>
+                                        <label for="type_avion_id"><?php echo app('translator')->get('trans.machine'); ?></label>
                                         <select class="form-control" id="type_avion_id" name="type_avion_id">
                                             <?php $__currentLoopData = $type_avions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type_avion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <option value="<?php echo e($type_avion->id); ?>">
@@ -372,7 +403,7 @@
                                 </div>
                                 <div class="col-lg-3" id="atc_qualifications_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="atc">Qualifications ATC</label>
+                                        <label for="atc"><?php echo app('translator')->get('trans.atc'); ?></label>
                                         <select class="form-control" id="atc" name="atc">
                                             <option value="ADC">ADC</option>
                                             <option value="APP">APP</option>
@@ -386,7 +417,7 @@
 
                                 <div class="col-lg-3" id="amt_qualifications_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="amt">Qualifications AMT</label>
+                                        <label for="amt"><?php echo app('translator')->get('trans.amt'); ?></label>
                                         <select class="form-control" id="amt" name="amt">
                                             <option value="A(A)">A(A)</option>
                                             <option value="A(H)">A(H)</option>
@@ -405,7 +436,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right">
-                                            <i class="fas fa-plus"></i> Submit
+                                            <i class="fas fa-plus"></i> <?php echo app('translator')->get('trans.send'); ?>
                                         </button>
                                     </div>
                                 </div>
@@ -420,34 +451,34 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Qualification</th>
+                                                    <th><?php echo app('translator')->get('trans.ratings'); ?></th>
                                                     <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 37, 38, 39])): ?>
-                                                        <th>Type d'avion</th>
-                                                        <th>Machine</th>
+                                                        <th><?php echo app('translator')->get('trans.plane_type'); ?></th>
+                                                        <th><?php echo app('translator')->get('trans.machine'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32])): ?>
-                                                        <th>Type de moteur</th>
+                                                        <th><?php echo app('translator')->get('trans.engine_type'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id !== 33): ?>
-                                                        <th>Privilege</th>
+                                                        <th><?php echo app('translator')->get('trans.privilege'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id === 11): ?>
-                                                        <th>Qualification AMT</th>
+                                                        <th><?php echo app('translator')->get('trans.amt'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if(in_array($demande->typeLicence->id, [37, 38])): ?>
-                                                        <th>Qualification ATC</th>
+                                                        <th><?php echo app('translator')->get('trans.atc'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id === 34): ?>
-                                                        <th>Qualification RPA</th>
+                                                        <th><?php echo app('translator')->get('trans.rpa'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id === 33): ?>
-                                                        <th>Qualification ULM</th>
+                                                        <th><?php echo app('translator')->get('trans.ulm'); ?></th>
                                                     <?php endif; ?>
-                                                    <th>Date de l'Examen</th>
-                                                    <th>Simulateur</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.training_center'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -490,10 +521,10 @@
                                                         <td>
                                                             <?php if(!$qualification_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-qualification"
-                                                                    data-id="<?php echo e($qualification_demandeur->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($qualification_demandeur->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-qualification"
-                                                                data-id="<?php echo e($qualification_demandeur->id); ?>">Supprimer</button>
+                                                                data-id="<?php echo e($qualification_demandeur->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
 
                                                         </td>
                                                     </tr>
@@ -528,7 +559,7 @@
                                                                     </div>
 
                                                                     <div class="col-lg-2">
-                                                                        <label>Date de l'Examen</label>
+                                                                        <label><?php echo app('translator')->get('trans.exam_date'); ?></label>
                                                                         <input type="date" class="form-control"
                                                                             name="date_examen"
                                                                             value="<?php echo e($qualification_demandeur->date_examen); ?>">
@@ -556,7 +587,7 @@
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Justificatif</label>
+                                                                        <label><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                         <input type="file" class="form-control"
                                                                             name="document" accept="application/pdf">
                                                                     </div>
@@ -901,7 +932,7 @@
                 <?php if(!in_array($demande->typeDemande->id, [2, 4, 6, 8, 9])): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Aptitude Médicale
+                            <?php echo app('translator')->get('trans.medical_fitness'); ?>
                         </div>
                         <div class="card-body">
                             <form id="aptitudeForm" enctype="multipart/form-data">
@@ -911,7 +942,7 @@
 
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="date_examen">Date de l'Examen</label>
+                                            <label for="date_examen"><?php echo app('translator')->get('trans.exam_date'); ?></label>
                                             <input type="date" class="form-control" id="date_examen"
                                                 name="date_examen" placeholder="">
 
@@ -919,7 +950,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="validite">Validité en mois</label>
+                                            <label for="validite"><?php echo app('translator')->get('trans.validity'); ?></label>
                                             <input type="number" min="0" class="form-control" id="validite"
                                                 name="validite" placeholder="">
 
@@ -927,7 +958,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="centre_medical_id">Centre Médical</label>
+                                            <label for="centre_medical_id"><?php echo app('translator')->get('trans.medical_center'); ?></label>
                                             <select class="form-control" id="centre_medical_id" name="centre_medical_id"
                                                 placeholder="">
                                                 <?php $__currentLoopData = $centre_medicals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $centre_medical): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -943,7 +974,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -954,7 +985,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            <?php echo app('translator')->get('trans.send'); ?>
 
                                         </button>
                                     </div>
@@ -969,11 +1000,11 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date de l'Examen</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Centre Médical</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.medical_center'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -993,10 +1024,10 @@
 
                                                             <?php if(!$medical_examination->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-aptitude"
-                                                                    data-id="<?php echo e($medical_examination->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($medical_examination->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-aptitude"
-                                                                data-id="<?php echo e($medical_examination->id); ?>">Supprimer</button>
+                                                                data-id="<?php echo e($medical_examination->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
 
                                                         </td>
                                                     </tr>
@@ -1012,21 +1043,21 @@
 
                                                                 <div class="row">
                                                                     <div class="col-lg-3">
-                                                                        <label>Date de l'Examen</label>
+                                                                        <label><?php echo app('translator')->get('trans.exam_date'); ?></label>
                                                                         <input type="date" class="form-control"
                                                                             name="date_examen"
                                                                             value="<?php echo e($medical_examination->date_examen); ?>">
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Validité en mois</label>
+                                                                        <label><?php echo app('translator')->get('trans.validity'); ?></label>
                                                                         <input type="number" min="0"
                                                                             class="form-control" name="validite"
                                                                             value="<?php echo e($medical_examination->validite); ?>">
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Centre Médical</label>
+                                                                        <label><?php echo app('translator')->get('trans.medical_center'); ?></label>
                                                                         <select class="form-control" name="centre_medical_id">
                                                                             <?php $__currentLoopData = $centre_medicals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $centre_medical): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                                 <option value="<?php echo e($centre_medical->id); ?>"
@@ -1039,7 +1070,7 @@
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Justificatif</label>
+                                                                        <label><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                         <input type="file" class="form-control"
                                                                             name="document" accept="application/pdf">
                                                                     </div>
@@ -1072,7 +1103,7 @@
                         in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32, 39])): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Expérience en heures de vol
+                            <?php echo app('translator')->get('trans.flights'); ?>
                         </div>
 
                         <div class="card-body">
@@ -1083,7 +1114,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="nature">Nature</label>
+                                            <label for="nature"><?php echo app('translator')->get('trans.flights_type'); ?></label>
                                             <select class="form-control" id="nature" name="nature">
                                                 <option value="Sur tous types d'aéronefs">Sur tous types d'aéronefs
                                                 </option>
@@ -1094,28 +1125,28 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="total">Total</label>
+                                            <label for="total"><?php echo app('translator')->get('trans.total'); ?></label>
                                             <input type="number" min="0" class="form-control" id="total"
                                                 name="total">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="six_mois">Six (6) derniers mois</label>
+                                            <label for="six_mois"><?php echo app('translator')->get('trans.six'); ?></label>
                                             <input type="number" min="0" class="form-control" id="six_mois"
                                                 name="six_mois">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="trois_mois">Trois (3) derniers mois</label>
+                                            <label for="trois_mois"><?php echo app('translator')->get('trans.three'); ?></label>
                                             <input type="number" min="0" class="form-control" id="trois_mois"
                                                 name="trois_mois">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -1123,7 +1154,7 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-success float-right"><i class="fas fa-plus"></i>
-                                    Submit</button>
+                                    <?php echo app('translator')->get('trans.send'); ?></button>
                             </form>
 
 
@@ -1131,12 +1162,12 @@
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Nature</th>
-                                            <th>Total</th>
-                                            <th>Six (6) derniers mois</th>
-                                            <th>Trois (3) derniers mois</th>
-                                            <th>Justificatif</th>
-                                            <th>Actions</th>
+                                            <th><?php echo app('translator')->get('trans.flights_type'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.total'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.six'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.three'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1158,7 +1189,7 @@
                                                         <button class="btn btn-warning btn-sm"
                                                             onclick="toggleEditForm(<?php echo e($experience->id); ?>, 'experience')">
 
-                                                            Modifier
+                                                            <?php echo app('translator')->get('trans.update'); ?>
                                                         </button>
                                                     <?php endif; ?>
 
@@ -1168,7 +1199,7 @@
                                                         <?php echo method_field('DELETE'); ?>
                                                         <button type="submit" class="btn btn-danger btn-sm"
                                                             onclick="return confirm('Confirmer la suppression ?')">
-                                                            Supprimer
+                                                            <?php echo app('translator')->get('trans.destroy'); ?>
                                                         </button>
                                                     </form>
                                                 </td>
@@ -1187,7 +1218,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
-                                                                    <label for="edit_nature">Nature</label>
+                                                                    <label for="edit_nature"><?php echo app('translator')->get('trans.flights_type'); ?></label>
                                                                     <select class="form-control" name="nature">
                                                                         <option value="Sur tous types d'aéronefs"
                                                                             <?php echo e($experience->nature == "Sur tous types d'aéronefs" ? 'selected' : ''); ?>>
@@ -1202,21 +1233,21 @@
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label>Total</label>
+                                                                    <label><?php echo app('translator')->get('trans.total'); ?></label>
                                                                     <input type="number" min="0" class="form-control"
                                                                         name="total" value="<?php echo e($experience->total); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label>Six (6) derniers mois</label>
+                                                                    <label><?php echo app('translator')->get('trans.six'); ?></label>
                                                                     <input type="number" min="0" class="form-control"
                                                                         name="six_mois" value="<?php echo e($experience->six_mois); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
-                                                                    <label>Trois (3) derniers mois</label>
+                                                                    <label><?php echo app('translator')->get('trans.three'); ?></label>
                                                                     <input type="number" min="0" class="form-control"
                                                                         name="trois_mois"
                                                                         value="<?php echo e($experience->trois_mois); ?>">
@@ -1224,7 +1255,7 @@
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label>Justificatif</label>
+                                                                    <label><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                     <input type="file" class="form-control"
                                                                         name="document" accept="application/pdf">
                                                                 </div>
@@ -1250,7 +1281,7 @@
                 <?php if(!in_array($demande->typeDemande->id, [2, 4, 5, 8, 9])): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Contrôles de compétence les plus récents
+                            <?php echo app('translator')->get('trans.control'); ?>
                         </div>
 
                         <div class="card-body">
@@ -1262,7 +1293,7 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="type">Type de compétence</label>
+                                            <label for="type"><?php echo app('translator')->get('trans.type'); ?></label>
                                             <select class="form-control" name="type" placeholder="">
 
                                                 <option value="Contrôle de compétence linguistique">
@@ -1275,7 +1306,7 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="niveau">Niveau</label>
+                                            <label for="niveau"><?php echo app('translator')->get('trans.level'); ?></label>
                                             <select class="form-control" id="niveau" name="niveau" placeholder="">
                                                 <option value="4">4
                                                 </option>
@@ -1289,7 +1320,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date">Date</label>
+                                            <label for="date"><?php echo app('translator')->get('trans.date'); ?></label>
                                             <input type="date" class="form-control" id="date" name="date"
                                                 placeholder="">
 
@@ -1297,7 +1328,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="validite">Validité en mois</label>
+                                            <label for="validite"><?php echo app('translator')->get('trans.validity'); ?></label>
                                             <input type="number" min="0" class="form-control" id="validite"
                                                 name="validite" placeholder="">
 
@@ -1305,7 +1336,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Lieu</label>
+                                            <label for="centre_formation_id"><?php echo app('translator')->get('trans.location'); ?></label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id" placeholder="">
                                                 <?php $__currentLoopData = $centre_formations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $centre_formation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1321,7 +1352,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -1333,7 +1364,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            <?php echo app('translator')->get('trans.send'); ?>
 
                                         </button>
                                     </div>
@@ -1347,14 +1378,14 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Type</th>
-                                                    <th>Niveau</th>
+                                                    <th><?php echo app('translator')->get('trans.type'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.level'); ?></th>
 
-                                                    <th>Date</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1376,10 +1407,10 @@
 
                                                             <?php if(!$competence_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-competence"
-                                                                    data-id="<?php echo e($competence_demandeur->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($competence_demandeur->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-competence"
-                                                                data-id="<?php echo e($competence_demandeur->id); ?>">Supprimer</button>
+                                                                data-id="<?php echo e($competence_demandeur->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
 
                                                         </td>
                                                     </tr>
@@ -1436,7 +1467,7 @@
 
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="validite">Validité en mois</label>
+                                                                            <label for="validite"><?php echo app('translator')->get('trans.validity'); ?></label>
                                                                             <input type="number" min="0"
                                                                                 class="form-control" name="validite"
                                                                                 value="<?php echo e($competence_demandeur->validite); ?>">
@@ -1462,7 +1493,7 @@
 
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="document">Justificatif
+                                                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?>
                                                                                 (Nouveau)
                                                                             </label>
                                                                             <input type="file" class="form-control"
@@ -1494,7 +1525,7 @@
                 <?php if(!in_array($demande->typeDemande->id, [2, 4, 5, 6, 9])): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Entraînements périodiques
+                            <?php echo app('translator')->get('trans.periodic_control'); ?>
                         </div>
 
                         <div class="card-body">
@@ -1505,7 +1536,7 @@
 
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="type">Type d'entraînement</label>
+                                            <label for="type"><?php echo app('translator')->get('trans.type'); ?></label>
                                             <select class="form-control" id="type" name="type" placeholder="">
                                                 <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32])): ?>
                                                     <option value="Hors Ligne (SIMU)">Hors Ligne (SIMU)
@@ -1558,7 +1589,7 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date">Date</label>
+                                            <label for="date"><?php echo app('translator')->get('trans.date'); ?></label>
                                             <input type="date" class="form-control" id="date" name="date"
                                                 placeholder="">
 
@@ -1566,7 +1597,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="validite">Validité en mois</label>
+                                            <label for="validite"><?php echo app('translator')->get('trans.validity'); ?></label>
                                             <input type="number" min="0" class="form-control" id="validite"
                                                 name="validite" placeholder="">
 
@@ -1574,7 +1605,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Lieu</label>
+                                            <label for="centre_formation_id"><?php echo app('translator')->get('trans.location'); ?></label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id" placeholder="">
                                                 <?php $__currentLoopData = $centre_formations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $centre_formation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1590,7 +1621,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -1598,7 +1629,7 @@
                                     </div>
                                     <div class="col-lg-2" id="simulateur_col" style="display: none;">
                                         <div class="form-group">
-                                            <label for="simulateur_id">Simulateur</label>
+                                            <label for="simulateur_id"><?php echo app('translator')->get('trans.simulators'); ?></label>
                                             <select class="form-control" id="simulateur_id" name="simulateur_id">
                                                 <?php $__currentLoopData = $simulateurs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $simulateur): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($simulateur->id); ?>"><?php echo e($simulateur->libelle); ?>
@@ -1614,7 +1645,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            <?php echo app('translator')->get('trans.send'); ?>
 
                                         </button>
                                     </div>
@@ -1628,13 +1659,13 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Type</th>
-                                                    <th>Simulateur</th>
-                                                    <th>Date</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.type'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.simulators'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1656,10 +1687,10 @@
                                                         <td>
                                                             <?php if(!$entrainement_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-entrainement"
-                                                                    data-id="<?php echo e($entrainement_demandeur->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($entrainement_demandeur->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-entrainement"
-                                                                data-id="<?php echo e($entrainement_demandeur->id); ?>">Supprimer</button>
+                                                                data-id="<?php echo e($entrainement_demandeur->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
                                                         </td>
                                                     </tr>
 
@@ -1717,7 +1748,8 @@
 
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="edit_validite">Validité en mois</label>
+                                                                            <label
+                                                                                for="edit_validite"><?php echo app('translator')->get('trans.validity'); ?></label>
                                                                             <input type="number" min="0"
                                                                                 class="form-control" name="validite"
                                                                                 value="<?php echo e($entrainement_demandeur->validite); ?>">
@@ -1743,7 +1775,8 @@
 
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="edit_justificatif">Justificatif</label>
+                                                                            <label
+                                                                                for="edit_justificatif"><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                             <input type="file" class="form-control"
                                                                                 name="document" accept="application/pdf">
                                                                         </div>
@@ -1794,7 +1827,7 @@
                 <?php if(in_array($demande->typeDemande->id, [1, 3])): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Formations
+                            <?php echo app('translator')->get('trans.training'); ?>
                         </div>
 
                         <div class="card-body">
@@ -1804,14 +1837,14 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="date_formation">Date de Formation</label>
+                                            <label for="date_formation"><?php echo app('translator')->get('trans.training_date'); ?></label>
                                             <input type="date" class="form-control" id="date_formation"
                                                 name="date_formation" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Centre de formation</label>
+                                            <label for="centre_formation_id"><?php echo app('translator')->get('trans.training_center'); ?></label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id">
                                                 <?php $__currentLoopData = $centre_formations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $centre_formation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1825,14 +1858,14 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="lieu">Lieu</label>
+                                            <label for="lieu"><?php echo app('translator')->get('trans.training_location'); ?></label>
                                             <input type="text" class="form-control" id="lieu" name="lieu"
                                                 placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -1843,7 +1876,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit</button>
+                                            <?php echo app('translator')->get('trans.send'); ?></button>
                                     </div>
                                 </div>
                             </form>
@@ -1855,11 +1888,11 @@
                                         <table class="table table-striped table-bordered" id="formationTable">
                                             <thead>
                                                 <tr>
-                                                    <th>Date de formation</th>
-                                                    <th>Centre de formation</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.training_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.training_center'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1878,10 +1911,10 @@
                                                         <td>
                                                             <?php if(!$formation_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-formation"
-                                                                    data-id="<?php echo e($formation_demandeur->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($formation_demandeur->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-formation"
-                                                                data-id="<?php echo e($formation_demandeur->id); ?>">Supprimer</button>
+                                                                data-id="<?php echo e($formation_demandeur->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
 
                                                         </td>
                                                     </tr>
@@ -1933,7 +1966,7 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="document">Justificatif</label>
+                                                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                             <input type="file" accept="application/pdf"
                                                                                 class="form-control" id="document"
                                                                                 name="document" placeholder="">
@@ -1960,7 +1993,7 @@
                     
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Interruptions
+                            <?php echo app('translator')->get('trans.interruptions'); ?>
                         </div>
 
                         <div class="card-body">
@@ -1972,7 +2005,7 @@
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_debut">Date de debut</label>
+                                            <label for="date_debut"><?php echo app('translator')->get('trans.start_date'); ?></label>
                                             <input type="date" class="form-control" id="date_debut"
                                                 name="date_debut" placeholder="">
 
@@ -1980,7 +2013,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_fin">Date de fin</label>
+                                            <label for="date_fin"><?php echo app('translator')->get('trans.end_date'); ?></label>
                                             <input type="date" class="form-control" id="date_fin"
                                                 name="date_fin" placeholder="">
 
@@ -1988,14 +2021,14 @@
                                     </div>
                                     <div class="col-lg-5">
                                         <div class="form-group">
-                                            <label for="raison">Raisons</label>
+                                            <label for="raison"><?php echo app('translator')->get('trans.reason'); ?></label>
                                             <textarea type="text" class="form-control" id="raison" name="raison" placeholder=""></textarea>
 
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document"
                                                 name="document" placeholder="" accept="application/pdf">
 
@@ -2007,7 +2040,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            <?php echo app('translator')->get('trans.send'); ?>
 
                                         </button>
                                     </div>
@@ -2021,11 +2054,11 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Raisons</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.reason'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -2044,10 +2077,10 @@
                                                         <td>
                                                             <?php if(!$interruption_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-interruption"
-                                                                    data-id="<?php echo e($interruption_demandeur->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($interruption_demandeur->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-interruption"
-                                                                data-id="<?php echo e($interruption_demandeur->id); ?>">Supprimer</button>
+                                                                data-id="<?php echo e($interruption_demandeur->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
                                                         </td>
                                                     </tr>
 
@@ -2065,7 +2098,8 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="edit_date_debut">Date de debut</label>
+                                                                            <label
+                                                                                for="edit_date_debut"><?php echo app('translator')->get('trans.start_date'); ?></label>
                                                                             <input type="date" class="form-control"
                                                                                 name="date_debut"
                                                                                 value="<?php echo e($interruption_demandeur->date_debut); ?>">
@@ -2073,7 +2107,8 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="edit_date_fin">Date de fin</label>
+                                                                            <label
+                                                                                for="edit_date_fin"><?php echo app('translator')->get('trans.end_date'); ?></label>
                                                                             <input type="date" class="form-control"
                                                                                 name="date_fin"
                                                                                 value="<?php echo e($interruption_demandeur->date_fin); ?>">
@@ -2088,7 +2123,7 @@
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
                                                                             <label
-                                                                                for="edit_justificatif">Justificatif</label>
+                                                                                for="edit_justificatif"><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                             <input type="file" class="form-control"
                                                                                 name="document" accept="application/pdf">
                                                                         </div>
@@ -2118,7 +2153,7 @@
                         
                         <div class="card">
                             <div class="card-header bg-primary text-white">
-                                Expérience en maintenance d'aéronefs
+                                <?php echo app('translator')->get('trans.maintenance'); ?>
                             </div>
 
                             <div class="card-body">
@@ -2129,7 +2164,7 @@
                                     <div class="row">
                                         <div class="col-lg-2">
                                             <div class="form-group">
-                                                <label for="date_debut">Date de debut</label>
+                                                <label for="date_debut"><?php echo app('translator')->get('trans.start_date'); ?></label>
                                                 <input type="date" class="form-control" id="date_debut"
                                                     name="date_debut" placeholder="">
 
@@ -2137,7 +2172,7 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="form-group">
-                                                <label for="date_fin">Date de fin</label>
+                                                <label for="date_fin"><?php echo app('translator')->get('trans.end_date'); ?></label>
                                                 <input type="date" class="form-control" id="date_fin"
                                                     name="date_fin" placeholder="">
 
@@ -2145,7 +2180,7 @@
                                         </div>
                                         <div class="col-lg-5">
                                             <div class="form-group">
-                                                <label for="description_maintenance">Descriptions</label>
+                                                <label for="description_maintenance"> <?php echo app('translator')->get('trans.description'); ?></label>
                                                 <textarea type="text" class="form-control" id="description_maintenance" name="description_maintenance"
                                                     placeholder=""></textarea>
 
@@ -2153,7 +2188,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <label for="document">Justificatif</label>
+                                                <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                                 <input type="file" class="form-control" id="document"
                                                     name="document" placeholder="" accept="application/pdf">
 
@@ -2165,7 +2200,7 @@
                                         <div class="col-lg-12">
                                             <button type="submit" class="btn btn-success float-right"><i
                                                     class="fas fa-plus"></i>
-                                                Submit
+                                                <?php echo app('translator')->get('trans.send'); ?>
 
                                             </button>
                                         </div>
@@ -2181,12 +2216,12 @@
 
 
 
-                                                        <th>Date de debut</th>
-                                                        <th>Date de fin</th>
-                                                        <th>Descriptions</th>
+                                                        <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                        <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                        <th> <?php echo app('translator')->get('trans.description'); ?></th>
 
-                                                        <th>Justificatif</th>
-                                                        <th>Actions</th>
+                                                        <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -2206,10 +2241,10 @@
                                                             <td>
                                                                 <?php if(!$experience_maintenance_demandeur->valider): ?>
                                                                     <button class="btn btn-warning btn-sm edit-maintenance"
-                                                                        data-id="<?php echo e($experience_maintenance_demandeur->id); ?>">Modifier</button>
+                                                                        data-id="<?php echo e($experience_maintenance_demandeur->id); ?>"> <?php echo app('translator')->get('trans.update'); ?></button>
                                                                 <?php endif; ?>
                                                                 <button class="btn btn-danger btn-sm delete-maintenance"
-                                                                    data-id="<?php echo e($experience_maintenance_demandeur->id); ?>">Supprimer</button>
+                                                                    data-id="<?php echo e($experience_maintenance_demandeur->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
                                                             </td>
                                                         </tr>
 
@@ -2236,7 +2271,8 @@
                                                                         </div>
                                                                         <div class="col-lg-2">
                                                                             <div class="form-group">
-                                                                                <label for="edit_date_fin">Date de fin</label>
+                                                                                <label
+                                                                                    for="edit_date_fin"><?php echo app('translator')->get('trans.end_date'); ?></label>
                                                                                 <input type="date" class="form-control"
                                                                                     name="date_fin"
                                                                                     value="<?php echo e($experience_maintenance_demandeur->date_fin); ?>">
@@ -2252,7 +2288,7 @@
                                                                         <div class="col-lg-3">
                                                                             <div class="form-group">
                                                                                 <label
-                                                                                    for="edit_justificatif">Justificatif</label>
+                                                                                    for="edit_justificatif"><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                                 <input type="file" class="form-control"
                                                                                     name="document"
                                                                                     accept="application/pdf">
@@ -2284,7 +2320,7 @@
 
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Employeurs
+                            <?php echo app('translator')->get('trans.employers'); ?>
                         </div>
 
                         <div class="card-body">
@@ -2295,7 +2331,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="employeur">Employeur</label>
+                                            <label for="employeur"><?php echo app('translator')->get('trans.employer'); ?></label>
                                             <input type="text" class="form-control" id="employeur"
                                                 name="employeur" placeholder="">
 
@@ -2303,7 +2339,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="periode_du">Date de debut</label>
+                                            <label for="periode_du"><?php echo app('translator')->get('trans.start_date'); ?></label>
                                             <input type="date" class="form-control" id="periode_du"
                                                 name="periode_du" placeholder="">
 
@@ -2311,7 +2347,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="periode_au">Date de fin</label>
+                                            <label for="periode_au"><?php echo app('translator')->get('trans.end_date'); ?></label>
                                             <input type="date" class="form-control" id="periode_au"
                                                 name="periode_au" placeholder="">
 
@@ -2319,7 +2355,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="fonction">Fonction</label>
+                                            <label for="fonction"><?php echo app('translator')->get('trans.role'); ?></label>
                                             <input type="text" class="form-control" id="fonction"
                                                 name="fonction" placeholder="">
 
@@ -2327,7 +2363,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document"><?php echo app('translator')->get('trans.proof'); ?></label>
                                             <input type="file" class="form-control" id="document"
                                                 name="document" placeholder="" accept="application/pdf">
 
@@ -2338,7 +2374,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            <?php echo app('translator')->get('trans.send'); ?>
 
                                         </button>
                                     </div>
@@ -2353,12 +2389,12 @@
                                                 <tr>
 
 
-                                                    <th>Employeur</th>
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Fonction</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.employer'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.role'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -2380,10 +2416,10 @@
 
                                                             <?php if(!$employeur_demandeur->valider): ?>
                                                                 <button class="btn btn-warning btn-sm edit-employeur"
-                                                                    data-id="<?php echo e($employeur_demandeur->id); ?>">Modifier</button>
+                                                                    data-id="<?php echo e($employeur_demandeur->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                             <?php endif; ?>
                                                             <button class="btn btn-danger btn-sm delete-employeur"
-                                                                data-id="<?php echo e($employeur_demandeur->id); ?>">Supprimer</button>
+                                                                data-id="<?php echo e($employeur_demandeur->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
                                                         </td>
                                                     </tr>
 
@@ -2408,7 +2444,8 @@
                                                                     </div>
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="edit_periode_du">Date de debut</label>
+                                                                            <label
+                                                                                for="edit_periode_du"><?php echo app('translator')->get('trans.start_date'); ?></label>
                                                                             <input type="date" class="form-control"
                                                                                 name="periode_du"
                                                                                 value="<?php echo e($employeur_demandeur->periode_du); ?>">
@@ -2416,7 +2453,8 @@
                                                                     </div>
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="edit_periode_au">Date de fin</label>
+                                                                            <label
+                                                                                for="edit_periode_au"><?php echo app('translator')->get('trans.end_date'); ?></label>
                                                                             <input type="date" class="form-control"
                                                                                 name="periode_au"
                                                                                 value="<?php echo e($employeur_demandeur->periode_au); ?>">
@@ -2433,7 +2471,7 @@
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
                                                                             <label
-                                                                                for="edit_justificatif">Justificatif</label>
+                                                                                for="edit_justificatif"><?php echo app('translator')->get('trans.proof'); ?></label>
                                                                             <input type="file" class="form-control"
                                                                                 name="document" accept="application/pdf">
                                                                         </div>
@@ -2463,7 +2501,7 @@
 
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Pièce-jointe
+                        <?php echo app('translator')->get('trans.attachments'); ?>
                     </div>
 
                     <div class="card-body">
@@ -2477,7 +2515,6 @@
 
                                         <ol>
                                             <?php $__currentLoopData = $type_documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $type_document): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <label for="libele">Libellé de pièce</label>
                                                 <li>
                                                     <input type="hidden" value="<?php echo e($type_document->id); ?>"
                                                         id="type_document_id_<?php echo e($index); ?>"
@@ -2497,16 +2534,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <?php if($type_documents->isNotEmpty()): ?>
+                                <div class="row">
 
-                                <div class="col-lg-12">
-                                    <button id="submitDocument" type="submit" class="btn btn-success float-right"><i
-                                            class="fas fa-plus"></i>
-                                        Submit
+                                    <div class="col-lg-12">
+                                        <button id="submitDocument" type="submit"
+                                            class="btn btn-success float-right"><i class="fas fa-plus"></i>
+                                            <?php echo app('translator')->get('trans.send'); ?>
 
-                                    </button>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
+
                         </form>
                         <br>
                         <?php if(isset($documents)): ?>
@@ -2516,10 +2556,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Libellé</th>
+                                                <th><?php echo app('translator')->get('trans.title'); ?></th>
 
-                                                <th>Document</th>
-                                                <th>Actions</th>
+                                                <th><?php echo app('translator')->get('trans.attachment'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -2537,10 +2577,10 @@
                                                     <td>
                                                         <?php if(!$document->valider): ?>
                                                             <button class="btn btn-warning btn-sm edit-document"
-                                                                data-id="<?php echo e($document->id); ?>">Modifier</button>
+                                                                data-id="<?php echo e($document->id); ?>"><?php echo app('translator')->get('trans.update'); ?></button>
                                                         <?php endif; ?>
                                                         <button class="btn btn-danger btn-sm delete-document"
-                                                            data-id="<?php echo e($document->id); ?>">Supprimer</button>
+                                                            data-id="<?php echo e($document->id); ?>"><?php echo app('translator')->get('trans.destroy'); ?></button>
 
                                                     </td>
                                                 </tr>
@@ -2564,7 +2604,7 @@
                                                             </div>
                                                             <button type="submit"
                                                                 class="btn btn-primary btn-sm update-document"
-                                                                data-id="<?php echo e($document->id); ?>">Enregistrer</button>
+                                                                data-id="<?php echo e($document->id); ?>"><?php echo app('translator')->get('trans.'); ?></button>
                                                             <button type="button" class="btn btn-secondary btn-sm"
                                                                 onclick="toggleEditForm(<?php echo e($document->id); ?>,'document')">Annuler</button>
                                                         </form>
@@ -2673,7 +2713,7 @@
                             <td>${response.licence.date_licence}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-licence" data-id="${response.licence.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -2723,7 +2763,7 @@
                         <td>${response.licence.date_licence}</td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-licence" data-id="${response.licence.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
                             Swal.fire({
@@ -2811,7 +2851,7 @@
                             <td>${response.formation.centre_formation}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-formation" data-id="${response.formation.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -2860,7 +2900,7 @@
                         <td>${response.formation.centre_formation}</td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-formation" data-id="${response.formation.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
                             Swal.fire({
@@ -2996,7 +3036,7 @@
                             <td>${response.qualification.date_examen}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-qualification" data-id="${response.qualification.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -3043,7 +3083,7 @@
                     <td>${response.qualification.date_examen}</td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-qualification" data-id="${response.qualification.id}">Modifier</button>
-                        <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">Supprimer</button>
+                        <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                     </td>
                 `);
                             Swal.fire({
@@ -3126,7 +3166,7 @@
                             <td>${response.aptitude.validite}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-aptitude" data-id="${response.aptitude.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -3172,7 +3212,7 @@
                     <td>${response.aptitude.validite}</td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-aptitude" data-id="${response.aptitude.id}">Modifier</button>
-                        <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">Supprimer</button>
+                        <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                     </td>
                 `);
                             Swal.fire({
@@ -3254,7 +3294,7 @@
                             <td>${response.competence.niveau}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-competence" data-id="${response.competence.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -3301,7 +3341,7 @@
                     <td>${response.competence.niveau}</td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-competence" data-id="${response.competence.id}">Modifier</button>
-                        <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">Supprimer</button>
+                        <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                     </td>
                 `);
                             Swal.fire({
@@ -3389,7 +3429,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-entrainement" data-id="${response.entrainement.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -3445,7 +3485,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-entrainement" data-id="${response.entrainement.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
                             Swal.fire({
@@ -3536,7 +3576,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-experience" data-id="${response.experience.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -3592,7 +3632,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-experience" data-id="${response.experience.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
                             Swal.fire({
@@ -3683,7 +3723,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-employeur" data-id="${response.employeur.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -3739,7 +3779,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-employeur" data-id="${response.employeur.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
                             Swal.fire({
@@ -3828,7 +3868,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-maintenance" data-id="${response.maintenance.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -3883,7 +3923,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-maintenance" data-id="${response.maintenance.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
                             Swal.fire({
@@ -3972,7 +4012,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-interruption" data-id="${response.interruption.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                             </td>
                         </tr>
                     `;
@@ -4027,7 +4067,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-interruption" data-id="${response.interruption.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
                             Swal.fire({
@@ -4117,7 +4157,7 @@
                                     </td>
                                     <td>
                                         <button class="btn btn-warning btn-sm edit-document" data-id="${document.id}">Modifier</button>
-                                        <button class="btn btn-danger btn-sm delete-document" data-id="${document.id}">Supprimer</button>
+                                        <button class="btn btn-danger btn-sm delete-document" data-id="${document.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                                     </td>
                                 </tr>
                             `;
@@ -4183,7 +4223,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}" data-libelle="${response.document.nom_fr}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}"><?php echo app('translator')->get('trans.destroy'); ?></button>
                         </td>
                     `);
 

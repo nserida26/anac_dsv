@@ -1,16 +1,16 @@
 @extends('examinateur.layouts.app')
 @section('title')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @section('contentheader')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('examinateur.dashboard') </a>
+        @lang('trans.dashboard_center') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,19 +22,19 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('examinateur.demandes')</div>
+                    <div class="card-header">@lang('trans.applicants')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>@lang('trans.id')</th>
 
-                                        <th>Photo</th>
-                                        <th>Nom et Prenom</th>
-                                        <th>Date de naissance </th>
-                                        <th>Adresse</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.photo')</th>
+                                        <th>@lang('trans.fl_name')</th>
+                                        <th>@lang('trans.dob') </th>
+                                        <th>@lang('trans.address')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,7 +51,7 @@
 
 
                                                 <a href="{{ route('centre.create', $demandeur) }}"
-                                                    class="btn btn-primary btn-sm">Create</a>
+                                                    class="btn btn-primary btn-sm">@lang('trans.create')</a>
 
                                             </td>
                                         </tr>
@@ -70,21 +70,21 @@
 
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">@lang('examinateur.formations')</div>
+                        <div class="card-header">@lang('trans.training')</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Type de formation</th>
-                                            <th>Demandeur</th>
+                                            <th>@lang('trans.id')</th>
+                                            <th>@lang('trans.training_type')</th>
+                                            <th>@lang('trans.applicant')</th>
 
-                                            <th>Centre</th>
-                                            <th>Lieu</th>
-                                            <th>Date</th>
-                                            <th>Attestation</th>
-                                            <th>Actions</th>
+                                            <th>@lang('trans.training_center')</th>
+                                            <th>@lang('trans.location')</th>
+                                            <th>@lang('trans.training_date')</th>
+                                            <th>@lang('trans.certificate')</th>
+                                            <th>@lang('trans.actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -106,13 +106,13 @@
                                                 <td>
                                                     <button class="btn btn-warning btn-sm toggle-edit"
                                                         data-id="{{ $formation->id }}">
-                                                        Modifier
+                                                        @lang('trans.update')
                                                     </button>
                                                     <form action="{{ route('centre.destroy', $formation) }}" method="POST"
                                                         class="d-inline">
                                                         @csrf @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
+                                                            onclick="return confirm('Confirmer la suppression ?')">@lang('trans.destroy')</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -125,7 +125,7 @@
                                                         @csrf @method('PUT')
                                                         <div class="row">
                                                             <div class="col-md-3">
-                                                                <label>Type de Formation </label>
+                                                                <label>@lang('trans.training_date') </label>
                                                                 <select name="type_formation_id" class="form-control">
                                                                     @foreach ($type_formations as $type)
                                                                         <option value="{{ $type->id }}"
@@ -137,29 +137,29 @@
                                                             </div>
 
                                                             <div class="col-md-2">
-                                                                <label>Lieu </label>
+                                                                <label>@lang('trans.location') </label>
                                                                 <input type="text" name="lieu" class="form-control"
                                                                     value="{{ $formation->lieu }}" required>
                                                             </div>
                                                             <div class="col-md-2">
-                                                                <label>Date </label>
+                                                                <label>@lang('trans.training_date') </label>
                                                                 <input type="date" name="date_formation"
                                                                     class="form-control"
                                                                     value="{{ $formation->date_formation }}" required>
                                                             </div>
                                                             <div class="col-md-2">
-                                                                <label>Attestation (PDF)</label>
+                                                                <label>@lang('trans.certificate')</label>
                                                                 <input type="file" name="attestation"
                                                                     class="form-control" accept="application/pdf" required>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <br>
                                                                 <button type="submit"
-                                                                    class="btn btn-success btn-sm">Enregistrer</button>
+                                                                    class="btn btn-success btn-sm">@lang('trans.save')</button>
                                                                 <button type="button"
                                                                     class="btn btn-secondary btn-sm cancel-edit"
                                                                     data-id="{{ $formation->id }}">
-                                                                    Annuler
+                                                                    @lang('trans.close')
                                                                 </button>
                                                             </div>
                                                         </div>

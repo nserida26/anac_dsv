@@ -134,6 +134,7 @@
                     <p>XI <img src="{{ asset('/uploads/' . $licence->cachet) }}" width="100" height="100">
                     </p>
                     <p>
+                        XII
                         @php
                             $typeDetails = [];
                         @endphp
@@ -152,7 +153,7 @@
                             @php
                                 $typeString = implode('; ', $typeDetails);
                             @endphp
-                            <span>XII {{ $typeString }}</span>
+                            <span> {{ $typeString }}</span>
                         @endif
                         @php
                             $amtDetails = [];
@@ -172,7 +173,7 @@
                             @php
                                 $amtString = implode('; ', $amtDetails);
                             @endphp
-                            <span>XII {{ $amtString }}</span>
+                            <span> {{ $amtString }}</span>
                         @endif
                         @php
                             $atcDetails = [];
@@ -192,7 +193,7 @@
                             @php
                                 $atcString = implode('; ', $amtDetails);
                             @endphp
-                            <span>XII {{ $atcString }}</span>
+                            <span> {{ $atcString }}</span>
                         @endif
                         @php
                             $rpaDetails = [];
@@ -212,7 +213,7 @@
                             @php
                                 $rpaString = implode('; ', $rpaDetails);
                             @endphp
-                            <span>XII {{ $rpaString }}</span>
+                            <span> {{ $rpaString }}</span>
                         @endif
                     <ul class="no-bullets">
 
@@ -334,17 +335,16 @@
                             $medicalExpiryDate = $medicalExpiryDate->format('d-M-Y');
 
                             $class = '';
-                            $class1 = ['CPL', 'ATPL'];
-                            $class2 = ['PPL', 'PNC'];
-                            $class3 = ['ATM', 'ATE', 'ATC'];
-                            $prefix = substr($licence->type_licence, 0, 3);
+                            $class1 = [27, 28, 29, 30];
+                            $class2 = [31, 32, 39];
+                            $class3 = [35, 36, 37, 38];
 
-                            if (in_array($prefix, $class1)) {
+                            if (in_array($licence->demande->typeLicence->id, $class1)) {
                                 # code...
                                 $class = 'Class 1';
-                            } elseif (in_array($prefix, $class2)) {
+                            } elseif (in_array($licence->demande->typeLicence->id, $class2)) {
                                 $class = 'Class 2';
-                            } elseif (in_array($prefix, $class3)) {
+                            } elseif (in_array($licence->demande->typeLicence->id, $class3)) {
                                 $class = 'Class 3';
                             }
                         @endphp

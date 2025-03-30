@@ -68,7 +68,7 @@
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ route('dir') }}">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            @lang('dir.signature')
+                            @lang('trans.signature')
                         </a>
                         <div class="dropdown-divider"></div>
                         @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)

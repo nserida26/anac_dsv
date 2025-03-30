@@ -17,7 +17,7 @@
             <h3><i class="fas fa-exclamation-triangle text-danger"></i> Oops! Something went wrong.</h3>
 
             <p>
-                <a href="{{route('admin.dashboard')}}">@lang('sidebar.dashboard')</a>
+                <a href="{{ route('admin.dashboard') }}">@lang('trans..dashboard')</a>
             </p>
         </div>
     </div>

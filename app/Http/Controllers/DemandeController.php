@@ -493,6 +493,7 @@ class DemandeController extends Controller
     }
     public function destroyExpriences(ExperienceDemandeur $experience_demandeur)
     {
+        
         // Supprimer l'enregistrement
         $experience_demandeur->delete();
 
@@ -604,10 +605,11 @@ class DemandeController extends Controller
         ]);
     }
 
-    public function destroyEntrainements(TrainingDemandeur $training_demandeur)
+    public function destroyEntrainements(TrainingDemandeur $entrainement_demandeur)
     {
         // Supprimer l'enregistrement
-        $training_demandeur->delete();
+        
+        $entrainement_demandeur->delete();
 
         // Redirection avec un message de succès
         return response()->json([

@@ -1,16 +1,16 @@
 @extends('centre.layouts.app')
 @section('title')
-    @lang('centre.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @section('contentheader')
-    @lang('centre.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('centre') }}">
-        @lang('centre.dashboard') </a>
+        @lang('trans.dashboard_center') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('centre.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css">
@@ -21,7 +21,7 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Ajouter une formation</div>
+                    <div class="card-header">@lang('trans.add_training')</div>
                     <div class="card-body">
                         <!-- Formulaire -->
                         <form action="{{ route('centre.store') }}" method="POST" enctype="multipart/form-data">
@@ -29,7 +29,7 @@
                             <input type="hidden" name="centre_formation_id" value="{{ $centre->id }}">
                             <input type="hidden" name="demandeur_id" value="{{ $demandeur->id }}">
                             <div class="mb-3">
-                                <label class="form-label">Type de formation</label>
+                                <label class="form-label">@lang('trans.training_type')</label>
                                 <select class="form-control" name="type_formation_id">
                                     @foreach ($type_formations as $type_formation)
                                         <option value="{{ $type_formation->id }}">
@@ -40,21 +40,21 @@
 
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Date formation</label>
+                                <label class="form-label">@lang('trans.training_date')</label>
                                 <input type="date" name="date_formation" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Lieu</label>
+                                <label class="form-label">@lang('trans.location')</label>
                                 <input type="text" class="form-control" id="lieu" name="lieu">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Attestation (PDF)</label>
+                                <label class="form-label">@lang('trans.certificate')</label>
                                 <input type="file" name="attestation" class="form-control" accept="application/pdf"
                                     required>
                             </div>
 
 
-                            <button type="submit" class="btn btn-success">Enregistrer</button>
+                            <button type="submit" class="btn btn-success">@lang('trans.save')</button>
                         </form>
                     </div>
                 </div>

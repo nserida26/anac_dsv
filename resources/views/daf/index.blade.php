@@ -1,16 +1,16 @@
 @extends('daf.layouts.app')
 @section('title')
-    @lang('daf.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheader')
-    @lang('daf.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('daf.dashboard') </a>
+        @lang('trans.dashboard_dir') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('daf.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,18 +22,18 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('daf.ordres')</div>
+                    <div class="card-header">@lang('trans.orders')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="ordres">
                                 <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Demande</th>
-                                        <th>Date recette</th>
-                                        <th>Montant</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.ref')</th>
+                                        <th>@lang('trans.application')</th>
+                                        <th>@lang('trans.date')</th>
+                                        <th>@lang('trans.amount')</th>
+                                        <th>@lang('trans.status')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,7 +49,7 @@
 
                                                 @if ($ordre->statut === 'Validé' && empty($ordre->demande->facture))
                                                     <a href="{{ route('daf.create', $ordre) }}"
-                                                        class="btn btn-primary btn-sm">Facturer</a>
+                                                        class="btn btn-primary btn-sm">@lang('trans.bill')</a>
                                                 @endif
 
 
@@ -69,19 +69,19 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('dir.factures')</div>
+                    <div class="card-header">@lang('trans.invoices')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="factures">
                                 <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Demande</th>
-                                        <th>Date de facture</th>
-                                        <th>Date de limite</th>
-                                        <th>Montant</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.ref')</th>
+                                        <th>@lang('trans.application')</th>
+                                        <th>@lang('trans.date')</th>
+                                        <th>@lang('trans.end_date')</th>
+                                        <th>@lang('trans.amount')</th>
+                                        <th>@lang('trans.status')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,7 +105,7 @@
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
+                                                            @lang('trans.validate')
                                                         </button>
                                                     </form>
 
@@ -115,7 +115,7 @@
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"
                                                             onclick="return confirm('Confirmer la suppression ?')">
-                                                            Supprimer
+                                                            @lang('trans.destroy')
                                                         </button>
                                                     </form>
                                                 @endif
@@ -137,19 +137,19 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('dir.paiements')</div>
+                    <div class="card-header">@lang('trans.paiements')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="paiements">
                                 <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Demande</th>
-                                        <th>Date de paiement</th>
+                                        <th>@lang('trans.ref')</th>
+                                        <th>@lang('trans.application')</th>
+                                        <th>@lang('trans.date')</th>
 
-                                        <th>Montant</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.amount')</th>
+                                        <th>@lang('trans.status')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,14 +166,14 @@
 
                                                 @if ($paiement->statut === 'Réglée')
                                                     <a href="{{ route('daf.show', $paiement) }}"
-                                                        class="btn btn-primary btn-sm">Show</a>
+                                                        class="btn btn-primary btn-sm">@lang('trans.view')</a>
                                                     <form action="{{ route('daf.valider_paiement', $paiement) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la paiement ?')">
-                                                            Confirmer
+                                                            @lang('trans.confirm')
                                                         </button>
                                                     </form>
                                                 @endif

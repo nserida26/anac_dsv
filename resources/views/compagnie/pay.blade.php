@@ -1,16 +1,16 @@
 @extends('compagnie.layouts.app')
 @section('title')
-    @lang('compagnie.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheader')
-    @lang('compagnie.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('compagnie') }}">
-        @lang('compagnie.dashboard') </a>
+        @lang('trans.dashboard') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('compagnie.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css">

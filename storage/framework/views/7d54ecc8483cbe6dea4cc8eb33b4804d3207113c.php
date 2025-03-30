@@ -28,7 +28,7 @@
                     <a href="<?php echo e(route('dashboard')); ?>" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            <?php echo app('translator')->get('sidebar.dashboard'); ?>
+                            <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 
                         </p>
                     </a>
@@ -37,7 +37,7 @@
                     <a href="<?php echo e(route('demandes')); ?>" class="nav-link">
                         <i class="nav-icon fas fa-folder"></i>
                         <p>
-                            <?php echo app('translator')->get('sidebar.demandes'); ?>
+                            <?php echo app('translator')->get('trans.applicants'); ?>
 
                         </p>
                     </a>
@@ -46,7 +46,7 @@
                     <a href="<?php echo e(route('licences')); ?>" class="nav-link">
                         <i class="nav-icon fas fa-id-card"></i>
                         <p>
-                            <?php echo app('translator')->get('sidebar.licences'); ?>
+                            <?php echo app('translator')->get('trans.licences'); ?>
 
                         </p>
                     </a>
@@ -55,7 +55,7 @@
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
-                        <p><?php echo app('translator')->get('sidebar.management'); ?>
+                        <p><?php echo app('translator')->get('trans.management'); ?>
 
                             <i class="fas fa-angle-left right"></i>
                         </p>
@@ -64,44 +64,65 @@
                         <li class="nav-item">
                             <a href="<?php echo e(url('admin/users')); ?>" class="nav-link">
                                 <i class="far fa-user nav-icon"></i>
-                                <p><?php echo app('translator')->get('sidebar.users'); ?></p>
+                                <p><?php echo app('translator')->get('trans.users'); ?></p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo e(url('admin/roles')); ?>" class="nav-link ">
                                 <i class="fas fa-user-shield nav-icon"></i>
-                                <p><?php echo app('translator')->get('sidebar.roles'); ?></p>
+                                <p><?php echo app('translator')->get('trans.roles'); ?></p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo e(url('admin/qualifications')); ?>" class="nav-link ">
-                                <i class="fas fa-star nav-icon"></i>
-                                <p><?php echo app('translator')->get('sidebar.qualifications'); ?></p>
+                            <a href="<?php echo e(url('admin/evaluateurs')); ?>" class="nav-link ">
+                                <i class="far fa-user nav-icon"></i>
+                                <p><?php echo app('translator')->get('trans.evaluators'); ?></p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo e(url('admin/autorites')); ?>" class="nav-link ">
                                 <i class="fas fa-check nav-icon"></i>
-                                <p><?php echo app('translator')->get('sidebar.autorites'); ?></p>
+                                <p><?php echo app('translator')->get('trans.autorites'); ?></p>
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?php echo e(url('admin/centre-formations')); ?>" class="nav-link ">
+                                <i class="fa fa-school nav-icon"></i>
+                                <p><?php echo app('translator')->get('trans.training_center'); ?></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo e(url('admin/compagnies')); ?>" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo app('translator')->get('trans.compagny'); ?></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo e(url('admin/qualifications')); ?>" class="nav-link ">
+                                <i class="fas fa-star nav-icon"></i>
+                                <p><?php echo app('translator')->get('trans.qualifications'); ?></p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="<?php echo e(url('admin/settings')); ?>" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p><?php echo app('translator')->get('sidebar.settings'); ?></p>
+                                <p><?php echo app('translator')->get('trans.settings'); ?></p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo e(url('admin/type-documents')); ?>" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p><?php echo app('translator')->get('sidebar.type-documents'); ?></p>
+                                <p><?php echo app('translator')->get('trans.type-documents'); ?></p>
                             </a>
                         </li>
 
 
+
+
                     </ul>
                 </li>
-                
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

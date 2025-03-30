@@ -1,22 +1,22 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('sec.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('sec.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <?php if(auth()->user()->hasRole('sla')): ?>
         <a href="<?php echo e(route('sla')); ?>">
-            <?php echo app('translator')->get('sec.dashboard'); ?> </a>
+            <?php echo app('translator')->get('trans.dashboard'); ?> </a>
     <?php endif; ?>
     <?php if(auth()->user()->hasRole('sma')): ?>
         <a href="<?php echo e(route('sma')); ?>">
-            <?php echo app('translator')->get('sec.dashboard'); ?> </a>
+            <?php echo app('translator')->get('trans.dashboard'); ?> </a>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('sec.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <style>
@@ -51,27 +51,27 @@
                                 <div class="col-lg-9 table-responsive">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.np'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.fl_name'); ?></th>
                                             <td><?php echo e($demandeur->np ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.date_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.dob'); ?></th>
                                             <td><?php echo e($demandeur->date_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.lieu_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.lieu_naissance'); ?></th>
                                             <td><?php echo e($demandeur->lieu_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.adresse'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.address'); ?></th>
                                             <td><?php echo e($demandeur->adresse ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.adresse_employeur'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.adresse_employeur'); ?></th>
                                             <td><?php echo e($demandeur->adresse_employeur ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.signature'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.signature'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($demandeur->signature) && $demandeur->signature != ''): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $demandeur->signature)); ?>"
@@ -100,23 +100,23 @@
                 <?php if(auth()->user()->hasRole('sma')): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Aptitude Médicale par l'examinateur medical
+                            <?php echo app('translator')->get('trans.medical_fitness_by_examiner'); ?>
                         </div>
                         <div class="card-body">
 
-                            <?php if(isset($medical_examinations)): ?>
+                            <?php if(isset($examens)): ?>
                                 <div class="row">
                                     <div class="col-lg-12 table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date de l'Examen</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Examinateur</th>
-                                                    <th>Centre Médical</th>
-                                                    <th>Avis de l'Examinateur</th>
-                                                    <th>Avis de l'Evaluateur</th>
+                                                    <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.examiner'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.medical_center'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.view_examiner'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.view_evaluator'); ?></th>
 
                                                 </tr>
                                             </thead>
@@ -129,16 +129,16 @@
                                                         <td><?php echo e($examen->examinateur->centreMedical->libelle); ?></td>
                                                         <td>
                                                             <?php if($examen->valider_examinateur): ?>
-                                                                Validé
+                                                                <?php echo app('translator')->get('trans.validated'); ?>
                                                             <?php else: ?>
-                                                                Non Validé
+                                                                <?php echo app('translator')->get('trans.invalid'); ?>
                                                             <?php endif; ?>
                                                         </td>
                                                         <td>
                                                             <?php if($examen->valider_evaluateur): ?>
-                                                                Validé
+                                                                <?php echo app('translator')->get('trans.validated'); ?>
                                                             <?php else: ?>
-                                                                Non Validé
+                                                                <?php echo app('translator')->get('trans.invalid'); ?>
                                                             <?php endif; ?>
                                                         </td>
                                                     </tr>
@@ -153,7 +153,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Aptitude Médicale
+                            <?php echo app('translator')->get('trans.medical_fitness'); ?>
                         </div>
                         <div class="card-body">
 
@@ -164,12 +164,12 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date de l'Examen</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Centre Médical</th>
-                                                    <th> Justificatif</th>
-                                                    <th> Valider par l'evaluateur</th>
-                                                    <th>Actions </th>
+                                                    <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.medical_center'); ?> </th>
+                                                    <th> <?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.validated_by_evaluator'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?> </th>
 
                                                 </tr>
                                             </thead>
@@ -190,9 +190,9 @@
                                                         </td>
                                                         <td>
                                                             <?php if($medical_examination->valider_evaluateur): ?>
-                                                                Valideé
+                                                                <?php echo app('translator')->get('trans.validated'); ?>
                                                             <?php else: ?>
-                                                                Non Valideé
+                                                                <?php echo app('translator')->get('trans.invalid'); ?>
                                                             <?php endif; ?>
 
                                                         </td>
@@ -200,7 +200,7 @@
                                                             <?php if(!$medical_examination->valider_evaluateur && $medical_examination->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('medical_examinations', '<?php echo e($medical_examination->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
 
@@ -220,7 +220,72 @@
                 <?php if(auth()->user()->hasRole('sla')): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Formations , Qualifications et Entraînements periodiques
+                            <?php echo app('translator')->get('trans.medical_fitness'); ?>
+                        </div>
+                        <div class="card-body">
+
+                            <?php if(isset($medical_examinations)): ?>
+                                <div class="row">
+                                    <div class="col-lg-12 table-responsive">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+
+                                                    <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.medical_center'); ?> </th>
+                                                    <th> <?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.validated_by_evaluator'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?> </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $__currentLoopData = $medical_examinations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $medical_examination): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <tr>
+                                                        <td><?php echo e($medical_examination->date_examen); ?></td>
+                                                        <td><?php echo e($medical_examination->validite); ?></td>
+                                                        <td><?php echo e($medical_examination->centre_medical); ?></td>
+                                                        <td>
+                                                            <?php if($medical_examination->document): ?>
+                                                                <button class="btn btn-primary"
+                                                                    onclick="openPdfModal('<?php echo e(asset('/uploads/' . $medical_examination->document)); ?>')"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            <?php endif; ?>
+
+
+                                                        </td>
+                                                        <td>
+                                                            <?php if($medical_examination->valider_evaluateur): ?>
+                                                                <?php echo app('translator')->get('trans.validated'); ?>
+                                                            <?php else: ?>
+                                                                <?php echo app('translator')->get('trans.invalid'); ?>
+                                                            <?php endif; ?>
+
+                                                        </td>
+                                                        <td>
+                                                            <?php if(!$medical_examination->valider_evaluateur && $medical_examination->valider): ?>
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="openRejectionModal('medical_examinations', '<?php echo e($medical_examination->id); ?>', '<?php echo e($demande->id); ?>')">
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
+                                                                </button>
+                                                            <?php endif; ?>
+
+                                                        </td>
+
+                                                    </tr>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <?php echo app('translator')->get('trans.training'); ?>
                         </div>
                         <div class="card-body">
 
@@ -230,11 +295,11 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Type</th>
-                                                    <th>Centre de formation</th>
-                                                    <th>Lieu</th>
-                                                    <th>Date de formation</th>
-                                                    <th>Attestation</th>
+                                                    <th><?php echo app('translator')->get('trans.training'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.training_center'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.training_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
 
 
                                                 </tr>
@@ -268,7 +333,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Licence
+                            <?php echo app('translator')->get('trans.license'); ?>
                         </div>
 
                         <div class="card-body">
@@ -278,12 +343,12 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Date de licence</th>
-                                                    <th>Numéro de licence</th>
-                                                    <th>Autorité de délivrance</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.license_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.license_number'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.authority'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -305,7 +370,7 @@
                                                             <?php if($licence_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('licence_demandeurs', '<?php echo e($licence_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -320,7 +385,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Formations
+                            <?php echo app('translator')->get('trans.training'); ?>
                         </div>
                         <div class="card-body">
                             <?php if(isset($formation_demandeurs)): ?>
@@ -330,11 +395,11 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date de formation</th>
-                                                    <th>Centre de formation</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.training_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.training_center'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.training_location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -358,7 +423,7 @@
                                                             <?php if($formation_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('formation_demandeurs', '<?php echo e($formation_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -375,7 +440,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Qualifications
+                            <?php echo app('translator')->get('trans.ratings'); ?>
                         </div>
                         <div class="card-body">
                             <br>
@@ -385,34 +450,34 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Qualification</th>
+                                                    <th><?php echo app('translator')->get('trans.rating'); ?></th>
                                                     <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 37, 38, 39])): ?>
-                                                        <th>Type d'avion</th>
-                                                        <th>Machine</th>
+                                                        <th><?php echo app('translator')->get('trans.plane_type'); ?></th>
+                                                        <th><?php echo app('translator')->get('trans.machine'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if(in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32])): ?>
-                                                        <th>Type de moteur</th>
+                                                        <th><?php echo app('translator')->get('trans.engine_type'); ?></th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id !== 33): ?>
-                                                        <th>Privilege</th>
+                                                        <th><?php echo app('translator')->get('trans.privilege'); ?> </th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id === 11): ?>
-                                                        <th>Qualification AMT</th>
+                                                        <th><?php echo app('translator')->get('trans.amt'); ?> </th>
                                                     <?php endif; ?>
                                                     <?php if(in_array($demande->typeLicence->id, [37, 38])): ?>
-                                                        <th>Qualification ATC</th>
+                                                        <th><?php echo app('translator')->get('trans.atc'); ?> </th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id === 34): ?>
-                                                        <th>Qualification RPA</th>
+                                                        <th><?php echo app('translator')->get('trans.rpa'); ?> </th>
                                                     <?php endif; ?>
                                                     <?php if($demande->typeLicence->id === 33): ?>
-                                                        <th>Qualification ULM</th>
+                                                        <th><?php echo app('translator')->get('trans.ulm'); ?> </th>
                                                     <?php endif; ?>
-                                                    <th>Date de l'Examen</th>
-                                                    <th>Simulateur</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.exam_date'); ?> </th>
+                                                    <th><?php echo app('translator')->get('trans.training_center'); ?> </th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?> </th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?> </th>
+                                                    <th><?php echo app('translator')->get('trans.privilege'); ?> </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -456,7 +521,7 @@
                                                             <?php if($qualification_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('qualification_demandeurs', '<?php echo e($qualification_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -473,7 +538,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Expérience en heures de vol
+                            <?php echo app('translator')->get('trans.flights'); ?>
                         </div>
 
                         <div class="card-body">
@@ -484,12 +549,12 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Nature</th>
-                                                    <th>Total</th>
-                                                    <th>Six (6) derniers mois</th>
-                                                    <th>Trois (3) derniers mois</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.flights_type'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.total'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.six'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.three'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -511,7 +576,7 @@
                                                             <?php if($experience_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('experience_demandeurs', '<?php echo e($experience_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -527,7 +592,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Contrôles de compétence les plus récents
+                            <?php echo app('translator')->get('trans.control'); ?>
                         </div>
                         <div class="card-body">
                             <?php if(isset($competence_demandeurs)): ?>
@@ -537,13 +602,13 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Type</th>
-                                                    <th>Niveau</th>
-                                                    <th>Date</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th> <?php echo app('translator')->get('trans.type'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.level'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.date'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th> <?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -566,7 +631,7 @@
                                                             <?php if($competence_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('competence_demandeurs', '<?php echo e($competence_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -583,7 +648,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Entraînements périodiques
+                            <?php echo app('translator')->get('trans.periodic_control'); ?>
                         </div>
                         <div class="card-body">
                             <?php if(isset($entrainement_demandeurs)): ?>
@@ -593,13 +658,13 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Type</th>
+                                                    <th><?php echo app('translator')->get('trans.type'); ?></th>
 
-                                                    <th>Date</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.location'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -621,7 +686,7 @@
                                                             <?php if($entrainement_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('entrainement_demandeurs', '<?php echo e($entrainement_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -639,7 +704,7 @@
                     
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Interruptions
+                            <?php echo app('translator')->get('trans.interruptions'); ?>
                         </div>
 
                         <div class="card-body">
@@ -649,11 +714,11 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Raisons</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.reason'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -674,7 +739,7 @@
                                                             <?php if($interruption_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('interruption_demandeurs', '<?php echo e($interruption_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -692,7 +757,8 @@
                     
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Expérience en maintenance d'aéronefs
+
+                            <?php echo app('translator')->get('trans.maintenance'); ?>
                         </div>
 
                         <div class="card-body">
@@ -705,11 +771,11 @@
 
 
 
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Descriptions</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.description'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -732,7 +798,7 @@
                                                             <?php if($experience_maintenance_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('experience_maintenance_demandeurs', '<?php echo e($experience_maintenance_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -750,7 +816,7 @@
                     
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Employeurs
+                            <?php echo app('translator')->get('trans.employers'); ?>
                         </div>
 
                         <div class="card-body">
@@ -762,12 +828,12 @@
                                                 <tr>
 
 
-                                                    <th>Employeur</th>
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Fonction</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.employer'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.role'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.proof'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -790,7 +856,7 @@
                                                             <?php if($experience_maintenance_demandeur->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('experience_maintenance_demandeurs', '<?php echo e($experience_maintenance_demandeur->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -808,7 +874,7 @@
                     
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Pièce-jointe
+                            <?php echo app('translator')->get('trans.attachments'); ?>
                         </div>
 
                         <div class="card-body">
@@ -819,10 +885,10 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Libellé</th>
+                                                    <th><?php echo app('translator')->get('trans.title'); ?></th>
 
-                                                    <th>Document</th>
-                                                    <th>Actions</th>
+                                                    <th><?php echo app('translator')->get('trans.attachment'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -847,7 +913,7 @@
                                                             <?php if($document->valider): ?>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     onclick="openRejectionModal('documents', '<?php echo e($document->id); ?>', '<?php echo e($demande->id); ?>')">
-                                                                    Rejeter
+                                                                    <?php echo app('translator')->get('trans.reject'); ?>
                                                                 </button>
                                                             <?php endif; ?>
                                                         </td>
@@ -896,16 +962,10 @@
                                     uniquement)</label>
                                 <input class="form-control" type="file" id="checklistFile" name="checklist"
                                     accept=".pdf" required>
-                                <div class="form-text">Veuillez sélectionner un fichier PDF (max: 5MB)</div>
+                                <div class="form-text"><?php echo app('translator')->get('trans.checklist_indication'); ?></div>
                             </div>
                             <button type="submit" class="btn btn-primary float-right">
-                                <?php if(auth()->user()->hasRole('sla')): ?>
-                                    <?php echo e($demande->checklist_sla ? 'Mettre à jour' : 'Envoyer'); ?>
-
-                                <?php else: ?>
-                                    <?php echo e($demande->checklist_sma ? 'Mettre à jour' : 'Envoyer'); ?>
-
-                                <?php endif; ?>
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
                             </button>
                         </form>
                     </div>
@@ -927,7 +987,7 @@
                         <?php echo csrf_field(); ?>
 
                         <div class="form-group">
-                            <label for="motif">Veuillez préciser le motif de rejet :</label>
+                            <label for="motif">Veuillez preciser le motif de rejet :</label>
                             <textarea name="motif" id="motif" class="form-control" rows="3" required></textarea>
                         </div>
                         <input type="hidden" name="table" id="table">
@@ -947,9 +1007,9 @@
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('custom'); ?>
     <script>
-        // Fonction pour ouvrir la modale et définir les valeurs du formulaire
+        // Fonction pour ouvrir la modale et d�finir les valeurs du formulaire
         function openRejectionModal(table, id, demande) {
-            // Définir les valeurs des champs cachés
+            // D�finir les valeurs des champs cach�s
             document.getElementById('table').value = table;
             document.getElementById('id').value = id;
             document.getElementById('demande_id').value = demande;
@@ -975,7 +1035,7 @@
                     data: data,
                     success: function(response) {
 
-                        alert('Rejet effectué avec succès !');
+                        alert('Rejet effectu� avec succ�s !');
                         window.location.reload();
                     },
                     error: function(xhr) {

@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheader')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheaderlink')
-    <a href="{{ route('users.index') }}"> @lang('sidebar.users') </a>
+    <a href="{{ route('users.index') }}"> @lang('trans..users') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @push('css')
 @endpush
@@ -25,7 +25,8 @@
                         @csrf
                         @method('PUT')
                         <label for="name">Role Name</label>
-                        <input type="text" class="form-control" name="name" id="name" value="{{ $role->name }}" required>
+                        <input type="text" class="form-control" name="name" id="name" value="{{ $role->name }}"
+                            required>
                         <button type="submit" class="btn btn-warning">Update Role</button>
                     </form>
                 </div>

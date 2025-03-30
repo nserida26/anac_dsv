@@ -1,16 +1,16 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('dashboard')); ?>">
-        <?php echo app('translator')->get('admin.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard_admin'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -22,14 +22,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <!--<div class="card-header bg-primary text-white">
-                        Statistiques des Demandes
-                    </div>-->
+                                        Statistiques des Demandes
+                                    </div>-->
 
                     <div class="card-body">
 
                         <!-- Affichage du nombre de demandeurs -->
                         <div class="alert alert-info">
-                            Nombre total de demandeurs : <strong id="nombreDemandeurs">0</strong>
+                            <?php echo app('translator')->get('trans.total_applicants'); ?> : <strong id="nombreDemandeurs">0</strong>
                         </div>
 
                         <!-- Graphique des demandes par jour -->

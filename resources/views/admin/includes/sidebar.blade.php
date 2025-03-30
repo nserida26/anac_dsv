@@ -28,7 +28,7 @@
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            @lang('sidebar.dashboard')
+                            @lang('trans.dashboard_admin')
 
                         </p>
                     </a>
@@ -37,7 +37,7 @@
                     <a href="{{ route('demandes') }}" class="nav-link">
                         <i class="nav-icon fas fa-folder"></i>
                         <p>
-                            @lang('sidebar.demandes')
+                            @lang('trans.applicants')
 
                         </p>
                     </a>
@@ -46,7 +46,7 @@
                     <a href="{{ route('licences') }}" class="nav-link">
                         <i class="nav-icon fas fa-id-card"></i>
                         <p>
-                            @lang('sidebar.licences')
+                            @lang('trans.licences')
 
                         </p>
                     </a>
@@ -55,7 +55,7 @@
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
-                        <p>@lang('sidebar.management')
+                        <p>@lang('trans.management')
 
                             <i class="fas fa-angle-left right"></i>
                         </p>
@@ -64,234 +64,65 @@
                         <li class="nav-item">
                             <a href="{{ url('admin/users') }}" class="nav-link">
                                 <i class="far fa-user nav-icon"></i>
-                                <p>@lang('sidebar.users')</p>
+                                <p>@lang('trans.users')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('admin/roles') }}" class="nav-link ">
                                 <i class="fas fa-user-shield nav-icon"></i>
-                                <p>@lang('sidebar.roles')</p>
+                                <p>@lang('trans.roles')</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/qualifications') }}" class="nav-link ">
-                                <i class="fas fa-star nav-icon"></i>
-                                <p>@lang('sidebar.qualifications')</p>
+                            <a href="{{ url('admin/evaluateurs') }}" class="nav-link ">
+                                <i class="far fa-user nav-icon"></i>
+                                <p>@lang('trans.evaluators')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('admin/autorites') }}" class="nav-link ">
                                 <i class="fas fa-check nav-icon"></i>
-                                <p>@lang('sidebar.autorites')</p>
+                                <p>@lang('trans.autorites')</p>
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ url('admin/centre-formations') }}" class="nav-link ">
+                               <i class="fa fa-school nav-icon"></i>
+                                <p>@lang('trans.training_center')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('admin/compagnies') }}" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('trans.compagny')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('admin/qualifications') }}" class="nav-link ">
+                                <i class="fas fa-star nav-icon"></i>
+                                <p>@lang('trans.qualifications')</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ url('admin/settings') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.settings')</p>
+                                <p>@lang('trans.settings')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('admin/type-documents') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.type-documents')</p>
+                                <p>@lang('trans.type-documents')</p>
                             </a>
                         </li>
+
+
 
 
                     </ul>
                 </li>
-                {{--
-                <li class="nav-item">
-                    <a href="" class="nav-link {{ request()->is('maps') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-map"></i>
-                        <p>
-                            @lang('sidebar.maps')
 
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-
-                            @lang('sidebar.reporting')
-
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ url('admin/reporting') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.reporting_territoire')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.reporting_annuel')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.reporting_projet')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.reporting_localite')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            @lang('sidebar.injection')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-school"></i>
-                                <p>@lang('sidebar.admins')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.operations')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            @lang('sidebar.validation')
-                            <i class="fas fa-angle-left right"></i>
-
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ url('admin/reports/localites') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.family')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('admin/reports/infrastructures') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.institution')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
-                        <p>
-                            @lang('sidebar.settings')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                <p>@lang('sidebar.projects')</p>
-                                <i class="fas fa-angle-left right"></i>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ url('/admin/projets') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>@lang('sidebar.projects')</p>
-                                    </a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('/admin/projet-wilaya') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>@lang('sidebar.projet_wilaya')</p>
-                                    </a>
-
-                                </li>
-                            </ul>
-                        </li>
-
-
-                        <li class="nav-item">
-                            <a href="{{ url('/admin/operateurs') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.operators')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/admin/wilayas') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.wilayas')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/admin/moughatas') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.moughatas')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/admin/communes') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.communes')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/admin/localites') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.localites')</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ url('/admin/infrastructures') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('sidebar.infrastructures')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-language"></i>
-                        <p>
-                            @lang('sidebar.languages')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                            <li class="nav-item">
-
-                                <a class="nav-link" rel="alternate" hreflang="{{ $localeCode }}"
-                                    href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    {{ $properties['native'] }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-            --}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

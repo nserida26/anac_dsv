@@ -14,6 +14,8 @@ class EtatDemande extends Model
         'dg_annoter',
         'dsv_annoter',
         'pel_annoter',
+        'evaluateur_annoter',
+        'evaluateur_valider',
         'sm_valider',
         'sl_valider',
         'pel_valider',

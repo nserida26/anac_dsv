@@ -1,16 +1,16 @@
 @extends('examinateur.layouts.app')
 @section('title')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_compagny')
 @endsection
 @section('contentheader')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_compagny')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('examinateur.dashboard') </a>
+        @lang('trans.dashboard_compagny') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_compagny')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,11 +22,11 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('compagnie.demandeurs')
+                    <div class="card-header">@lang('trans.applicants')
                         <div class="card-tools">
                             <!-- Buttons, labels, and many other things can be placed here! -->
                             <!-- Here is a label for example -->
-                            <span class="badge badge-primary">Situation financière
+                            <span class="badge badge-primary"> @lang('trans.situation')
                                 : {{ $compagnie->panier }}</span>
                         </div>
                     </div>
@@ -35,13 +35,13 @@
                             <table class="table table-bordered table-striped" id="demandeurs">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>@lang('trans.id')</th>
 
-                                        <th>Photo</th>
-                                        <th>Nom et Prenom</th>
-                                        <th>Date de naissance </th>
-                                        <th>Adresse</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.photo')</th>
+                                        <th>@lang('trans.fl_name')</th>
+                                        <th>@lang('trans.dob') </th>
+                                        <th>@lang('trans.address')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,7 +58,8 @@
                                                 @if ($demandeur->valider_compagnie)
                                                     <button class="btn btn-info btn-sm toggle-btn"
                                                         data-target="demandeur-{{ $demandeur->id }}">
-                                                        Voir Demandes
+
+                                                        @lang('trans.view_applicants')
                                                     </button>
                                                 @endif
                                                 @if (!$demandeur->valider_compagnie)
@@ -68,7 +69,7 @@
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
+                                                            @lang('trans.validate')
                                                         </button>
                                                     </form>
                                                 @endif
@@ -80,12 +81,12 @@
                                                 <table class="table table-sm">
                                                     <thead>
                                                         <tr>
-                                                            <th>ID</th>
-                                                            <th>Demandeur</th>
-                                                            <th>Phase</th>
-                                                            <th>Type de licence</th>
-                                                            <th>Status</th>
-                                                            <th>Actions</th>
+                                                            <th>@lang('trans.id')</th>
+                                                            <th>@lang('trans.applicant')</th>
+                                                            <th>@lang('trans.type_application')</th>
+                                                            <th>@lang('trans.type_license')</th>
+                                                            <th>@lang('trans.status')</th>
+                                                            <th>@lang('trans.actions')</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -101,7 +102,7 @@
                                                                     @if (!empty($demande->paiement))
                                                                         <button class="btn btn-warning btn-sm toggle-btn"
                                                                             data-target="paiements-{{ $demande->id }}">
-                                                                            Voir Paiements
+                                                                            @lang('trans.view_payements')
                                                                         </button>
                                                                     @endif
 
@@ -114,12 +115,12 @@
                                                                     <table class="table table-sm">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Ref</th>
-                                                                                <th>Montant</th>
+                                                                                <th>@lang('trans.ref')</th>
+                                                                                <th>@lang('trans.amount')</th>
 
-                                                                                <th>Statut</th>
-                                                                                <th>Date de Paiement</th>
-                                                                                <th>Actions</th>
+                                                                                <th>@lang('trans.status')</th>
+                                                                                <th>@lang('trans.payement_date')</th>
+                                                                                <th>@lang('trans.actions')</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -137,7 +138,7 @@
                                                                                 <td>
                                                                                     @if ($demande->paiement && $demande->paiement->statut === 'En attente')
                                                                                         <a href="{{ route('compagnie.pay', $demande->paiement) }}"
-                                                                                            class="btn btn-warning btn-sm">Payer</a>
+                                                                                            class="btn btn-warning btn-sm">@lang('trans.pay')</a>
                                                                                     @endif
                                                                                 </td>
                                                                             </tr>

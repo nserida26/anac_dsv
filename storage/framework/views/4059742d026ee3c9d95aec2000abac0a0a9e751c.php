@@ -1,22 +1,22 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <?php if(auth()->user()->hasRole('dsv')): ?>
         <a href="<?php echo e(route('dsv')); ?>">
-            <?php echo app('translator')->get('dir.dashboard'); ?> </a>
+            <?php echo app('translator')->get('trans.dashboard'); ?> </a>
     <?php endif; ?>
     <?php if(auth()->user()->hasRole('dg')): ?>
         <a href="<?php echo e(route('dg')); ?>">
-            <?php echo app('translator')->get('dir.dashboard'); ?> </a>
+            <?php echo app('translator')->get('trans.dashboard'); ?> </a>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <style>
@@ -50,27 +50,27 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.np'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.fl_name'); ?></th>
                                             <td><?php echo e($demandeur->np ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.date_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.dob'); ?></th>
                                             <td><?php echo e($demandeur->date_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.lieu_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.lieu_naissance'); ?></th>
                                             <td><?php echo e($demandeur->lieu_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.adresse'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.address'); ?></th>
                                             <td><?php echo e($demandeur->adresse ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.adresse_employeur'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.adresse_employeur'); ?></th>
                                             <td><?php echo e($demandeur->adresse_employeur ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.signature'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.signature'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($demandeur->signature) && $demandeur->signature != ''): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $demandeur->signature)); ?>"
@@ -96,7 +96,7 @@
 
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Formations
+                        <?php echo app('translator')->get('trans.training'); ?>
                     </div>
                     <div class="card-body">
                         <?php if(isset($formation_demandeurs)): ?>
@@ -106,10 +106,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Date de formation</th>
-                                                <th>Centre de formation</th>
-                                                <th>Lieu</th>
-                                                
+                                                <th><?php echo app('translator')->get('trans.training_date'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.training_center'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.location'); ?></th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -119,7 +119,7 @@
                                                     <td><?php echo e($formation_demandeur->date_formation); ?></td>
                                                     <td><?php echo e($formation_demandeur->centre_formation); ?></td>
                                                     <td><?php echo e($formation_demandeur->lieu); ?></td>
-                                                    
+
                                                 </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -133,7 +133,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Qualifications
+                        <?php echo app('translator')->get('trans.ratings'); ?>
                     </div>
                     <div class="card-body">
                         <br>
@@ -143,11 +143,11 @@
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Qualification</th>
-                                                <th>Date de l'Examen</th>
-                                                <th>Simulateur</th>
-                                                <th>Lieu</th>
-                                                
+                                                <th><?php echo app('translator')->get('trans.rating'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.training_center'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.location'); ?></th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -157,7 +157,7 @@
                                                     <td><?php echo e($qualification_demandeur->date_examen); ?></td>
                                                     <td><?php echo e($qualification_demandeur->centre_formation); ?></td>
                                                     <td><?php echo e($qualification_demandeur->lieu); ?></td>
-                                                    
+
                                                 </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -172,7 +172,8 @@
                 <!----->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Aptitude Médicale
+
+                        <?php echo app('translator')->get('trans.medical_fitness'); ?>
                     </div>
                     <div class="card-body">
 
@@ -183,10 +184,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Date de l'Examen</th>
-                                                <th>Validité en mois</th>
-                                                <th>Centre Médical</th>
-                                                
+                                                <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.medical_center'); ?></th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -207,7 +208,8 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Expérience en heures de vol
+                        <?php echo app('translator')->get('trans.flights'); ?>
+
                     </div>
 
                     <div class="card-body">
@@ -218,11 +220,11 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Nature</th>
-                                                <th>Total</th>
-                                                <th>Six (6) derniers mois</th>
-                                                <th>Trois (3) derniers mois</th>
-                                                
+                                                <th><?php echo app('translator')->get('trans.flights_type'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.total'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.six'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.three'); ?></th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -232,7 +234,7 @@
                                                     <td><?php echo e($experience_demandeur->total); ?></td>
                                                     <td><?php echo e($experience_demandeur->six_mois); ?></td>
                                                     <td><?php echo e($experience_demandeur->trois_mois); ?></td>
-                                                    
+
                                                 </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -245,7 +247,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Contrôles de compétence les plus récents
+                        <?php echo app('translator')->get('trans.control'); ?>
                     </div>
                     <div class="card-body">
                         <?php if(isset($competence_demandeurs)): ?>
@@ -255,12 +257,12 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Type</th>
-                                                <th>Niveau</th>
-                                                <th>Date</th>
-                                                <th>Validité en mois</th>
-                                                <th>Lieu</th>
-                                                
+                                                <th><?php echo app('translator')->get('trans.type'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.level'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.location'); ?></th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -271,7 +273,7 @@
                                                     <td><?php echo e($competence_demandeur->date); ?></td>
                                                     <td><?php echo e($competence_demandeur->validite); ?></td>
                                                     <td><?php echo e($competence_demandeur->centre_formation); ?></td>
-                                                    
+
                                                 </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -285,7 +287,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Entraînements périodiques
+                        <?php echo app('translator')->get('trans.periodic_control'); ?>
                     </div>
                     <div class="card-body">
                         <?php if(isset($entrainement_demandeurs)): ?>
@@ -295,12 +297,12 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Type</th>
+                                                <th><?php echo app('translator')->get('trans.type'); ?></th>
 
-                                                <th>Date</th>
-                                                <th>Validité en mois</th>
-                                                <th>Lieu</th>
-                                                
+                                                <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.location'); ?></th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -310,7 +312,7 @@
                                                     <td><?php echo e($entrainement_demandeur->date); ?></td>
                                                     <td><?php echo e($entrainement_demandeur->validite); ?></td>
                                                     <td><?php echo e($entrainement_demandeur->centre_formation); ?></td>
-                                                    
+
                                                 </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -326,7 +328,7 @@
                 <?php if($interruption_demandeurs->isNotEmpty()): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Interruptions
+                            <?php echo app('translator')->get('trans.interruptions'); ?>
                         </div>
 
                         <div class="card-body">
@@ -339,10 +341,10 @@
 
 
 
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Raisons</th>
-                                                    
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.reason'); ?></th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -352,7 +354,7 @@
                                                         <td><?php echo e($interruption_demandeur->date_fin); ?></td>
                                                         <td><?php echo e($interruption_demandeur->raison); ?></td>
 
-                                                        
+
                                                     </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
@@ -370,7 +372,7 @@
                 <?php if($experience_maintenance_demandeurs->isNotEmpty()): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Expérience en maintenance d'aéronefs
+                            <?php echo app('translator')->get('trans.maintenance'); ?>
                         </div>
 
                         <div class="card-body">
@@ -382,11 +384,10 @@
                                                 <tr>
 
 
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.description'); ?></th>
 
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Descriptions</th>
-                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -398,7 +399,7 @@
 
                                                         </td>
 
-                                                        
+
                                                     </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
@@ -415,7 +416,7 @@
                 <?php if($employeur_demandeurs->isNotEmpty()): ?>
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Employeurs
+                            <?php echo app('translator')->get('trans.employers'); ?>
                         </div>
 
                         <div class="card-body">
@@ -427,11 +428,11 @@
                                                 <tr>
 
 
-                                                    <th>Employeur</th>
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Fonction</th>
-                                                    
+                                                    <th><?php echo app('translator')->get('trans.employer'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.start_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                                    <th><?php echo app('translator')->get('trans.role'); ?></th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -442,7 +443,7 @@
                                                         <td><?php echo e($employeur_demandeur->periode_au); ?></td>
                                                         <td><?php echo e($employeur_demandeur->fonction); ?></td>
 
-                                                        
+
                                                     </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
@@ -459,7 +460,7 @@
 
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Pièce-jointe
+                        <?php echo app('translator')->get('trans.attachments'); ?>
                     </div>
 
                     <div class="card-body">
@@ -470,10 +471,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Libellé</th>
+                                                <th><?php echo app('translator')->get('trans.title'); ?></th>
 
-                                                <th>Document</th>
-                                                
+                                                <th><?php echo app('translator')->get('trans.attachment'); ?></th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -483,11 +484,13 @@
 
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-primary"
-                                                            onclick="openPdfModal('<?php echo e(asset('/uploads/' . $document->url)); ?>')"><i
-                                                                class="fas fa-eye"></i></button>
+                                                        <?php if($document->url): ?>
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPdfModal('<?php echo e(asset('/uploads/' . $document->url)); ?>')"><i
+                                                                    class="fas fa-eye"></i></button>
+                                                        <?php endif; ?>
                                                     </td>
-                                                    
+
                                                 </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>

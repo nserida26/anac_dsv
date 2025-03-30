@@ -1,16 +1,16 @@
 @extends('user.layouts.app')
 @section('title')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheader')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('user') }}">
-        @lang('user.dashboard') </a>
+        @lang('trans.dashboard') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @push('css')
 @endpush
@@ -23,7 +23,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Créer un Demande</h3>
+                        <h3 class="card-title">@lang('trans.add_application')</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="type_demande_id">Type de demande</label>
+                                        <label for="type_demande_id">@lang('trans.type_application')</label>
                                         <select class="form-control" id="type_demande_id" name="type_demande_id"
                                             placeholder="">
                                             @foreach ($type_demandes as $type_demande)
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="type_licence_id">Type de licence</label>
+                                        <label for="type_licence_id">@lang('trans.type_license')</label>
                                         <select class="form-control" id="type_licence_id" name="type_licence_id"
                                             placeholder="">
                                             @foreach ($type_licences as $type_licence)
@@ -56,20 +56,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!--<div class="col-lg-4">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="specialite">Machine</label>
-                                                                                                    <select class="form-control" id="specialite" name="specialite" placeholder="">
-                                                                                                        <option value="Avion">Avion</option>
-                                                                                                        <option value="Helicoptere">Hélicoptère</option>
-                                                                                                    </select>
-                                                                                                </div>
-                                                                                            </div>-->
                             </div>
                             <div class="row">
 
                                 <div class="col-lg-12">
-                                    <button type="submit" class="btn btn-success float-right">Créer</button>
+                                    <button type="submit" class="btn btn-success float-right">@lang('trans.send')</button>
                                 </div>
                             </div>
                         </div>

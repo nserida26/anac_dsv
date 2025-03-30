@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheader')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('dashboard') }}">
-        @lang('admin.dashboard') </a>
+        @lang('trans.dashboard_admin') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,14 +22,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <!--<div class="card-header bg-primary text-white">
-                        Statistiques des Demandes
-                    </div>-->
+                                        Statistiques des Demandes
+                                    </div>-->
 
                     <div class="card-body">
 
                         <!-- Affichage du nombre de demandeurs -->
                         <div class="alert alert-info">
-                            Nombre total de demandeurs : <strong id="nombreDemandeurs">0</strong>
+                            @lang('trans.total_applicants') : <strong id="nombreDemandeurs">0</strong>
                         </div>
 
                         <!-- Graphique des demandes par jour -->

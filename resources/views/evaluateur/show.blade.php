@@ -1,16 +1,16 @@
 @extends('evaluateur.layouts.app')
 @section('title')
-    @lang('evaluateur.dashboard')
+    @lang('trans.dashboard_evaluator')
 @endsection
 @section('contentheader')
-    @lang('evaluateur.dashboard')
+    @lang('trans.dashboard_evaluator')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('evaluateur') }}">
-        @lang('evaluateur.dashboard') </a>
+        @lang('trans.dashboard_evaluator') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('evaluateur.dashboard')
+    @lang('trans.dashboard_evaluator')
 @endsection
 @push('css')
     <style>
@@ -36,7 +36,7 @@
                 <!-- general form elements -->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        @lang('evaluateur.examen')
+                        @lang('trans.exams')
                     </div>
                     <div class="card-body">
                         @isset($examen)
@@ -45,36 +45,36 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>@lang('evaluateur.np')</th>
+                                            <th>@lang('trans.fl_name')</th>
                                             <td>{{ $examen->demandeur->np ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('evaluateur.date_naissance')</th>
+                                            <th>@lang('trans.dob')</th>
                                             <td>{{ $examen->demandeur->date_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('evaluateur.lieu_naissance')</th>
+                                            <th>@lang('trans.lieu_naissance')</th>
                                             <td>{{ $examen->demandeur->lieu_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('evaluateur.adresse')</th>
+                                            <th>@lang('trans.address')</th>
                                             <td>{{ $examen->demandeur->adresse ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('evaluateur.date_examen')</th>
+                                            <th>@lang('trans.exam_date')</th>
                                             <td>{{ $examen->date_examen ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('evaluateur.aptitude')</th>
+                                            <th>@lang('trans.medical_fitness')</th>
                                             <td>{{ $examen->aptitude ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('evaluateur.rapport')</th>
+                                            <th>@lang('trans.report')</th>
                                             <td>{!! $examen->rapport ?? '-' !!}</td>
                                         </tr>
 
                                         <tr>
-                                            <th>@lang('evaluateur.attestation')</th>
+                                            <th>@lang('trans.certificate')</th>
                                             <td class="text-center">
                                                 @if (isset($examen->attestation) && $examen->attestation != '')
                                                     <button class="btn btn-primary"

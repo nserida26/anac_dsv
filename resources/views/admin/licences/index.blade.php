@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheader')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('admin.dashboard') </a>
+        @lang('trans.dashboard_admin') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,21 +22,21 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('admin.licences')</div>
+                    <div class="card-header">@lang('trans.licences')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="licences">
                                 <thead>
                                     <tr>
 
-                                        <th>Categorie</th>
-                                        <th>Type</th>
-                                        <th>Numero de licence</th>
-                                        <th>Nom et Prenom</th>
-                                        <th>Date de naissance</th>
-                                        <th>Adresse</th>
-                                        <th>Nationalite</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.category')</th>
+                                        <th>@lang('trans.type')</th>
+                                        <th>@lang('trans.license_number')</th>
+                                        <th>@lang('trans.fl_name')</th>
+                                        <th>@lang('trans.dob')</th>
+                                        <th>@lang('trans.address')</th>
+                                        <th>@lang('trans.nationality')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,7 +58,7 @@
                                                         @csrf
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-primary btn-sm"
-                                                            onclick="return confirm('Confirmer la validation de la licence ?')">Valider</button>
+                                                            onclick="return confirm('Confirmer la validation de la licence ?')">@lang('trans.validate')</button>
                                                     </form>
                                                 @endif
                                                 @if ($licence->licence_valide)
@@ -67,7 +67,7 @@
                                                         @csrf
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Confirmer la révocation  de la licence ?')">Révoquer</button>
+                                                            onclick="return confirm('Confirmer la révocation  de la licence ?')">@lang('trans.revoke')</button>
                                                     </form>
                                                 @endif
 

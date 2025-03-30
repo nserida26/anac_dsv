@@ -6,7 +6,9 @@ use App\Models\Demande;
 use Illuminate\Http\Request;
 use App\Models\ExamenMedical;
 use App\Models\MedicalExamination;
+use App\Models\EtatDemande;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EvaluateurController extends Controller
 {
@@ -15,10 +17,11 @@ class EvaluateurController extends Controller
     // Liste des examens
     public function index()
     {
+        $userId = Auth::user()->id;
 
         $medical_examinations = MedicalExamination::join('demandes', 'demandes.id', 'medical_examinations.demande_id')
             ->join('centre_medicals', 'centre_medicals.id', 'medical_examinations.centre_medical_id')
-
+            ->where('demandes.evaluateur_id', $userId)
             ->select('centre_medicals.libelle as centre_medical', 'medical_examinations.*')
             ->get();
         $examens = ExamenMedical::with(['demandeur', 'examinateur'])->get();
@@ -68,9 +71,22 @@ class EvaluateurController extends Controller
             return redirect()->back()->with('error', 'Colonne "valider_evaluateur" non trouvée dans la table.');
         }
 
-        // Mettez à jour la valeur du booléen 'valider_evaluateur' à 1
-        DB::table($table)->where('id', $id)->update(['valider_evaluateur' => 1]);
+        if ($table  !== 'examens_medicaux') {
+            # code...
+            // Mettez à jour la valeur du booléen 'valider_evaluateur' à 1
+            DB::table($table)->where('id', $id)->update(['valider_evaluateur' => 1]);
 
+            $demande_id = DB::table($table)
+                ->where('id', $id)
+                ->value('demande_id');
+            if (!$demande_id) {
+                throw new \Exception("Could not find demande_id for the record");
+            }
+
+            EtatDemande::where('demande_id', $demande_id)->update([
+                'evaluateur_valider' => 1
+            ]);
+        }
 
 
         return redirect()->back()->with('success', 'Information validée avec succès.');

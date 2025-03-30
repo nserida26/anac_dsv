@@ -1,15 +1,15 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('examinateur')); ?>">
-        <?php echo app('translator')->get('examinateur.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css">
@@ -20,7 +20,7 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Ajouter un Examen Médical</div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.add_medical_fitness'); ?></div>
                     <div class="card-body">
                         <!-- Formulaire -->
                         <form action="<?php echo e(route('examinateur.store')); ?>" method="POST" enctype="multipart/form-data">
@@ -29,34 +29,34 @@
                             <input type="hidden" name="demandeur_id" value="<?php echo e($demandeur->id); ?>">
 
                             <div class="mb-3">
-                                <label class="form-label">Date Examen</label>
+                                <label class="form-label"><?php echo app('translator')->get('trans.exam_date'); ?></label>
                                 <input type="date" name="date_examen" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Validite</label>
-                                <input type="number" name="validite" class="form-control" required>
+                                <label class="form-label"><?php echo app('translator')->get('trans.validity'); ?></label>
+                                <input type="number" min="0" name="validite" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Aptitude</label>
+                                <label class="form-label"><?php echo app('translator')->get('trans.medical_fitness'); ?></label>
                                 <select name="aptitude" class="form-control" required>
-                                    <option value="Apte">Apte</option>
-                                    <option value="Inapte">Inapte</option>
+                                    <option value="Apte"><?php echo app('translator')->get('trans.fit'); ?></option>
+                                    <option value="Inapte"><?php echo app('translator')->get('trans.unfit'); ?></option>
                                 </select>
                             </div>
 
 
                             <div class="mb-3">
-                                <label class="form-label">Rapport Médical</label>
+                                <label class="form-label"><?php echo app('translator')->get('trans.report'); ?></label>
                                 <textarea name="rapport" class="form-control summernote" rows="3"></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Attestation Médicale (PDF)</label>
+                                <label class="form-label"><?php echo app('translator')->get('trans.certificate'); ?></label>
                                 <input type="file" name="attestation" class="form-control" accept="application/pdf"
                                     required>
                             </div>
 
-                            <button type="submit" class="btn btn-success">Enregistrer</button>
+                            <button type="submit" class="btn btn-success"><?php echo app('translator')->get('trans.send'); ?></button>
                         </form>
                     </div>
                 </div>

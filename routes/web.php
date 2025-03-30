@@ -1,15 +1,18 @@
 <?php
 
 use App\Http\Controllers\Admin\AutoriteController;
+use App\Http\Controllers\Admin\CentreFormationController;
 use App\Http\Controllers\Admin\QualificationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TypeDocumentController;
+use App\Http\Controllers\Admin\EvaluateurController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CompagnyController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\SmaSlaController;
-use App\Models\TypeDocument;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -280,7 +283,9 @@ Route::group(
                 Route::resource('autorites', AutoriteController::class);
                 Route::resource('settings', SettingController::class);
                 Route::resource('type-documents', TypeDocumentController::class);
-
+                Route::resource('compagnies', CompagnyController::class);
+                Route::resource('centre-formations', CentreFormationController::class);
+                Route::resource('evaluateurs', EvaluateurController::class);
                 Route::post('users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign-roles');
             });
         Route::middleware(['auth:web', 'role:agent'])

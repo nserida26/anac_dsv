@@ -1,15 +1,15 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('dir')); ?>">
-        <?php echo app('translator')->get('dir.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
 <?php $__env->stopPush(); ?>
@@ -28,7 +28,7 @@
                                     <h6 class="heading-small text-muted mb-4">User Profile Information</h6>
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th><?php echo app('translator')->get('dir.signature'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.signature'); ?></th>
                                             <td>
                                                 <?php if(isset($signature->signature)): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $signature->signature)); ?>"
@@ -40,7 +40,7 @@
 
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('dir.cachet'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.stamp'); ?></th>
                                             <td>
                                                 <?php if(isset($cachet->cachet)): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $cachet->cachet)); ?>" alt="User cachet"
@@ -65,7 +65,7 @@
             <div class="col-lg-12 order-lg-1">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Signature  et Cachet</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><?php echo app('translator')->get('trans.signature'); ?> + <?php echo app('translator')->get('trans.stamp'); ?></h6>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="<?php echo e(route('dir.store')); ?>" autocomplete="off"
@@ -76,14 +76,14 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="signature"><?php echo app('translator')->get('dir.signature'); ?></label>
+                                            <label class="form-control-label" for="signature"><?php echo app('translator')->get('trans.signature'); ?></label>
                                             <input type="file" class="form-control" id="signature" name="signature"
                                                 accept="image/*" onchange="previewSignature(event)">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="cachet"><?php echo app('translator')->get('dir.cachet'); ?></label>
+                                            <label class="form-control-label" for="cachet"><?php echo app('translator')->get('trans.stamp'); ?></label>
                                             <input type="file" class="form-control" id="cachet" name="cachet"
                                                 accept="image/*" onchange="previewCachet(event)">
                                         </div>

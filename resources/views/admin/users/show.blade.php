@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheader')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheaderlink')
-    <a href="{{ route('admin.users.index') }}"> @lang('sidebar.users') </a>
+    <a href="{{ route('admin.users.index') }}"> @lang('trans..users') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
-@push('css') 
+@push('css')
 @endpush
 @section('content')
     <div class="row">
@@ -44,9 +44,7 @@
                             <div class="col-sm-10">
 
                                 @php
-                                    $userRoles = DB::table('role_user')
-                                        ->where('user_id', '=', $user->id)
-                                        ->get();
+                                    $userRoles = DB::table('role_user')->where('user_id', '=', $user->id)->get();
                                     $userRolesArray = [];
 
                                     foreach ($userRoles as $userRole) {

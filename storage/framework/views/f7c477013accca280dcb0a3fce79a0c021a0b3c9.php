@@ -1,15 +1,15 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('evaluateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_evaluator'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('evaluateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_evaluator'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="">
-        <?php echo app('translator')->get('evaluateur.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard_evaluator'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('evaluateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_evaluator'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -34,7 +34,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Aptitude Médicale
+                        <?php echo app('translator')->get('trans.medical_fitness'); ?>
                     </div>
                     <div class="card-body">
 
@@ -45,11 +45,11 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Date de l'Examen</th>
-                                                <th>Validité en mois</th>
-                                                <th>Centre Médical</th>
-                                                <th> Justificatif</th>
-                                                <th>Actions </th>
+                                                <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.validity'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.medical_center'); ?></th>
+                                                <th> <?php echo app('translator')->get('trans.proof'); ?></th>
+                                                <th><?php echo app('translator')->get('trans.actions'); ?> </th>
 
                                             </tr>
                                         </thead>
@@ -76,11 +76,11 @@
                                                                 <?php echo method_field('PATCH'); ?>
                                                                 <button type="submit" class="btn btn-danger btn-sm"
                                                                     onclick="return confirm('Confirmer la validation de cette  informtion ?')">
-                                                                    Valider
+                                                                    <?php echo app('translator')->get('trans.validate'); ?>
                                                                 </button>
                                                             </form>
                                                         <?php else: ?>
-                                                            Valideé
+                                                            <?php echo app('translator')->get('trans.validated'); ?>
                                                         <?php endif; ?>
 
                                                     </td>
@@ -102,19 +102,19 @@
 
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header"><?php echo app('translator')->get('evaluateur.examens'); ?></div>
+                        <div class="card-header"><?php echo app('translator')->get('trans.exams'); ?></div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped" id="demandes">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Demandeur</th>
+                                            <th><?php echo app('translator')->get('trans.id'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.applicant'); ?></th>
 
-                                            <th>Date Examen</th>
-                                            <th>Aptitude</th>
+                                            <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.medical_fitness'); ?></th>
 
-                                            <th>Actions</th>
+                                            <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,10 +128,10 @@
                                                 <td>
 
                                                     <a href="<?php echo e(route('evaluateur.show', $examen)); ?>"
-                                                        class="btn btn-info btn-sm">Show</a>
+                                                        class="btn btn-info btn-sm"><?php echo app('translator')->get('trans.view'); ?></a>
                                                     <?php if($examen->valider_examinateur && !$examen->valider_evaluateur): ?>
                                                         <a href="<?php echo e(route('evaluateur.edit', $examen)); ?>"
-                                                            class="btn btn-primary btn-sm">Edit</a>
+                                                            class="btn btn-primary btn-sm"><?php echo app('translator')->get('trans.edit'); ?></a>
 
                                                         <form
                                                             action="<?php echo e(route('evaluateur.valider', ['table' => 'examens_medicaux', 'id' => $examen->id])); ?>"
@@ -139,7 +139,7 @@
                                                             <?php echo csrf_field(); ?>
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-warning btn-sm"
-                                                                onclick="return confirm('Confirmer la validation ?')">Valider</button>
+                                                                onclick="return confirm('Confirmer la validation ?')"><?php echo app('translator')->get('trans.validate'); ?></button>
                                                         </form>
                                                     <?php endif; ?>
 

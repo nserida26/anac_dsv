@@ -1,15 +1,15 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="">
-        <?php echo app('translator')->get('examinateur.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -21,11 +21,11 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('compagnie.demandeurs'); ?>
+                    <div class="card-header"><?php echo app('translator')->get('trans.applicants'); ?>
                         <div class="card-tools">
                             <!-- Buttons, labels, and many other things can be placed here! -->
                             <!-- Here is a label for example -->
-                            <span class="badge badge-primary">Situation financière
+                            <span class="badge badge-primary"> <?php echo app('translator')->get('trans.situation'); ?>
                                 : <?php echo e($compagnie->panier); ?></span>
                         </div>
                     </div>
@@ -34,13 +34,13 @@
                             <table class="table table-bordered table-striped" id="demandeurs">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th><?php echo app('translator')->get('trans.id'); ?></th>
 
-                                        <th>Photo</th>
-                                        <th>Nom et Prenom</th>
-                                        <th>Date de naissance </th>
-                                        <th>Adresse</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.photo'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.fl_name'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.dob'); ?> </th>
+                                        <th><?php echo app('translator')->get('trans.address'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,7 +57,8 @@
                                                 <?php if($demandeur->valider_compagnie): ?>
                                                     <button class="btn btn-info btn-sm toggle-btn"
                                                         data-target="demandeur-<?php echo e($demandeur->id); ?>">
-                                                        Voir Demandes
+
+                                                        <?php echo app('translator')->get('trans.view_applicants'); ?>
                                                     </button>
                                                 <?php endif; ?>
                                                 <?php if(!$demandeur->valider_compagnie): ?>
@@ -67,7 +68,7 @@
                                                         <?php echo method_field('PATCH'); ?>
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
+                                                            <?php echo app('translator')->get('trans.validate'); ?>
                                                         </button>
                                                     </form>
                                                 <?php endif; ?>
@@ -79,12 +80,12 @@
                                                 <table class="table table-sm">
                                                     <thead>
                                                         <tr>
-                                                            <th>ID</th>
-                                                            <th>Demandeur</th>
-                                                            <th>Phase</th>
-                                                            <th>Type de licence</th>
-                                                            <th>Status</th>
-                                                            <th>Actions</th>
+                                                            <th><?php echo app('translator')->get('trans.id'); ?></th>
+                                                            <th><?php echo app('translator')->get('trans.applicant'); ?></th>
+                                                            <th><?php echo app('translator')->get('trans.type_application'); ?></th>
+                                                            <th><?php echo app('translator')->get('trans.type_license'); ?></th>
+                                                            <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                                            <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -101,7 +102,7 @@
                                                                     <?php if(!empty($demande->paiement)): ?>
                                                                         <button class="btn btn-warning btn-sm toggle-btn"
                                                                             data-target="paiements-<?php echo e($demande->id); ?>">
-                                                                            Voir Paiements
+                                                                            <?php echo app('translator')->get('trans.view_payements'); ?>
                                                                         </button>
                                                                     <?php endif; ?>
 
@@ -114,12 +115,12 @@
                                                                     <table class="table table-sm">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Ref</th>
-                                                                                <th>Montant</th>
+                                                                                <th><?php echo app('translator')->get('trans.ref'); ?></th>
+                                                                                <th><?php echo app('translator')->get('trans.amount'); ?></th>
 
-                                                                                <th>Statut</th>
-                                                                                <th>Date de Paiement</th>
-                                                                                <th>Actions</th>
+                                                                                <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                                                                <th><?php echo app('translator')->get('trans.payement_date'); ?></th>
+                                                                                <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -141,7 +142,7 @@
                                                                                 <td>
                                                                                     <?php if($demande->paiement && $demande->paiement->statut === 'En attente'): ?>
                                                                                         <a href="<?php echo e(route('compagnie.pay', $demande->paiement)); ?>"
-                                                                                            class="btn btn-warning btn-sm">Payer</a>
+                                                                                            class="btn btn-warning btn-sm"><?php echo app('translator')->get('trans.pay'); ?></a>
                                                                                     <?php endif; ?>
                                                                                 </td>
                                                                             </tr>

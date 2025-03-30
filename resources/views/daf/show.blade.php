@@ -1,16 +1,16 @@
 @extends('daf.layouts.app')
 @section('title')
-    @lang('daf.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheader')
-    @lang('daf.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('daf') }}">
-        @lang('daf.dashboard') </a>
+        @lang('trans.dashboard_dir') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('daf.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @push('css')
     <style>
@@ -35,7 +35,7 @@
                 <!-- general form elements -->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        @lang('daf.paiement')
+                        @lang('trans.paiement')
                     </div>
                     <div class="card-body">
                         @isset($paiement)
@@ -44,33 +44,33 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>@lang('daf.reference')</th>
+                                            <th>@lang('trans.ref')</th>
                                             <td>{{ $paiement->reference ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('daf.demande')</th>
+                                            <th>@lang('trans.application')</th>
                                             <td>{{ $paiement->demande->code ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('daf.demandeur')</th>
+                                            <th>@lang('trans.applicant')</th>
                                             <td>{{ $paiement->demande->demandeur->np ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('daf.montant')</th>
+                                            <th>@lang('trans.amount')</th>
                                             <td>{{ $paiement->montant ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('daf.statut')</th>
+                                            <th>@lang('trans.status')</th>
                                             <td>{{ $paiement->statut ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('daf.date_paiement')</th>
+                                            <th>@lang('trans.date')</th>
                                             <td>{{ $paiement->date_paiement ?? '-' }}</td>
                                         </tr>
 
 
                                         <tr>
-                                            <th>@lang('daf.quittance')</th>
+                                            <th>@lang('trans.receipt')</th>
                                             <td class="text-center">
                                                 @if (isset($paiement->quittance) && $paiement->quittance != '')
                                                     <button class="btn btn-primary"

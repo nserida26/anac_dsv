@@ -1,15 +1,15 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('user.users'); ?>
+    <?php echo app('translator')->get('trans.users'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('user.users'); ?>
+    <?php echo app('translator')->get('trans.users'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
-    <a href="<?php echo e(route('users.index')); ?>"> <?php echo app('translator')->get('sidebar.users'); ?> </a>
+    <a href="<?php echo e(route('users.index')); ?>"> <?php echo app('translator')->get('trans..users'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('user.users'); ?>
+    <?php echo app('translator')->get('trans.users'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <!-- DataTables -->
@@ -32,20 +32,20 @@
 
 
 
-    
+
                             <table class="table" id="datatable">
                                 <thead>
                                     <tr>
-                                        
+
                                         <th>Email</th>
                                         <th>Roles</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
-                                            
+
                                             <td><?php echo e($user->email); ?></td>
                                             <td><?php echo e($user->roles->pluck('name')->join(', ')); ?></td>
                                             <td>
@@ -62,7 +62,7 @@
                                 </tbody>
                             </table>
 
-                            
+
                         </div>
                     </div>
                 </div>

@@ -1,15 +1,15 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('agent.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('agent.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="">
-        <?php echo app('translator')->get('agent.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('agent.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -21,18 +21,18 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('user.demandes'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.demandes'); ?></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.id'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.applicant'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_application'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_license'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -46,23 +46,22 @@
                                             <td><?php echo e($demande->typeLicence->nom); ?></td>
                                             <td><?php echo e($demande->status); ?></td>
                                             <td>
-                                                <?php if(optional($demande)->dg_signer === 1 ||
-                                                        (optional($demande)->dsv_signer === 1 && optional($demande)->agent_imprimer !== 1)): ?>
+                                                <?php if(optional($demande->etatDemande)->dg_signer === 1 || optional($demande->etatDemande)->dsv_signer === 1): ?>
                                                     <a href="<?php echo e(route('agent.imprimer', $demande->demande_id)); ?>"
-                                                        class="btn btn-primary btn-sm" target="_blank">Print</a>
+                                                        class="btn btn-primary btn-sm"
+                                                        target="_blank"><?php echo app('translator')->get('trans.print'); ?></a>
                                                 <?php endif; ?>
-                                                <?php if(optional($demande)->dg_signer === 1 ||
-                                                        (optional($demande)->dsv_signer === 1 && optional($demande)->agent_imprimer !== 1)): ?>
-                                                    <form action="<?php echo e(route('agent.valider', $demande->demande_id)); ?>"
-                                                        method="POST" class="d-inline">
-                                                        <?php echo csrf_field(); ?>
-                                                        <?php echo method_field('PATCH'); ?>
-                                                        <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
-                                                        </button>
-                                                    </form>
-                                                <?php endif; ?>
+
+                                                <form action="<?php echo e(route('agent.valider', $demande->demande_id)); ?>"
+                                                    method="POST" class="d-inline">
+                                                    <?php echo csrf_field(); ?>
+                                                    <?php echo method_field('PATCH'); ?>
+                                                    <button type="submit" class="btn btn-success btn-sm"
+                                                        onclick="return confirm('Confirmer la validation ?')">
+                                                        <?php echo app('translator')->get('trans.validate'); ?>
+                                                    </button>
+                                                </form>
+
 
 
 

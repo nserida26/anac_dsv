@@ -1,16 +1,16 @@
 @extends('agent.layouts.app')
 @section('title')
-    @lang('agent.dashboard')
+    @lang('trans.dashboard_agent')
 @endsection
 @section('contentheader')
-    @lang('agent.dashboard')
+    @lang('trans.dashboard_agent')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('agent.dashboard') </a>
+        @lang('trans.dashboard_agent') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('agent.dashboard')
+    @lang('trans.dashboard_agent')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,18 +22,18 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('user.demandes')</div>
+                    <div class="card-header">@lang('trans.applicants')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.id')</th>
+                                        <th>@lang('trans.applicant')</th>
+                                        <th>@lang('trans.type_application')</th>
+                                        <th>@lang('trans.type_license')</th>
+                                        <th>@lang('trans.status')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -46,23 +46,22 @@
                                             <td>{{ $demande->typeLicence->nom }}</td>
                                             <td>{{ $demande->status }}</td>
                                             <td>
-                                                @if (optional($demande)->dg_signer === 1 ||
-                                                        (optional($demande)->dsv_signer === 1 && optional($demande)->agent_imprimer !== 1))
+                                                @if (optional($demande->etatDemande)->dg_signer === 1 || optional($demande->etatDemande)->dsv_signer === 1)
                                                     <a href="{{ route('agent.imprimer', $demande->demande_id) }}"
-                                                        class="btn btn-primary btn-sm" target="_blank">Print</a>
+                                                        class="btn btn-primary btn-sm"
+                                                        target="_blank">@lang('trans.print')</a>
                                                 @endif
-                                                @if (optional($demande)->dg_signer === 1 ||
-                                                        (optional($demande)->dsv_signer === 1 && optional($demande)->agent_imprimer !== 1))
-                                                    <form action="{{ route('agent.valider', $demande->demande_id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
-                                                        </button>
-                                                    </form>
-                                                @endif
+
+                                                <form action="{{ route('agent.valider', $demande->demande_id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-success btn-sm"
+                                                        onclick="return confirm('Confirmer la validation ?')">
+                                                        @lang('trans.validate')
+                                                    </button>
+                                                </form>
+
 
 
 

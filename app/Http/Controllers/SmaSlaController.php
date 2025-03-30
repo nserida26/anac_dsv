@@ -22,6 +22,7 @@ use App\Models\MedicalExamination;
 use App\Models\QualificationDemandeur;
 use App\Models\TrainingDemandeur;
 use App\Models\ExamenMedical;
+use App\Models\Evaluateur;
 
 class SmaSlaController extends Controller
 {
@@ -33,9 +34,10 @@ class SmaSlaController extends Controller
     public function index()
     {
         //
+        $evaluateurs = Evaluateur::all();
         $demandes = Demande::with('demandeur')->where('status', '<>', 'En attente')->get();
 
-        return view('sec.index', compact('demandes'));
+        return view('sec.index', compact('demandes','evaluateurs'));
     }
 
     /**
@@ -156,10 +158,15 @@ class SmaSlaController extends Controller
     {
         //
     }
-    function annoter($id)
+    function annoter(Request $request, $id)
     {
 
-        $etat_demande = EtatDemande::where('demande_id', $id)->update(
+
+        $demande = Demande::find($id);
+        $d = $demande->update([
+            'evaluateur_id' => $request->evaluateur_id
+        ]);
+        $etat_demande = $demande->etatDemande->update(
             [
 
                 'evaluateur_annoter' => true,

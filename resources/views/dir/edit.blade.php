@@ -1,16 +1,16 @@
 @extends('dir.layouts.app')
 @section('title')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheader')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('dsv') }}">
-        @lang('dir.dashboard') </a>
+        @lang('trans.dashboard_dir') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css">

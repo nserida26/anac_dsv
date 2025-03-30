@@ -1,15 +1,15 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('daf.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('daf.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="">
-        <?php echo app('translator')->get('daf.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('daf.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -21,18 +21,18 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('daf.ordres'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.orders'); ?></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="ordres">
                                 <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Demande</th>
-                                        <th>Date recette</th>
-                                        <th>Montant</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.ref'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.application'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.amount'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,7 +48,7 @@
 
                                                 <?php if($ordre->statut === 'Validé' && empty($ordre->demande->facture)): ?>
                                                     <a href="<?php echo e(route('daf.create', $ordre)); ?>"
-                                                        class="btn btn-primary btn-sm">Facturer</a>
+                                                        class="btn btn-primary btn-sm"><?php echo app('translator')->get('trans.bill'); ?></a>
                                                 <?php endif; ?>
 
 
@@ -68,19 +68,19 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('dir.factures'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.invoices'); ?></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="factures">
                                 <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Demande</th>
-                                        <th>Date de facture</th>
-                                        <th>Date de limite</th>
-                                        <th>Montant</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.ref'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.application'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.end_date'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.amount'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,7 +104,7 @@
                                                         <?php echo method_field('PATCH'); ?>
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
+                                                            <?php echo app('translator')->get('trans.validate'); ?>
                                                         </button>
                                                     </form>
 
@@ -114,7 +114,7 @@
                                                         <?php echo method_field('DELETE'); ?>
                                                         <button type="submit" class="btn btn-danger btn-sm"
                                                             onclick="return confirm('Confirmer la suppression ?')">
-                                                            Supprimer
+                                                            <?php echo app('translator')->get('trans.destroy'); ?>
                                                         </button>
                                                     </form>
                                                 <?php endif; ?>
@@ -136,19 +136,19 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('dir.paiements'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.paiements'); ?></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="paiements">
                                 <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Demande</th>
-                                        <th>Date de paiement</th>
+                                        <th><?php echo app('translator')->get('trans.ref'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.application'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.date'); ?></th>
 
-                                        <th>Montant</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.amount'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -165,14 +165,14 @@
 
                                                 <?php if($paiement->statut === 'Réglée'): ?>
                                                     <a href="<?php echo e(route('daf.show', $paiement)); ?>"
-                                                        class="btn btn-primary btn-sm">Show</a>
+                                                        class="btn btn-primary btn-sm"><?php echo app('translator')->get('trans.view'); ?></a>
                                                     <form action="<?php echo e(route('daf.valider_paiement', $paiement)); ?>"
                                                         method="POST" class="d-inline">
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field('PATCH'); ?>
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la paiement ?')">
-                                                            Confirmer
+                                                            <?php echo app('translator')->get('trans.confirm'); ?>
                                                         </button>
                                                     </form>
                                                 <?php endif; ?>

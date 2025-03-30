@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheader')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('licences') }}">
-        @lang('admin.dashboard') </a>
+        @lang('trans.dashboard_admin') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 
 @push('css')
@@ -34,37 +34,37 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>@lang('user.categorie_licence')</th>
+                                            <th>@lang('trans.category')</th>
                                             <td>{{ $licence->categorie_licence ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.machine_licence')</th>
+                                            <th>@lang('trans.machine')</th>
                                             <td>{{ $licence->machine_licence ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.type_licence')</th>
+                                            <th>@lang('trans.type')</th>
                                             <td>{{ $licence->type_licence ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.numero_licence')</th>
+                                            <th>@lang('trans.license_number')</th>
                                             <td>{{ $licence->numero_licence ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.np')</th>
+                                            <th>@lang('trans.fl_name')</th>
                                             <td>{{ $licence->np ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.date_naissance')</th>
+                                            <th>@lang('trans.dob')</th>
                                             <td>{{ !empty($licence->date_naissance) ? date('Y-m-d', strtotime($licence->date_naissance)) : '-' }}
                                             </td>
 
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.adresse')</th>
+                                            <th>@lang('trans.address')</th>
                                             <td>{{ $licence->adresse ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.signature')</th>
+                                            <th>@lang('trans.signature')</th>
                                             <td class="text-center">
                                                 @if (isset($licence->signature) && $licence->signature != '')
                                                     <img src="{{ asset('/uploads/' . $licence->signature) }}"
@@ -75,22 +75,22 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.date_deliverance')</th>
+                                            <th>@lang('trans.deliverance_date')</th>
                                             <td>{{ !empty($licence->date_deliverance) ? date('Y-m-d', strtotime($licence->date_deliverance)) : '-' }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.date_mise_a_jour')</th>
+                                            <th>@lang('trans.update_date')</th>
                                             <td>{{ !empty($licence->date_mise_a_jour) ? date('Y-m-d', strtotime($licence->date_mise_a_jour)) : '-' }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.date_expiration')</th>
+                                            <th>@lang('trans.expiration_date')</th>
                                             <td>{{ !empty($licence->date_expiration) ? date('Y-m-d', strtotime($licence->date_expiration)) : '-' }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.cachet')</th>
+                                            <th>@lang('trans.stamp')</th>
                                             <td class="text-center">
                                                 @if (isset($licence->cachet) && $licence->cachet != '')
                                                     <img src="{{ asset('/uploads/' . $licence->cachet) }}" alt="User Signature"
@@ -101,7 +101,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.signature_dg')</th>
+                                            <th>@lang('trans.signature_dg')</th>
                                             <td class="text-center">
                                                 @if (isset($licence->signature_dg) && $licence->signature_dg != '')
                                                     <img src="{{ asset('/uploads/' . $licence->signature_dg) }}"
@@ -112,7 +112,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.signature_dsv')</th>
+                                            <th>@lang('trans.signature_dsv')</th>
                                             <td class="text-center">
                                                 @if (isset($licence->signature_dsv) && $licence->signature_dsv != '')
                                                     <img src="{{ asset('/uploads/' . $licence->signature_dsv) }}"

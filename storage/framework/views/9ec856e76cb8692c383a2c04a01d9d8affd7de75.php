@@ -68,7 +68,7 @@
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="<?php echo e(route('dir')); ?>">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            <?php echo app('translator')->get('dir.signature'); ?>
+                            <?php echo app('translator')->get('trans.signature'); ?>
                         </a>
                         <div class="dropdown-divider"></div>
                         <?php $__currentLoopData = LaravelLocalization::getSupportedLocales(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $localeCode => $properties): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

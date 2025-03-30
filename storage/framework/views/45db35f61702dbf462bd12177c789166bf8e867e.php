@@ -1,16 +1,22 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_dir'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_dir'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
-    <a href="">
-        <?php echo app('translator')->get('dir.dashboard'); ?> </a>
+    <?php if(auth()->user()->hasRole('dsv')): ?>
+        <a href="<?php echo e(route('dsv')); ?>">
+            <?php echo app('translator')->get('trans.dashboard_dir'); ?> </a>
+    <?php endif; ?>
+    <?php if(auth()->user()->hasRole('dg')): ?>
+        <a href="<?php echo e(route('dg')); ?>">
+            <?php echo app('translator')->get('trans.dashboard_dir'); ?> </a>
+    <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('dir.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_dir'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -22,21 +28,21 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('user.demandes'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.applicants'); ?></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
+                                        <th><?php echo app('translator')->get('trans.id'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.applicant'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_application'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_license'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.status'); ?></th>
                                         <?php if(auth()->user()->hasRole('dg')): ?>
                                             <th>#</th>
                                         <?php endif; ?>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,13 +59,13 @@
                                                 <td>
 
                                                     <?php if($demande->etatDemande->dsv_dg_annoter): ?>
-                                                        <span class="badge badge-primary">Annoter par DSV</span>
+                                                        <span class="badge badge-primary"><?php echo app('translator')->get('trans.annotated_dsv'); ?></span>
                                                     <?php endif; ?>
                                                     <?php if($demande->etatDemande->dsv_dg_valider): ?>
-                                                        <span class="badge badge-primary">Valider par DSV</span>
+                                                        <span class="badge badge-primary"><?php echo app('translator')->get('trans.validated_dsv'); ?></span>
                                                     <?php endif; ?>
                                                     <?php if($demande->etatDemande->dsv_dg_signer): ?>
-                                                        <span class="badge badge-primary">Signer par DSV</span>
+                                                        <span class="badge badge-primary"><?php echo app('translator')->get('trans.signed_dsv'); ?></span>
                                                     <?php endif; ?>
 
 
@@ -72,7 +78,7 @@
                                                 <?php if(auth()->user()->hasRole('dg')): ?>
                                                     <?php if(optional($demande->etatDemande)->demandeur_cree_demande === 1): ?>
                                                         <a href="<?php echo e(route('dg.show', $demande->id)); ?>"
-                                                            class="btn btn-info btn-sm">View</a>
+                                                            class="btn btn-info btn-sm"><?php echo app('translator')->get('trans.view'); ?></a>
                                                     <?php endif; ?>
 
                                                     <?php if(optional($demande->etatDemande)->dg_annoter !== 1 && optional($demande->etatDemande)->dg_rejeter !== 1): ?>
@@ -82,7 +88,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers DSV ?')">
-                                                                Annoter
+                                                                <?php echo app('translator')->get('trans.annotate'); ?>
                                                             </button>
                                                         </form>
                                                         <form action="<?php echo e(route('dg.rejeter', $demande->id)); ?>"
@@ -91,7 +97,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-danger btn-sm"
                                                                 onclick="return confirm('Confirmer le rejeter ?')">
-                                                                Rejeter
+                                                                <?php echo app('translator')->get('trans.reject'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -108,20 +114,18 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                <?php echo app('translator')->get('trans.validate'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
-                                                    <?php if(optional($demande->paiement)->statut === 'Payé' &&
-                                                            optional($demande->etatDemande)->dg_signer !== 1 &&
-                                                            optional($demande->typeDemande)->id === 1): ?>
+                                                    <?php if(optional($demande->paiement)->statut === 'Payé' && optional($demande->etatDemande)->dg_signer !== 1): ?>
                                                         <form action="<?php echo e(route('dg.signer', $demande->id)); ?>"
                                                             method="POST" class="d-inline">
                                                             <?php echo csrf_field(); ?>
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la signature ?')">
-                                                                Signer
+                                                                <?php echo app('translator')->get('trans.sign'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -131,7 +135,7 @@
                                                 <?php if(auth()->user()->hasRole('dsv')): ?>
                                                     <?php if(optional($demande->etatDemande)->demandeur_cree_demande === 1): ?>
                                                         <a href="<?php echo e(route('dsv.show', $demande->id)); ?>"
-                                                            class="btn btn-info btn-sm">View</a>
+                                                            class="btn btn-info btn-sm"><?php echo app('translator')->get('trans.view'); ?></a>
                                                     <?php endif; ?>
 
                                                     <?php if(optional($demande->etatDemande)->dg_annoter !== 1 && optional($demande->etatDemande)->dg_rejeter !== 1): ?>
@@ -141,7 +145,33 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers DSV ?')">
-                                                                Annoter DSV
+                                                                <?php echo app('translator')->get('trans.annotate_dg'); ?>
+                                                            </button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    <?php if(optional($demande->etatDemande)->sl_valider === 1 &&
+                                                            optional($demande->etatDemande)->sm_valider === 1 &&
+                                                            optional($demande->etatDemande)->pel_valider === 1 &&
+                                                            optional($demande->etatDemande)->dsv_valider === 1 &&
+                                                            optional($demande->etatDemande)->dg_valider !== 1): ?>
+                                                        <form action="<?php echo e(route('dg.valider', $demande->id)); ?>"
+                                                            method="POST" class="d-inline">
+                                                            <?php echo csrf_field(); ?>
+                                                            <?php echo method_field('PATCH'); ?>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Confirmer la validation ?')">
+                                                                <?php echo app('translator')->get('trans.validate_dg'); ?>
+                                                            </button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    <?php if(optional($demande->paiement)->statut === 'Payé' && optional($demande->etatDemande)->dg_signer !== 1): ?>
+                                                        <form action="<?php echo e(route('dg.signer', $demande->id)); ?>"
+                                                            method="POST" class="d-inline">
+                                                            <?php echo csrf_field(); ?>
+                                                            <?php echo method_field('PATCH'); ?>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Confirmer la signature ?')">
+                                                                <?php echo app('translator')->get('trans.sign_dg'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -155,7 +185,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers Service PEL ?')">
-                                                                Annoter
+                                                                <?php echo app('translator')->get('trans.annotate'); ?>
                                                             </button>
                                                         </form>
                                                         <form action="<?php echo e(route('dsv.rejeter', $demande->id)); ?>"
@@ -164,7 +194,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-danger btn-sm"
                                                                 onclick="return confirm('Confirmer le rejeter ?')">
-                                                                Rejeter
+                                                                <?php echo app('translator')->get('trans.reject'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -180,7 +210,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                <?php echo app('translator')->get('trans.validate'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -199,22 +229,20 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la generation ?')">
-                                                                Generer l'Ordre de
-                                                                recette
+                                                                <?php echo app('translator')->get('trans.generate_order'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
                                                     <?php if(optional($demande->paiement)->statut === 'Payé' &&
-                                                            //optional($demande->etatDemande)->dg_signer === 1 &&
-                                                            optional($demande->etatDemande)->dsv_signer !== 1 &&
-                                                            optional($demande->typeDemande)->id !== 1): ?>
+                                                            optional($demande->etatDemande)->dg_signer === 1 &&
+                                                            optional($demande->etatDemande)->dsv_signer !== 1): ?>
                                                         <form action="<?php echo e(route('dsv.signer', $demande->id)); ?>"
                                                             method="POST" class="d-inline">
                                                             <?php echo csrf_field(); ?>
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la signature ?')">
-                                                                Signer
+                                                                <?php echo app('translator')->get('trans.sign'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -234,24 +262,24 @@
                 </div>
             </div>
         </div>
-        <?php if(auth()->user()->hasRole('dsv') && !empty($ordres)): ?>
+        <?php if(auth()->user()->hasRole('dsv') && $ordres->isNotEmpty()): ?>
             <div class="row">
 
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header"><?php echo app('translator')->get('dir.ordres'); ?></div>
+                        <div class="card-header"><?php echo app('translator')->get('trans.orders'); ?></div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped" id="ordres">
                                     <thead>
                                         <tr>
-                                            <th>Reference</th>
-                                            <th>Demande</th>
-                                            <th>Date recette</th>
-                                            <th>Montant</th>
-                                            <th>Status</th>
+                                            <th><?php echo app('translator')->get('trans.ref'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.applicant'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.date'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.amount'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.status'); ?></th>
 
-                                            <th>Actions</th>
+                                            <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -273,7 +301,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                <?php echo app('translator')->get('trans.validate'); ?>
                                                             </button>
                                                         </form>
 
@@ -283,7 +311,7 @@
                                                             <?php echo method_field('DELETE'); ?>
                                                             <button type="submit" class="btn btn-danger btn-sm"
                                                                 onclick="return confirm('Confirmer la suppression ?')">
-                                                                Supprimer
+                                                                <?php echo app('translator')->get('trans.destroy'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>

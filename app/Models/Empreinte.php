@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Empreinte extends Model
 {
     use HasFactory;
-    protected $fillable = ['demandeur_id', 'empreinte_hash'];
+    protected $fillable = ['demandeur_id', 'empreinte_hash', 'empreinte_data'];
 
     public function demandeur()
     {

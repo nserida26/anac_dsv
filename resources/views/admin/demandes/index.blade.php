@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheader')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('admin.dashboard') </a>
+        @lang('trans.dashboard_admin') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.dashboard')
+    @lang('trans.dashboard_admin')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -22,18 +22,18 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">@lang('admin.demandes')</div>
+                    <div class="card-header">@lang('trans.applicants')</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.id')</th>
+                                        <th>@lang('trans.applicant')</th>
+                                        <th>@lang('trans.type_application')</th>
+                                        <th>@lang('trans.type_license')</th>
+                                        <th>@lang('trans.status')</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,7 +51,7 @@
                                                 @if (auth()->user()->hasRole('admin'))
                                                     @if (optional($demande->etatDemande)->demandeur_cree_demande === 1)
                                                         <a href="{{ route('demandes.show', $demande->id) }}"
-                                                            class="btn btn-info btn-sm">View</a>
+                                                            class="btn btn-info btn-sm">@lang('trans.view')</a>
                                                     @endif
                                                     @if (optional($demande->etatDemande)->dg_annoter === 1 &&
                                                             optional($demande->etatDemande)->dg_rejeter !== 1 &&
@@ -64,7 +64,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers SECTIONS (Section de médecine aéronautique et Licence aéronautique)   ?')">
-                                                                Annoter
+                                                                @lang('trans.annotate')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -77,7 +77,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                @lang('trans.validate')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -90,7 +90,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Generer la licence ?')">
-                                                                Generer un licence
+                                                                @lang('trans.generate_license')
                                                             </button>
                                                         </form>
                                                     @endif
@@ -103,7 +103,7 @@
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-primary btn-sm"
                                                                 onclick="return confirm('Mis a jour de la licence ?')">
-                                                                Mis a jour de la licence
+                                                                @lang('trans.update_license')
                                                             </button>
                                                         </form>
                                                     @endif

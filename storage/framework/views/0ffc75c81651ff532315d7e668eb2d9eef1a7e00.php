@@ -1,16 +1,16 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="">
-        <?php echo app('translator')->get('user.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -23,23 +23,23 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('user.demandes'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.applicants'); ?></div>
                     <div class="card-body">
                         <?php if(isset(Auth::user()->demandeur)): ?>
                             <a href="<?php echo e(url('user/create')); ?>" class="btn btn-success btn-sm" title="Add New RoleUser">
-                                <i class="fa fa-plus" aria-hidden="true"></i> <?php echo app('translator')->get('user.ajouter'); ?>
+                                <i class="fa fa-plus" aria-hidden="true"></i> <?php echo app('translator')->get('trans.add'); ?>
                             </a>
                         <?php endif; ?>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.id'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.applicant'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_application'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_license'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,7 +56,7 @@
 
                                                 <?php if(!$demande->demandeur_cree_demande): ?>
                                                     <a href="<?php echo e(url('/user/edit/' . $demande->demande_id)); ?>"
-                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                        class="btn btn-warning btn-sm"><?php echo app('translator')->get('trans.edit'); ?></a>
 
                                                     <form action="<?php echo e(route('user.validate', $demande->demande_id)); ?>"
                                                         method="POST" class="d-inline">
@@ -64,7 +64,7 @@
                                                         <?php echo method_field('PATCH'); ?>
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Confirmer la validation ?')">
-                                                            Valider
+                                                            <?php echo app('translator')->get('trans.validate'); ?>
                                                         </button>
                                                     </form>
 
@@ -73,7 +73,7 @@
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field('DELETE'); ?>
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
+                                                            onclick="return confirm('Confirmer la suppression ?')"><?php echo app('translator')->get('trans.destroy'); ?></button>
                                                     </form>
                                                 <?php endif; ?>
 

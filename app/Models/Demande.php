@@ -21,7 +21,8 @@ class Demande extends Model
         'demandeur_id',
         'checklist_admin',
         'checklist_sla',
-        'checklist_sma'
+        'checklist_sma',
+        'evaluateur_id'
     ];
 
     public function demandeur()

@@ -1,16 +1,16 @@
 @extends('evaluateur.layouts.app')
 @section('title')
-    @lang('evaluateur.dashboard')
+    @lang('trans.dashboard_evaluator')
 @endsection
 @section('contentheader')
-    @lang('evaluateur.dashboard')
+    @lang('trans.dashboard_evaluator')
 @endsection
 @section('contentheaderlink')
     <a href="">
-        @lang('evaluateur.dashboard') </a>
+        @lang('trans.dashboard_evaluator') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('evaluateur.dashboard')
+    @lang('trans.dashboard_evaluator')
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -35,7 +35,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Aptitude Médicale
+                        @lang('trans.medical_fitness')
                     </div>
                     <div class="card-body">
 
@@ -46,11 +46,11 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Date de l'Examen</th>
-                                                <th>Validité en mois</th>
-                                                <th>Centre Médical</th>
-                                                <th> Justificatif</th>
-                                                <th>Actions </th>
+                                                <th>@lang('trans.exam_date')</th>
+                                                <th>@lang('trans.validity')</th>
+                                                <th>@lang('trans.medical_center')</th>
+                                                <th> @lang('trans.proof')</th>
+                                                <th>@lang('trans.actions') </th>
 
                                             </tr>
                                         </thead>
@@ -77,11 +77,11 @@
                                                                 @method('PATCH')
                                                                 <button type="submit" class="btn btn-danger btn-sm"
                                                                     onclick="return confirm('Confirmer la validation de cette  informtion ?')">
-                                                                    Valider
+                                                                    @lang('trans.validate')
                                                                 </button>
                                                             </form>
                                                         @else
-                                                            Valideé
+                                                            @lang('trans.validated')
                                                         @endif
 
                                                     </td>
@@ -103,19 +103,19 @@
 
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">@lang('evaluateur.examens')</div>
+                        <div class="card-header">@lang('trans.exams')</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped" id="demandes">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Demandeur</th>
+                                            <th>@lang('trans.id')</th>
+                                            <th>@lang('trans.applicant')</th>
 
-                                            <th>Date Examen</th>
-                                            <th>Aptitude</th>
+                                            <th>@lang('trans.exam_date')</th>
+                                            <th>@lang('trans.medical_fitness')</th>
 
-                                            <th>Actions</th>
+                                            <th>@lang('trans.actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -129,10 +129,10 @@
                                                 <td>
 
                                                     <a href="{{ route('evaluateur.show', $examen) }}"
-                                                        class="btn btn-info btn-sm">Show</a>
+                                                        class="btn btn-info btn-sm">@lang('trans.view')</a>
                                                     @if ($examen->valider_examinateur && !$examen->valider_evaluateur)
                                                         <a href="{{ route('evaluateur.edit', $examen) }}"
-                                                            class="btn btn-primary btn-sm">Edit</a>
+                                                            class="btn btn-primary btn-sm">@lang('trans.edit')</a>
 
                                                         <form
                                                             action="{{ route('evaluateur.valider', ['table' => 'examens_medicaux', 'id' => $examen->id]) }}"
@@ -140,7 +140,7 @@
                                                             @csrf
                                                             @method('PATCH')
                                                             <button type="submit" class="btn btn-warning btn-sm"
-                                                                onclick="return confirm('Confirmer la validation ?')">Valider</button>
+                                                                onclick="return confirm('Confirmer la validation ?')">@lang('trans.validate')</button>
                                                         </form>
                                                     @endif
 

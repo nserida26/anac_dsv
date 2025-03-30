@@ -1,22 +1,22 @@
 @extends('dir.layouts.app')
 @section('title')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheader')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheaderlink')
     @if (auth()->user()->hasRole('dsv'))
         <a href="{{ route('dsv') }}">
-            @lang('dir.dashboard') </a>
+            @lang('trans.dashboard_dir') </a>
     @endif
     @if (auth()->user()->hasRole('dg'))
         <a href="{{ route('dg') }}">
-            @lang('dir.dashboard') </a>
+            @lang('trans.dashboard_dir') </a>
     @endif
 @endsection
 @section('contentheaderactive')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @push('css')
     <style>
@@ -50,27 +50,27 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>@lang('user.np')</th>
+                                            <th>@lang('trans.fl_name')</th>
                                             <td>{{ $demandeur->np ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.date_naissance')</th>
+                                            <th>@lang('trans.dob')</th>
                                             <td>{{ $demandeur->date_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.lieu_naissance')</th>
+                                            <th>@lang('trans.lieu_naissance')</th>
                                             <td>{{ $demandeur->lieu_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.adresse')</th>
+                                            <th>@lang('trans.address')</th>
                                             <td>{{ $demandeur->adresse ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.adresse_employeur')</th>
+                                            <th>@lang('trans.adresse_employeur')</th>
                                             <td>{{ $demandeur->adresse_employeur ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.signature')</th>
+                                            <th>@lang('trans.signature')</th>
                                             <td class="text-center">
                                                 @if (isset($demandeur->signature) && $demandeur->signature != '')
                                                     <img src="{{ asset('/uploads/' . $demandeur->signature) }}"
@@ -96,7 +96,7 @@
 
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Formations
+                        @lang('trans.training')
                     </div>
                     <div class="card-body">
                         @isset($formation_demandeurs)
@@ -106,10 +106,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Date de formation</th>
-                                                <th>Centre de formation</th>
-                                                <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>@lang('trans.training_date')</th>
+                                                <th>@lang('trans.training_center')</th>
+                                                <th>@lang('trans.location')</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -119,18 +119,7 @@
                                                     <td>{{ $formation_demandeur->date_formation }}</td>
                                                     <td>{{ $formation_demandeur->centre_formation }}</td>
                                                     <td>{{ $formation_demandeur->lieu }}</td>
-                                                    {{-- <td>
 
-                                                        
-                                                        <form
-                                                            action="{{ route('user.destroy_formations', $formation_demandeur) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
-                                                        </form>
-                                                    </td> --}}
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -144,7 +133,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Qualifications
+                        @lang('trans.ratings')
                     </div>
                     <div class="card-body">
                         <br>
@@ -154,11 +143,11 @@
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Qualification</th>
-                                                <th>Date de l'Examen</th>
-                                                <th>Simulateur</th>
-                                                <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>@lang('trans.rating')</th>
+                                                <th>@lang('trans.exam_date')</th>
+                                                <th>@lang('trans.training_center')</th>
+                                                <th>@lang('trans.location')</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -168,7 +157,7 @@
                                                     <td>{{ $qualification_demandeur->date_examen }}</td>
                                                     <td>{{ $qualification_demandeur->centre_formation }}</td>
                                                     <td>{{ $qualification_demandeur->lieu }}</td>
-                                                    {{-- <th>Actions</th> --}}
+
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -183,7 +172,8 @@
                 <!----->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Aptitude Médicale
+
+                        @lang('trans.medical_fitness')
                     </div>
                     <div class="card-body">
 
@@ -194,10 +184,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Date de l'Examen</th>
-                                                <th>Validité en mois</th>
-                                                <th>Centre Médical</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>@lang('trans.exam_date')</th>
+                                                <th>@lang('trans.validity')</th>
+                                                <th>@lang('trans.medical_center')</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -218,7 +208,8 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Expérience en heures de vol
+                        @lang('trans.flights')
+
                     </div>
 
                     <div class="card-body">
@@ -229,11 +220,11 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Nature</th>
-                                                <th>Total</th>
-                                                <th>Six (6) derniers mois</th>
-                                                <th>Trois (3) derniers mois</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>@lang('trans.flights_type')</th>
+                                                <th>@lang('trans.total')</th>
+                                                <th>@lang('trans.six')</th>
+                                                <th>@lang('trans.three')</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -243,7 +234,7 @@
                                                     <td>{{ $experience_demandeur->total }}</td>
                                                     <td>{{ $experience_demandeur->six_mois }}</td>
                                                     <td>{{ $experience_demandeur->trois_mois }}</td>
-                                                    {{-- <th>Actions</th> --}}
+
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -256,7 +247,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Contrôles de compétence les plus récents
+                        @lang('trans.control')
                     </div>
                     <div class="card-body">
                         @isset($competence_demandeurs)
@@ -266,12 +257,12 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Type</th>
-                                                <th>Niveau</th>
-                                                <th>Date</th>
-                                                <th>Validité en mois</th>
-                                                <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>@lang('trans.type')</th>
+                                                <th>@lang('trans.level')</th>
+                                                <th>@lang('trans.date')</th>
+                                                <th>@lang('trans.validity')</th>
+                                                <th>@lang('trans.location')</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -282,7 +273,7 @@
                                                     <td>{{ $competence_demandeur->date }}</td>
                                                     <td>{{ $competence_demandeur->validite }}</td>
                                                     <td>{{ $competence_demandeur->centre_formation }}</td>
-                                                    {{-- <th>Actions</th> --}}
+
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -296,7 +287,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Entraînements périodiques
+                        @lang('trans.periodic_control')
                     </div>
                     <div class="card-body">
                         @isset($entrainement_demandeurs)
@@ -306,12 +297,12 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Type</th>
+                                                <th>@lang('trans.type')</th>
 
-                                                <th>Date</th>
-                                                <th>Validité en mois</th>
-                                                <th>Lieu</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>@lang('trans.date')</th>
+                                                <th>@lang('trans.validity')</th>
+                                                <th>@lang('trans.location')</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -321,7 +312,7 @@
                                                     <td>{{ $entrainement_demandeur->date }}</td>
                                                     <td>{{ $entrainement_demandeur->validite }}</td>
                                                     <td>{{ $entrainement_demandeur->centre_formation }}</td>
-                                                    {{-- <th>Actions</th> --}}
+
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -337,7 +328,7 @@
                 @if ($interruption_demandeurs->isNotEmpty())
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Interruptions
+                            @lang('trans.interruptions')
                         </div>
 
                         <div class="card-body">
@@ -350,10 +341,10 @@
 
 
 
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Raisons</th>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <th>@lang('trans.start_date')</th>
+                                                    <th>@lang('trans.end_date')</th>
+                                                    <th>@lang('trans.reason')</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -363,7 +354,7 @@
                                                         <td>{{ $interruption_demandeur->date_fin }}</td>
                                                         <td>{{ $interruption_demandeur->raison }}</td>
 
-                                                        {{-- <th>Actions</th> --}}
+
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -381,7 +372,7 @@
                 @if ($experience_maintenance_demandeurs->isNotEmpty())
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Expérience en maintenance d'aéronefs
+                            @lang('trans.maintenance')
                         </div>
 
                         <div class="card-body">
@@ -393,11 +384,10 @@
                                                 <tr>
 
 
+                                                    <th>@lang('trans.start_date')</th>
+                                                    <th>@lang('trans.end_date')</th>
+                                                    <th>@lang('trans.description')</th>
 
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Descriptions</th>
-                                                    {{-- <th>Actions</th> --}}
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -408,7 +398,7 @@
                                                         <td>{{ $experience_maintenance_demandeur->description_maintenance }}
                                                         </td>
 
-                                                        {{-- <th>Actions</th> --}}
+
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -425,7 +415,7 @@
                 @if ($employeur_demandeurs->isNotEmpty())
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Employeurs
+                            @lang('trans.employers')
                         </div>
 
                         <div class="card-body">
@@ -437,11 +427,11 @@
                                                 <tr>
 
 
-                                                    <th>Employeur</th>
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Fonction</th>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <th>@lang('trans.employer')</th>
+                                                    <th>@lang('trans.start_date')</th>
+                                                    <th>@lang('trans.end_date')</th>
+                                                    <th>@lang('trans.role')</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -452,7 +442,7 @@
                                                         <td>{{ $employeur_demandeur->periode_au }}</td>
                                                         <td>{{ $employeur_demandeur->fonction }}</td>
 
-                                                        {{-- <th>Actions</th> --}}
+
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -469,7 +459,7 @@
 
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Pièce-jointe
+                        @lang('trans.attachments')
                     </div>
 
                     <div class="card-body">
@@ -480,10 +470,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Libellé</th>
+                                                <th>@lang('trans.title')</th>
 
-                                                <th>Document</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>@lang('trans.attachment')</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -498,7 +488,7 @@
                                                                     class="fas fa-eye"></i></button>
                                                         @endif
                                                     </td>
-                                                    {{-- <th>Actions</th> --}}
+
                                                 </tr>
                                             @endforeach
                                         </tbody>

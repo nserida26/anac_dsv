@@ -24,6 +24,9 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+        if (!$user->hasRole('agent')) {
+            return response()->json(['message' => 'Unauthorized. User does not have the correct role.'], 403);
+        }
         return response()->json(['token' => $user->createToken('API Token')->plainTextToken], 200);
     }
 

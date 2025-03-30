@@ -1,16 +1,16 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('licences')); ?>">
-        <?php echo app('translator')->get('admin.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('css'); ?>
@@ -34,38 +34,38 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.categorie_licence'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.category'); ?></th>
                                             <td><?php echo e($licence->categorie_licence ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.machine_licence'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.machine'); ?></th>
                                             <td><?php echo e($licence->machine_licence ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.type_licence'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.type'); ?></th>
                                             <td><?php echo e($licence->type_licence ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.numero_licence'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.license_number'); ?></th>
                                             <td><?php echo e($licence->numero_licence ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.np'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.fl_name'); ?></th>
                                             <td><?php echo e($licence->np ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.date_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.dob'); ?></th>
                                             <td><?php echo e(!empty($licence->date_naissance) ? date('Y-m-d', strtotime($licence->date_naissance)) : '-'); ?>
 
                                             </td>
 
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.adresse'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.address'); ?></th>
                                             <td><?php echo e($licence->adresse ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.signature'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.signature'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($licence->signature) && $licence->signature != ''): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $licence->signature)); ?>"
@@ -76,25 +76,25 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.date_deliverance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.deliverance_date'); ?></th>
                                             <td><?php echo e(!empty($licence->date_deliverance) ? date('Y-m-d', strtotime($licence->date_deliverance)) : '-'); ?>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.date_mise_a_jour'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.update_date'); ?></th>
                                             <td><?php echo e(!empty($licence->date_mise_a_jour) ? date('Y-m-d', strtotime($licence->date_mise_a_jour)) : '-'); ?>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.date_expiration'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.expiration_date'); ?></th>
                                             <td><?php echo e(!empty($licence->date_expiration) ? date('Y-m-d', strtotime($licence->date_expiration)) : '-'); ?>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.cachet'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.stamp'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($licence->cachet) && $licence->cachet != ''): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $licence->cachet)); ?>" alt="User Signature"
@@ -105,7 +105,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.signature_dg'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.signature_dg'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($licence->signature_dg) && $licence->signature_dg != ''): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $licence->signature_dg)); ?>"
@@ -116,7 +116,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.signature_dsv'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.signature_dsv'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($licence->signature_dsv) && $licence->signature_dsv != ''): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $licence->signature_dsv)); ?>"

@@ -1,17 +1,16 @@
-
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 @section('contentheader')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('qualifications.index') }}">
-        @lang('admin.qualifications') </a>
+        @lang('trans.qualifications') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 
 @section('content')
@@ -26,14 +25,15 @@
                                 {{ __('Qualification') }}
                             </span>
 
-                             <div class="float-right">
-                                <a href="{{ route('qualifications.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                            <div class="float-right">
+                                <a href="{{ route('qualifications.create') }}" class="btn btn-primary btn-sm float-right"
+                                    data-placement="left">
+                                    {{ __('Create New') }}
                                 </a>
-                              </div>
+                            </div>
                         </div>
                     </div>
-                    
+
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -41,8 +41,8 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
-										<th>Libelle</th>
+
+                                        <th>Libelle</th>
 
                                         <th></th>
                                     </tr>
@@ -51,16 +51,22 @@
                                     @foreach ($qualifications as $qualification)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $qualification->libelle }}</td>
+
+                                            <td>{{ $qualification->libelle }}</td>
 
                                             <td>
-                                                <form action="{{ route('qualifications.destroy',$qualification->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('qualifications.show',$qualification->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('qualifications.edit',$qualification->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('qualifications.destroy', $qualification->id) }}"
+                                                    method="POST">
+                                                    <a class="btn btn-sm btn-primary "
+                                                        href="{{ route('qualifications.show', $qualification->id) }}"><i
+                                                            class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success"
+                                                        href="{{ route('qualifications.edit', $qualification->id) }}"><i
+                                                            class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i
+                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
                                                 </form>
                                             </td>
                                         </tr>

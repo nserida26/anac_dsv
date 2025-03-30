@@ -1,17 +1,17 @@
 @extends('user.layouts.app')
 @section('title')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheader')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('user') }}">
-        @lang('user.dashboard')
+        @lang('trans.dashboard')
     </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @push('css')
     <link href="{{ asset('assets/admin/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
@@ -28,7 +28,6 @@
                 <h4 class="text-center">
                     {{ LaravelLocalization::getCurrentLocale() == 'fr' ? $demande->typeDemande->nom_fr : $demande->typeDemande->nom_en }}
                     - {{ $demande->typeLicence->nom }}</h4>
-
                 @if ($demande->mise_a_jour)
                     <div class="card">
                         <div class="card-header bg-primary text-white">
@@ -75,7 +74,7 @@
                 @if ($demande->typeDemande->id !== 1)
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            @lang('user.licence')
+                            @lang('trans.license')
                         </div>
 
                         <div class="card-body">
@@ -85,20 +84,20 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="num_licence">@lang('user.licence_number')</label>
+                                            <label for="num_licence">@lang('trans.license_number')</label>
                                             <input type="text" class="form-control" id="num_licence" name="num_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_licence">@lang('user.licence_date')</label>
+                                            <label for="date_licence">@lang('trans.license_date')</label>
                                             <input type="date" class="form-control" id="date_licence"
                                                 name="date_licence">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="autorite_id">@lang('user.issuing_authority')</label>
+                                            <label for="autorite_id">@lang('trans.authority')</label>
                                             <select class="form-control" id="autorite_id" name="autorite_id">
                                                 @foreach ($autorites as $autorite)
                                                     <option value="{{ $autorite->id }}">{{ $autorite->libelle }}</option>
@@ -108,14 +107,14 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="lieu_delivrance">@lang('user.place_of_issue')</label>
+                                            <label for="lieu_delivrance">@lang('trans.location')</label>
                                             <input type="text" class="form-control" id="lieu_delivrance"
                                                 name="lieu_delivrance">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">@lang('user.justificatif')</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -124,7 +123,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right">
-                                            <i class="fas fa-plus"></i> @lang('user.submit')
+                                            <i class="fas fa-plus"></i> @lang('trans.send')
                                         </button>
                                     </div>
                                 </div>
@@ -137,13 +136,13 @@
                                         <table class="table table-striped table-bordered" id="licenceTable">
                                             <thead>
                                                 <tr>
-                                                    <th>@lang('user.licence_date')</th>
-                                                    <th>@lang('user.licence_number')</th>
-                                                    <th>@lang('user.issuing_authority')</th>
-                                                    <th>@lang('user.place_of_issue')</th>
-                                                    <th>@lang('user.justificatif')</th>
+                                                    <th>@lang('trans.license_date')</th>
+                                                    <th>@lang('trans.license_number')</th>
+                                                    <th>@lang('trans.authority')</th>
+                                                    <th>@lang('trans.location')</th>
+                                                    <th>@lang('trans.proof')</th>
 
-                                                    <th>@lang('user.actions')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -163,10 +162,10 @@
                                                         <td>
                                                             @if (!$licence_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-licence"
-                                                                    data-id="{{ $licence_demandeur->id }}">@lang('user.edit')</button>
+                                                                    data-id="{{ $licence_demandeur->id }}">@lang('trans.edit')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-licence"
-                                                                data-id="{{ $licence_demandeur->id }}">@lang('user.delete')</button>
+                                                                data-id="{{ $licence_demandeur->id }}">@lang('trans.destroy')</button>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -181,7 +180,7 @@
                 @if (!in_array($demande->typeDemande->id, [5, 6, 8, 9]))
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Qualifications
+                            @lang('trans.ratings')
                         </div>
 
                         <div class="card-body">
@@ -192,7 +191,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="qualification_id">Qualifications</label>
+                                            <label for="qualification_id">@lang('trans.ratings')</label>
                                             <select class="form-control" id="qualification_id" name="qualification_id">
 
                                                 @foreach ($qualifications as $qualification)
@@ -207,14 +206,14 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_examen">Date de l'Examen</label>
+                                            <label for="date_examen">@lang('trans.exam_date')</label>
                                             <input type="date" class="form-control" id="date_examen" name="date_examen">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Simulateur</label>
+                                            <label for="centre_formation_id">@lang('trans.training_center')</label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id">
                                                 @foreach ($centre_formations as $centre_formation)
@@ -228,14 +227,14 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="lieu">Lieu</label>
+                                            <label for="lieu">@lang('trans.location')</label>
                                             <input type="text" class="form-control" id="lieu" name="lieu">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -247,7 +246,7 @@
                                 <div class="col-lg-3" id="type_avion_col" style="display: none;">
                                     @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 36, 39]))
                                         <div class="form-group">
-                                            <label for="type_avion_id">Type d'Avion</label>
+                                            <label for="type_avion_id">@lang('trans.plane_type')</label>
                                             <select class="form-control" id="type_avion_id" name="type_avion_id">
                                                 @foreach ($type_avions as $type_avion)
                                                     <option value="{{ $type_avion->id }}">
@@ -259,7 +258,7 @@
                                     @endif
                                     @if ($demande->typeLicence->id === 34)
                                         <div class="form-group">
-                                            <label for="rpa">Qualifications RPA</label>
+                                            <label for="rpa">@lang('trans.rpa')</label>
                                             <select class="form-control" id="rpa" name="rpa">
                                                 <option value="type1">RPA type 1</option>
                                                 <option value="type2">RPA type 2</option>
@@ -271,7 +270,7 @@
                                 <div class="col-lg-3" id="type_engine_col" style="display: none;">
                                     @if ($demande->typeLicence->id === 33)
                                         <div class="form-group">
-                                            <label for="ulm">Qualifications ULM</label>
+                                            <label for="ulm">@lang('trans.ulm')</label>
                                             <select class="form-control" id="ulm" name="ulm">
                                                 <option value="Paramotor">Paramotor</option>
                                                 <option value="Glider type aircraft">Glider type aircraft</option>
@@ -284,7 +283,7 @@
                                     @endif
                                     @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32]))
                                         <div class="form-group">
-                                            <label for="type_moteur">Type d'engins</label>
+                                            <label for="type_moteur">@lang('trans.engine_type')</label>
 
                                             <select class="form-control" id="type_moteur" name="type_moteur">
 
@@ -301,7 +300,7 @@
                                 </div>
                                 <div class="col-lg-3" id="instructeur_privilege_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="type_privilege">Privilege</label>
+                                        <label for="type_privilege">@lang('trans.privilege')</label>
                                         <select class="form-control" id="type_privilege" name="type_privilege">
                                             @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33]))
                                                 <option value="TRI">TRI</option>
@@ -332,14 +331,14 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="machine">Machine</label>
+                                        <label for="machine">@lang('trans.machine')</label>
                                         <select class="form-control" id="machine" name="machine">
                                             <option value="A">A</option>
                                             <option value="H">H</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="type_avion_id">Type d'Avion</label>
+                                        <label for="type_avion_id">@lang('trans.plane_type')</label>
                                         <select class="form-control" id="type_avion_id" name="type_avion_id">
                                             @foreach ($type_avions as $type_avion)
                                                 <option value="{{ $type_avion->id }}">
@@ -351,7 +350,7 @@
                                 </div>
                                 <div class="col-lg-3" id="examinateur_privilege_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="type_privilege">Privilege</label>
+                                        <label for="type_privilege">@lang('trans.privilege')</label>
                                         <select class="form-control" id="type_privilege" name="type_privilege">
                                             @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 33]))
                                                 <option value="TRE">TRE</option>
@@ -379,14 +378,14 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="machine">Machine</label>
+                                        <label for="machine">@lang('trans.machine')</label>
                                         <select class="form-control" id="machine" name="machine">
                                             <option value="A">A</option>
                                             <option value="H">H</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="type_avion_id">Type d'Avion</label>
+                                        <label for="type_avion_id">@lang('trans.machine')</label>
                                         <select class="form-control" id="type_avion_id" name="type_avion_id">
                                             @foreach ($type_avions as $type_avion)
                                                 <option value="{{ $type_avion->id }}">
@@ -398,7 +397,7 @@
                                 </div>
                                 <div class="col-lg-3" id="atc_qualifications_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="atc">Qualifications ATC</label>
+                                        <label for="atc">@lang('trans.atc')</label>
                                         <select class="form-control" id="atc" name="atc">
                                             <option value="ADC">ADC</option>
                                             <option value="APP">APP</option>
@@ -412,7 +411,7 @@
 
                                 <div class="col-lg-3" id="amt_qualifications_col" style="display: none;">
                                     <div class="form-group">
-                                        <label for="amt">Qualifications AMT</label>
+                                        <label for="amt">@lang('trans.amt')</label>
                                         <select class="form-control" id="amt" name="amt">
                                             <option value="A(A)">A(A)</option>
                                             <option value="A(H)">A(H)</option>
@@ -431,7 +430,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right">
-                                            <i class="fas fa-plus"></i> Submit
+                                            <i class="fas fa-plus"></i> @lang('trans.send')
                                         </button>
                                     </div>
                                 </div>
@@ -446,34 +445,34 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Qualification</th>
+                                                    <th>@lang('trans.ratings')</th>
                                                     @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 37, 38, 39]))
-                                                        <th>Type d'avion</th>
-                                                        <th>Machine</th>
+                                                        <th>@lang('trans.plane_type')</th>
+                                                        <th>@lang('trans.machine')</th>
                                                     @endif
                                                     @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32]))
-                                                        <th>Type de moteur</th>
+                                                        <th>@lang('trans.engine_type')</th>
                                                     @endif
                                                     @if ($demande->typeLicence->id !== 33)
-                                                        <th>Privilege</th>
+                                                        <th>@lang('trans.privilege')</th>
                                                     @endif
                                                     @if ($demande->typeLicence->id === 11)
-                                                        <th>Qualification AMT</th>
+                                                        <th>@lang('trans.amt')</th>
                                                     @endif
                                                     @if (in_array($demande->typeLicence->id, [37, 38]))
-                                                        <th>Qualification ATC</th>
+                                                        <th>@lang('trans.atc')</th>
                                                     @endif
                                                     @if ($demande->typeLicence->id === 34)
-                                                        <th>Qualification RPA</th>
+                                                        <th>@lang('trans.rpa')</th>
                                                     @endif
                                                     @if ($demande->typeLicence->id === 33)
-                                                        <th>Qualification ULM</th>
+                                                        <th>@lang('trans.ulm')</th>
                                                     @endif
-                                                    <th>Date de l'Examen</th>
-                                                    <th>Simulateur</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('trans.exam_date')</th>
+                                                    <th>@lang('trans.training_center')</th>
+                                                    <th>@lang('trans.location')</th>
+                                                    <th>@lang('trans.proof')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -516,10 +515,10 @@
                                                         <td>
                                                             @if (!$qualification_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-qualification"
-                                                                    data-id="{{ $qualification_demandeur->id }}">Modifier</button>
+                                                                    data-id="{{ $qualification_demandeur->id }}">@lang('trans.update')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-qualification"
-                                                                data-id="{{ $qualification_demandeur->id }}">Supprimer</button>
+                                                                data-id="{{ $qualification_demandeur->id }}">@lang('trans.destroy')</button>
 
                                                         </td>
                                                     </tr>
@@ -552,7 +551,7 @@
                                                                     </div>
 
                                                                     <div class="col-lg-2">
-                                                                        <label>Date de l'Examen</label>
+                                                                        <label>@lang('trans.exam_date')</label>
                                                                         <input type="date" class="form-control"
                                                                             name="date_examen"
                                                                             value="{{ $qualification_demandeur->date_examen }}">
@@ -579,7 +578,7 @@
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Justificatif</label>
+                                                                        <label>@lang('trans.proof')</label>
                                                                         <input type="file" class="form-control"
                                                                             name="document" accept="application/pdf">
                                                                     </div>
@@ -921,7 +920,7 @@
                 @if (!in_array($demande->typeDemande->id, [2, 4, 6, 8, 9]))
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Aptitude Médicale
+                            @lang('trans.medical_fitness')
                         </div>
                         <div class="card-body">
                             <form id="aptitudeForm" enctype="multipart/form-data">
@@ -931,7 +930,7 @@
 
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="date_examen">Date de l'Examen</label>
+                                            <label for="date_examen">@lang('trans.exam_date')</label>
                                             <input type="date" class="form-control" id="date_examen"
                                                 name="date_examen" placeholder="">
 
@@ -939,7 +938,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="validite">Validité en mois</label>
+                                            <label for="validite">@lang('trans.validity')</label>
                                             <input type="number" min="0" class="form-control" id="validite"
                                                 name="validite" placeholder="">
 
@@ -947,7 +946,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="centre_medical_id">Centre Médical</label>
+                                            <label for="centre_medical_id">@lang('trans.medical_center')</label>
                                             <select class="form-control" id="centre_medical_id" name="centre_medical_id"
                                                 placeholder="">
                                                 @foreach ($centre_medicals as $centre_medical)
@@ -962,7 +961,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -973,7 +972,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            @lang('trans.send')
 
                                         </button>
                                     </div>
@@ -988,11 +987,11 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date de l'Examen</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Centre Médical</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('trans.exam_date')</th>
+                                                    <th>@lang('trans.validity')</th>
+                                                    <th>@lang('trans.medical_center')</th>
+                                                    <th>@lang('trans.proof')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1012,10 +1011,10 @@
 
                                                             @if (!$medical_examination->valider)
                                                                 <button class="btn btn-warning btn-sm edit-aptitude"
-                                                                    data-id="{{ $medical_examination->id }}">Modifier</button>
+                                                                    data-id="{{ $medical_examination->id }}">@lang('trans.update')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-aptitude"
-                                                                data-id="{{ $medical_examination->id }}">Supprimer</button>
+                                                                data-id="{{ $medical_examination->id }}">@lang('trans.destroy')</button>
 
                                                         </td>
                                                     </tr>
@@ -1031,21 +1030,21 @@
 
                                                                 <div class="row">
                                                                     <div class="col-lg-3">
-                                                                        <label>Date de l'Examen</label>
+                                                                        <label>@lang('trans.exam_date')</label>
                                                                         <input type="date" class="form-control"
                                                                             name="date_examen"
                                                                             value="{{ $medical_examination->date_examen }}">
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Validité en mois</label>
+                                                                        <label>@lang('trans.validity')</label>
                                                                         <input type="number" min="0"
                                                                             class="form-control" name="validite"
                                                                             value="{{ $medical_examination->validite }}">
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Centre Médical</label>
+                                                                        <label>@lang('trans.medical_center')</label>
                                                                         <select class="form-control" name="centre_medical_id">
                                                                             @foreach ($centre_medicals as $centre_medical)
                                                                                 <option value="{{ $centre_medical->id }}"
@@ -1057,7 +1056,7 @@
                                                                     </div>
 
                                                                     <div class="col-lg-3">
-                                                                        <label>Justificatif</label>
+                                                                        <label>@lang('trans.proof')</label>
                                                                         <input type="file" class="form-control"
                                                                             name="document" accept="application/pdf">
                                                                     </div>
@@ -1090,7 +1089,7 @@
                         in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32, 39]))
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Expérience en heures de vol
+                            @lang('trans.flights')
                         </div>
 
                         <div class="card-body">
@@ -1101,39 +1100,38 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="nature">Nature</label>
+                                            <label for="nature">@lang('trans.flights_type')</label>
                                             <select class="form-control" id="nature" name="nature">
-                                                <option value="Sur tous types d'aéronefs">Sur tous types d'aéronefs
+                                                <option value="Sur tous types d'aéronefs">@lang('trans.all_types')
                                                 </option>
-                                                <option value="Sur les types d'aéronefs exploités par l'employeur">Sur les
-                                                    types d'aéronefs exploités par l'employeur</option>
+                                                <option value="Sur les types d'aéronefs exploités par l'employeur">@lang('trans.employer_operated_types')</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="total">Total</label>
+                                            <label for="total">@lang('trans.total')</label>
                                             <input type="number" min="0" class="form-control" id="total"
                                                 name="total">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="six_mois">Six (6) derniers mois</label>
+                                            <label for="six_mois">@lang('trans.six')</label>
                                             <input type="number" min="0" class="form-control" id="six_mois"
                                                 name="six_mois">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="trois_mois">Trois (3) derniers mois</label>
+                                            <label for="trois_mois">@lang('trans.three')</label>
                                             <input type="number" min="0" class="form-control" id="trois_mois"
                                                 name="trois_mois">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 accept="application/pdf">
                                         </div>
@@ -1141,7 +1139,7 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-success float-right"><i class="fas fa-plus"></i>
-                                    Submit</button>
+                                    @lang('trans.send')</button>
                             </form>
 
 
@@ -1149,12 +1147,12 @@
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Nature</th>
-                                            <th>Total</th>
-                                            <th>Six (6) derniers mois</th>
-                                            <th>Trois (3) derniers mois</th>
-                                            <th>Justificatif</th>
-                                            <th>Actions</th>
+                                            <th>@lang('trans.flights_type')</th>
+                                            <th>@lang('trans.total')</th>
+                                            <th>@lang('trans.six')</th>
+                                            <th>@lang('trans.three')</th>
+                                            <th>@lang('trans.proof')</th>
+                                            <th>@lang('trans.actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1176,19 +1174,11 @@
                                                         <button class="btn btn-warning btn-sm"
                                                             onclick="toggleEditForm({{ $experience->id }}, 'experience')">
 
-                                                            Modifier
+                                                            @lang('trans.update')
                                                         </button>
                                                     @endif
-
-                                                    <form action="{{ route('user.destroy_experiences', $experience) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Confirmer la suppression ?')">
-                                                            Supprimer
-                                                        </button>
-                                                    </form>
+                                                    <button class="btn btn-danger btn-sm delete-experience"
+                                                        data-id="{{ $experience->id }}">@lang('trans.destroy')</button>
                                                 </td>
                                             </tr>
 
@@ -1205,7 +1195,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
-                                                                    <label for="edit_nature">Nature</label>
+                                                                    <label for="edit_nature">@lang('trans.flights_type')</label>
                                                                     <select class="form-control" name="nature">
                                                                         <option value="Sur tous types d'aéronefs"
                                                                             {{ $experience->nature == "Sur tous types d'aéronefs" ? 'selected' : '' }}>
@@ -1220,21 +1210,21 @@
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label>Total</label>
+                                                                    <label>@lang('trans.total')</label>
                                                                     <input type="number" min="0" class="form-control"
                                                                         name="total" value="{{ $experience->total }}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label>Six (6) derniers mois</label>
+                                                                    <label>@lang('trans.six')</label>
                                                                     <input type="number" min="0" class="form-control"
                                                                         name="six_mois" value="{{ $experience->six_mois }}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
-                                                                    <label>Trois (3) derniers mois</label>
+                                                                    <label>@lang('trans.three')</label>
                                                                     <input type="number" min="0" class="form-control"
                                                                         name="trois_mois"
                                                                         value="{{ $experience->trois_mois }}">
@@ -1242,7 +1232,7 @@
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label>Justificatif</label>
+                                                                    <label>@lang('trans.proof')</label>
                                                                     <input type="file" class="form-control"
                                                                         name="document" accept="application/pdf">
                                                                 </div>
@@ -1268,7 +1258,7 @@
                 @if (!in_array($demande->typeDemande->id, [2, 4, 5, 8, 9]))
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Contrôles de compétence les plus récents
+                            @lang('trans.control')
                         </div>
 
                         <div class="card-body">
@@ -1280,7 +1270,7 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="type">Type de compétence</label>
+                                            <label for="type">@lang('trans.type')</label>
                                             <select class="form-control" name="type" placeholder="">
 
                                                 <option value="Contrôle de compétence linguistique">
@@ -1293,7 +1283,7 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="niveau">Niveau</label>
+                                            <label for="niveau">@lang('trans.level')</label>
                                             <select class="form-control" id="niveau" name="niveau" placeholder="">
                                                 <option value="4">4
                                                 </option>
@@ -1307,7 +1297,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date">Date</label>
+                                            <label for="date">@lang('trans.date')</label>
                                             <input type="date" class="form-control" id="date" name="date"
                                                 placeholder="">
 
@@ -1315,7 +1305,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="validite">Validité en mois</label>
+                                            <label for="validite">@lang('trans.validity')</label>
                                             <input type="number" min="0" class="form-control" id="validite"
                                                 name="validite" placeholder="">
 
@@ -1323,7 +1313,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Lieu</label>
+                                            <label for="centre_formation_id">@lang('trans.location')</label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id" placeholder="">
                                                 @foreach ($centre_formations as $centre_formation)
@@ -1338,7 +1328,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -1350,7 +1340,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            @lang('trans.send')
 
                                         </button>
                                     </div>
@@ -1364,14 +1354,14 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Type</th>
-                                                    <th>Niveau</th>
+                                                    <th>@lang('trans.type')</th>
+                                                    <th>@lang('trans.level')</th>
 
-                                                    <th>Date</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('trans.date')</th>
+                                                    <th>@lang('trans.validity')</th>
+                                                    <th>@lang('trans.location')</th>
+                                                    <th>@lang('trans.proof')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1393,10 +1383,10 @@
 
                                                             @if (!$competence_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-competence"
-                                                                    data-id="{{ $competence_demandeur->id }}">Modifier</button>
+                                                                    data-id="{{ $competence_demandeur->id }}">@lang('trans.update')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-competence"
-                                                                data-id="{{ $competence_demandeur->id }}">Supprimer</button>
+                                                                data-id="{{ $competence_demandeur->id }}">@lang('trans.destroy')</button>
 
                                                         </td>
                                                     </tr>
@@ -1453,7 +1443,7 @@
 
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="validite">Validité en mois</label>
+                                                                            <label for="validite">@lang('trans.validity')</label>
                                                                             <input type="number" min="0"
                                                                                 class="form-control" name="validite"
                                                                                 value="{{ $competence_demandeur->validite }}">
@@ -1478,7 +1468,7 @@
 
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="document">Justificatif
+                                                                            <label for="document">@lang('trans.proof')
                                                                                 (Nouveau)
                                                                             </label>
                                                                             <input type="file" class="form-control"
@@ -1510,7 +1500,7 @@
                 @if (!in_array($demande->typeDemande->id, [2, 4, 5, 6, 9]))
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Entraînements périodiques
+                            @lang('trans.periodic_control')
                         </div>
 
                         <div class="card-body">
@@ -1521,7 +1511,7 @@
 
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="type">Type d'entraînement</label>
+                                            <label for="type">@lang('trans.type')</label>
                                             <select class="form-control" id="type" name="type" placeholder="">
                                                 @if (in_array($demande->typeLicence->id, [27, 28, 29, 30, 31, 32, 32]))
                                                     <option value="Hors Ligne (SIMU)">Hors Ligne (SIMU)
@@ -1574,7 +1564,7 @@
 
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date">Date</label>
+                                            <label for="date">@lang('trans.date')</label>
                                             <input type="date" class="form-control" id="date" name="date"
                                                 placeholder="">
 
@@ -1582,7 +1572,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="validite">Validité en mois</label>
+                                            <label for="validite">@lang('trans.validity')</label>
                                             <input type="number" min="0" class="form-control" id="validite"
                                                 name="validite" placeholder="">
 
@@ -1590,7 +1580,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Lieu</label>
+                                            <label for="centre_formation_id">@lang('trans.location')</label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id" placeholder="">
                                                 @foreach ($centre_formations as $centre_formation)
@@ -1605,7 +1595,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -1613,7 +1603,7 @@
                                     </div>
                                     <div class="col-lg-2" id="simulateur_col" style="display: none;">
                                         <div class="form-group">
-                                            <label for="simulateur_id">Simulateur</label>
+                                            <label for="simulateur_id">@lang('trans.simulators')</label>
                                             <select class="form-control" id="simulateur_id" name="simulateur_id">
                                                 @foreach ($simulateurs as $simulateur)
                                                     <option value="{{ $simulateur->id }}">{{ $simulateur->libelle }}
@@ -1628,7 +1618,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            @lang('trans.send')
 
                                         </button>
                                     </div>
@@ -1642,13 +1632,13 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Type</th>
-                                                    <th>Simulateur</th>
-                                                    <th>Date</th>
-                                                    <th>Validité en mois</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('trans.type')</th>
+                                                    <th>@lang('trans.simulators')</th>
+                                                    <th>@lang('trans.date')</th>
+                                                    <th>@lang('trans.validity')</th>
+                                                    <th>@lang('trans.location')</th>
+                                                    <th>@lang('trans.proof')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1670,10 +1660,10 @@
                                                         <td>
                                                             @if (!$entrainement_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-entrainement"
-                                                                    data-id="{{ $entrainement_demandeur->id }}">Modifier</button>
+                                                                    data-id="{{ $entrainement_demandeur->id }}">@lang('trans.update')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-entrainement"
-                                                                data-id="{{ $entrainement_demandeur->id }}">Supprimer</button>
+                                                                data-id="{{ $entrainement_demandeur->id }}">@lang('trans.destroy')</button>
                                                         </td>
                                                     </tr>
 
@@ -1731,7 +1721,8 @@
 
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="edit_validite">Validité en mois</label>
+                                                                            <label
+                                                                                for="edit_validite">@lang('trans.validity')</label>
                                                                             <input type="number" min="0"
                                                                                 class="form-control" name="validite"
                                                                                 value="{{ $entrainement_demandeur->validite }}">
@@ -1756,7 +1747,8 @@
 
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="edit_justificatif">Justificatif</label>
+                                                                            <label
+                                                                                for="edit_justificatif">@lang('trans.proof')</label>
                                                                             <input type="file" class="form-control"
                                                                                 name="document" accept="application/pdf">
                                                                         </div>
@@ -1806,7 +1798,7 @@
                 @if (in_array($demande->typeDemande->id, [1, 3]))
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Formations
+                            @lang('trans.training')
                         </div>
 
                         <div class="card-body">
@@ -1816,14 +1808,14 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="date_formation">Date de Formation</label>
+                                            <label for="date_formation">@lang('trans.training_date')</label>
                                             <input type="date" class="form-control" id="date_formation"
                                                 name="date_formation" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="centre_formation_id">Centre de formation</label>
+                                            <label for="centre_formation_id">@lang('trans.training_center')</label>
                                             <select class="form-control" id="centre_formation_id"
                                                 name="centre_formation_id">
                                                 @foreach ($centre_formations as $centre_formation)
@@ -1836,14 +1828,14 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="lieu">Lieu</label>
+                                            <label for="lieu">@lang('trans.training_location')</label>
                                             <input type="text" class="form-control" id="lieu" name="lieu"
                                                 placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document" name="document"
                                                 placeholder="" accept="application/pdf">
 
@@ -1854,7 +1846,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit</button>
+                                            @lang('trans.send')</button>
                                     </div>
                                 </div>
                             </form>
@@ -1866,11 +1858,11 @@
                                         <table class="table table-striped table-bordered" id="formationTable">
                                             <thead>
                                                 <tr>
-                                                    <th>Date de formation</th>
-                                                    <th>Centre de formation</th>
-                                                    <th>Lieu</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('trans.training_date')</th>
+                                                    <th>@lang('trans.training_center')</th>
+                                                    <th>@lang('trans.location')</th>
+                                                    <th>@lang('trans.proof')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1889,10 +1881,10 @@
                                                         <td>
                                                             @if (!$formation_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-formation"
-                                                                    data-id="{{ $formation_demandeur->id }}">Modifier</button>
+                                                                    data-id="{{ $formation_demandeur->id }}">@lang('trans.update')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-formation"
-                                                                data-id="{{ $formation_demandeur->id }}">Supprimer</button>
+                                                                data-id="{{ $formation_demandeur->id }}">@lang('trans.destroy')</button>
 
                                                         </td>
                                                     </tr>
@@ -1943,7 +1935,7 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="document">Justificatif</label>
+                                                                            <label for="document">@lang('trans.proof')</label>
                                                                             <input type="file" accept="application/pdf"
                                                                                 class="form-control" id="document"
                                                                                 name="document" placeholder="">
@@ -1970,7 +1962,7 @@
                     {{-- Interupptions --}}
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Interruptions
+                            @lang('trans.interruptions')
                         </div>
 
                         <div class="card-body">
@@ -1982,7 +1974,7 @@
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_debut">Date de debut</label>
+                                            <label for="date_debut">@lang('trans.start_date')</label>
                                             <input type="date" class="form-control" id="date_debut"
                                                 name="date_debut" placeholder="">
 
@@ -1990,7 +1982,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="date_fin">Date de fin</label>
+                                            <label for="date_fin">@lang('trans.end_date')</label>
                                             <input type="date" class="form-control" id="date_fin"
                                                 name="date_fin" placeholder="">
 
@@ -1998,14 +1990,14 @@
                                     </div>
                                     <div class="col-lg-5">
                                         <div class="form-group">
-                                            <label for="raison">Raisons</label>
+                                            <label for="raison">@lang('trans.reason')</label>
                                             <textarea type="text" class="form-control" id="raison" name="raison" placeholder=""></textarea>
 
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document"
                                                 name="document" placeholder="" accept="application/pdf">
 
@@ -2017,7 +2009,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            @lang('trans.send')
 
                                         </button>
                                     </div>
@@ -2031,11 +2023,11 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Raisons</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('trans.start_date')</th>
+                                                    <th>@lang('trans.end_date')</th>
+                                                    <th>@lang('trans.reason')</th>
+                                                    <th>@lang('trans.proof')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -2054,10 +2046,10 @@
                                                         <td>
                                                             @if (!$interruption_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-interruption"
-                                                                    data-id="{{ $interruption_demandeur->id }}">Modifier</button>
+                                                                    data-id="{{ $interruption_demandeur->id }}">@lang('trans.update')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-interruption"
-                                                                data-id="{{ $interruption_demandeur->id }}">Supprimer</button>
+                                                                data-id="{{ $interruption_demandeur->id }}">@lang('trans.destroy')</button>
                                                         </td>
                                                     </tr>
 
@@ -2075,7 +2067,8 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="edit_date_debut">Date de debut</label>
+                                                                            <label
+                                                                                for="edit_date_debut">@lang('trans.start_date')</label>
                                                                             <input type="date" class="form-control"
                                                                                 name="date_debut"
                                                                                 value="{{ $interruption_demandeur->date_debut }}">
@@ -2083,7 +2076,8 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
-                                                                            <label for="edit_date_fin">Date de fin</label>
+                                                                            <label
+                                                                                for="edit_date_fin">@lang('trans.end_date')</label>
                                                                             <input type="date" class="form-control"
                                                                                 name="date_fin"
                                                                                 value="{{ $interruption_demandeur->date_fin }}">
@@ -2098,7 +2092,7 @@
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
                                                                             <label
-                                                                                for="edit_justificatif">Justificatif</label>
+                                                                                for="edit_justificatif">@lang('trans.proof')</label>
                                                                             <input type="file" class="form-control"
                                                                                 name="document" accept="application/pdf">
                                                                         </div>
@@ -2128,7 +2122,7 @@
                         {{-- Expérience en maintenance d'aéronefs --}}
                         <div class="card">
                             <div class="card-header bg-primary text-white">
-                                Expérience en maintenance d'aéronefs
+                                @lang('trans.maintenance')
                             </div>
 
                             <div class="card-body">
@@ -2139,7 +2133,7 @@
                                     <div class="row">
                                         <div class="col-lg-2">
                                             <div class="form-group">
-                                                <label for="date_debut">Date de debut</label>
+                                                <label for="date_debut">@lang('trans.start_date')</label>
                                                 <input type="date" class="form-control" id="date_debut"
                                                     name="date_debut" placeholder="">
 
@@ -2147,7 +2141,7 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="form-group">
-                                                <label for="date_fin">Date de fin</label>
+                                                <label for="date_fin">@lang('trans.end_date')</label>
                                                 <input type="date" class="form-control" id="date_fin"
                                                     name="date_fin" placeholder="">
 
@@ -2155,7 +2149,7 @@
                                         </div>
                                         <div class="col-lg-5">
                                             <div class="form-group">
-                                                <label for="description_maintenance">Descriptions</label>
+                                                <label for="description_maintenance"> @lang('trans.description')</label>
                                                 <textarea type="text" class="form-control" id="description_maintenance" name="description_maintenance"
                                                     placeholder=""></textarea>
 
@@ -2163,7 +2157,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <label for="document">Justificatif</label>
+                                                <label for="document">@lang('trans.proof')</label>
                                                 <input type="file" class="form-control" id="document"
                                                     name="document" placeholder="" accept="application/pdf">
 
@@ -2175,7 +2169,7 @@
                                         <div class="col-lg-12">
                                             <button type="submit" class="btn btn-success float-right"><i
                                                     class="fas fa-plus"></i>
-                                                Submit
+                                                @lang('trans.send')
 
                                             </button>
                                         </div>
@@ -2191,12 +2185,12 @@
 
 
 
-                                                        <th>Date de debut</th>
-                                                        <th>Date de fin</th>
-                                                        <th>Descriptions</th>
+                                                        <th>@lang('trans.start_date')</th>
+                                                        <th>@lang('trans.end_date')</th>
+                                                        <th> @lang('trans.description')</th>
 
-                                                        <th>Justificatif</th>
-                                                        <th>Actions</th>
+                                                        <th>@lang('trans.proof')</th>
+                                                        <th>@lang('trans.actions')</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -2215,10 +2209,10 @@
                                                             <td>
                                                                 @if (!$experience_maintenance_demandeur->valider)
                                                                     <button class="btn btn-warning btn-sm edit-maintenance"
-                                                                        data-id="{{ $experience_maintenance_demandeur->id }}">Modifier</button>
+                                                                        data-id="{{ $experience_maintenance_demandeur->id }}"> @lang('trans.update')</button>
                                                                 @endif
                                                                 <button class="btn btn-danger btn-sm delete-maintenance"
-                                                                    data-id="{{ $experience_maintenance_demandeur->id }}">Supprimer</button>
+                                                                    data-id="{{ $experience_maintenance_demandeur->id }}">@lang('trans.destroy')</button>
                                                             </td>
                                                         </tr>
 
@@ -2245,7 +2239,8 @@
                                                                         </div>
                                                                         <div class="col-lg-2">
                                                                             <div class="form-group">
-                                                                                <label for="edit_date_fin">Date de fin</label>
+                                                                                <label
+                                                                                    for="edit_date_fin">@lang('trans.end_date')</label>
                                                                                 <input type="date" class="form-control"
                                                                                     name="date_fin"
                                                                                     value="{{ $experience_maintenance_demandeur->date_fin }}">
@@ -2261,7 +2256,7 @@
                                                                         <div class="col-lg-3">
                                                                             <div class="form-group">
                                                                                 <label
-                                                                                    for="edit_justificatif">Justificatif</label>
+                                                                                    for="edit_justificatif">@lang('trans.proof')</label>
                                                                                 <input type="file" class="form-control"
                                                                                     name="document"
                                                                                     accept="application/pdf">
@@ -2293,7 +2288,7 @@
 
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Employeurs
+                            @lang('trans.employers')
                         </div>
 
                         <div class="card-body">
@@ -2304,7 +2299,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="employeur">Employeur</label>
+                                            <label for="employeur">@lang('trans.employer')</label>
                                             <input type="text" class="form-control" id="employeur"
                                                 name="employeur" placeholder="">
 
@@ -2312,7 +2307,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="periode_du">Date de debut</label>
+                                            <label for="periode_du">@lang('trans.start_date')</label>
                                             <input type="date" class="form-control" id="periode_du"
                                                 name="periode_du" placeholder="">
 
@@ -2320,7 +2315,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="periode_au">Date de fin</label>
+                                            <label for="periode_au">@lang('trans.end_date')</label>
                                             <input type="date" class="form-control" id="periode_au"
                                                 name="periode_au" placeholder="">
 
@@ -2328,7 +2323,7 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="fonction">Fonction</label>
+                                            <label for="fonction">@lang('trans.role')</label>
                                             <input type="text" class="form-control" id="fonction"
                                                 name="fonction" placeholder="">
 
@@ -2336,7 +2331,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="document">Justificatif</label>
+                                            <label for="document">@lang('trans.proof')</label>
                                             <input type="file" class="form-control" id="document"
                                                 name="document" placeholder="" accept="application/pdf">
 
@@ -2347,7 +2342,7 @@
                                     <div class="col-lg-12">
                                         <button type="submit" class="btn btn-success float-right"><i
                                                 class="fas fa-plus"></i>
-                                            Submit
+                                            @lang('trans.send')
 
                                         </button>
                                     </div>
@@ -2362,12 +2357,12 @@
                                                 <tr>
 
 
-                                                    <th>Employeur</th>
-                                                    <th>Date de debut</th>
-                                                    <th>Date de fin</th>
-                                                    <th>Fonction</th>
-                                                    <th>Justificatif</th>
-                                                    <th>Actions</th>
+                                                    <th>@lang('trans.employer')</th>
+                                                    <th>@lang('trans.start_date')</th>
+                                                    <th>@lang('trans.end_date')</th>
+                                                    <th>@lang('trans.role')</th>
+                                                    <th>@lang('trans.proof')</th>
+                                                    <th>@lang('trans.actions')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -2389,10 +2384,10 @@
 
                                                             @if (!$employeur_demandeur->valider)
                                                                 <button class="btn btn-warning btn-sm edit-employeur"
-                                                                    data-id="{{ $employeur_demandeur->id }}">Modifier</button>
+                                                                    data-id="{{ $employeur_demandeur->id }}">@lang('trans.update')</button>
                                                             @endif
                                                             <button class="btn btn-danger btn-sm delete-employeur"
-                                                                data-id="{{ $employeur_demandeur->id }}">Supprimer</button>
+                                                                data-id="{{ $employeur_demandeur->id }}">@lang('trans.destroy')</button>
                                                         </td>
                                                     </tr>
 
@@ -2417,7 +2412,8 @@
                                                                     </div>
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="edit_periode_du">Date de debut</label>
+                                                                            <label
+                                                                                for="edit_periode_du">@lang('trans.start_date')</label>
                                                                             <input type="date" class="form-control"
                                                                                 name="periode_du"
                                                                                 value="{{ $employeur_demandeur->periode_du }}">
@@ -2425,7 +2421,8 @@
                                                                     </div>
                                                                     <div class="col-lg-2">
                                                                         <div class="form-group">
-                                                                            <label for="edit_periode_au">Date de fin</label>
+                                                                            <label
+                                                                                for="edit_periode_au">@lang('trans.end_date')</label>
                                                                             <input type="date" class="form-control"
                                                                                 name="periode_au"
                                                                                 value="{{ $employeur_demandeur->periode_au }}">
@@ -2442,7 +2439,7 @@
                                                                     <div class="col-lg-3">
                                                                         <div class="form-group">
                                                                             <label
-                                                                                for="edit_justificatif">Justificatif</label>
+                                                                                for="edit_justificatif">@lang('trans.proof')</label>
                                                                             <input type="file" class="form-control"
                                                                                 name="document" accept="application/pdf">
                                                                         </div>
@@ -2472,7 +2469,7 @@
 
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Pièce-jointe
+                        @lang('trans.attachments')
                     </div>
 
                     <div class="card-body">
@@ -2504,16 +2501,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            @if ($type_documents->isNotEmpty())
+                                <div class="row">
 
-                                <div class="col-lg-12">
-                                    <button id="submitDocument" type="submit" class="btn btn-success float-right"><i
-                                            class="fas fa-plus"></i>
-                                        Submit
+                                    <div class="col-lg-12">
+                                        <button id="submitDocument" type="submit"
+                                            class="btn btn-success float-right"><i class="fas fa-plus"></i>
+                                            @lang('trans.send')
 
-                                    </button>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+
                         </form>
                         <br>
                         @isset($documents)
@@ -2523,10 +2523,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Libellé</th>
+                                                <th>@lang('trans.title')</th>
 
-                                                <th>Document</th>
-                                                <th>Actions</th>
+                                                <th>@lang('trans.attachment')</th>
+                                                <th>@lang('trans.actions')</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -2543,10 +2543,10 @@
                                                     <td>
                                                         @if (!$document->valider)
                                                             <button class="btn btn-warning btn-sm edit-document"
-                                                                data-id="{{ $document->id }}">Modifier</button>
+                                                                data-id="{{ $document->id }}">@lang('trans.update')</button>
                                                         @endif
                                                         <button class="btn btn-danger btn-sm delete-document"
-                                                            data-id="{{ $document->id }}">Supprimer</button>
+                                                            data-id="{{ $document->id }}">@lang('trans.destroy')</button>
 
                                                     </td>
                                                 </tr>
@@ -2570,7 +2570,7 @@
                                                             </div>
                                                             <button type="submit"
                                                                 class="btn btn-primary btn-sm update-document"
-                                                                data-id="{{ $document->id }}">Enregistrer</button>
+                                                                data-id="{{ $document->id }}">@lang('trans.')</button>
                                                             <button type="button" class="btn btn-secondary btn-sm"
                                                                 onclick="toggleEditForm({{ $document->id }},'document')">Annuler</button>
                                                         </form>
@@ -2598,7 +2598,7 @@
 
 @endsection
 @push('script')
-    <script src="{{ asset('assets/admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 @push('custom')
     <script>
@@ -2679,7 +2679,7 @@
                             <td>${response.licence.date_licence}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-licence" data-id="${response.licence.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -2729,7 +2729,7 @@
                         <td>${response.licence.date_licence}</td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-licence" data-id="${response.licence.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-licence" data-id="${response.licence.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
                             Swal.fire({
@@ -2766,7 +2766,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_licences', ':id') }}".replace(
                                 ':id', licenceId),
@@ -2817,7 +2817,7 @@
                             <td>${response.formation.centre_formation}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-formation" data-id="${response.formation.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -2866,7 +2866,7 @@
                         <td>${response.formation.centre_formation}</td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-formation" data-id="${response.formation.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-formation" data-id="${response.formation.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
                             Swal.fire({
@@ -2901,7 +2901,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_formations', ':id') }}".replace(
                                 ':id', formationId),
@@ -3002,7 +3002,7 @@
                             <td>${response.qualification.date_examen}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-qualification" data-id="${response.qualification.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -3049,7 +3049,7 @@
                     <td>${response.qualification.date_examen}</td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-qualification" data-id="${response.qualification.id}">Modifier</button>
-                        <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">Supprimer</button>
+                        <button class="btn btn-danger btn-sm delete-qualification" data-id="${response.qualification.id}">@lang('trans.destroy')</button>
                     </td>
                 `);
                             Swal.fire({
@@ -3082,7 +3082,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_qualifications', ':id') }}"
                                 .replace(':id', qualificationId),
@@ -3132,7 +3132,7 @@
                             <td>${response.aptitude.validite}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-aptitude" data-id="${response.aptitude.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -3178,7 +3178,7 @@
                     <td>${response.aptitude.validite}</td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-aptitude" data-id="${response.aptitude.id}">Modifier</button>
-                        <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">Supprimer</button>
+                        <button class="btn btn-danger btn-sm delete-aptitude" data-id="${response.aptitude.id}">@lang('trans.destroy')</button>
                     </td>
                 `);
                             Swal.fire({
@@ -3211,7 +3211,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_aptitudes', ':id') }}".replace(
                                 ':id', aptitudeId),
@@ -3260,7 +3260,7 @@
                             <td>${response.competence.niveau}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-competence" data-id="${response.competence.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -3307,7 +3307,7 @@
                     <td>${response.competence.niveau}</td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-competence" data-id="${response.competence.id}">Modifier</button>
-                        <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">Supprimer</button>
+                        <button class="btn btn-danger btn-sm delete-competence" data-id="${response.competence.id}">@lang('trans.destroy')</button>
                     </td>
                 `);
                             Swal.fire({
@@ -3340,7 +3340,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_competences', ':id') }}".replace(
                                 ':id', competenceId),
@@ -3395,7 +3395,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-entrainement" data-id="${response.entrainement.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -3451,7 +3451,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-entrainement" data-id="${response.entrainement.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-entrainement" data-id="${response.entrainement.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
                             Swal.fire({
@@ -3487,6 +3487,7 @@
                     cancelButtonText: "Annuler"
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        
                         $.ajax({
                             url: "{{ route('user.destroy_entrainements', ':id') }}"
                                 .replace(':id', entrainementId),
@@ -3496,6 +3497,7 @@
                             },
                             success: function() {
                                 row.remove();
+                               
                                 Swal.fire({
                                     title: 'Succès',
                                     text: 'Entraînement supprimé !',
@@ -3542,7 +3544,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-experience" data-id="${response.experience.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -3598,7 +3600,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-experience" data-id="${response.experience.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-experience" data-id="${response.experience.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
                             Swal.fire({
@@ -3634,7 +3636,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_experiences', ':id') }}".replace(
                                 ':id', experienceId),
@@ -3689,7 +3691,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-employeur" data-id="${response.employeur.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -3745,7 +3747,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-employeur" data-id="${response.employeur.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-employeur" data-id="${response.employeur.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
                             Swal.fire({
@@ -3780,7 +3782,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_employeurs', ':id') }}"
                                 .replace(':id', employeurId),
@@ -3834,7 +3836,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-maintenance" data-id="${response.maintenance.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -3889,7 +3891,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-maintenance" data-id="${response.maintenance.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-maintenance" data-id="${response.maintenance.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
                             Swal.fire({
@@ -3924,7 +3926,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_maintenances', ':id') }}"
                                 .replace(':id', maintenanceId),
@@ -3978,7 +3980,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-interruption" data-id="${response.interruption.id}">Modifier</button>
-                                <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}">Supprimer</button>
+                                <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}">@lang('trans.destroy')</button>
                             </td>
                         </tr>
                     `;
@@ -4033,7 +4035,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-interruption" data-id="${response.interruption.id}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-interruption" data-id="${response.interruption.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
                             Swal.fire({
@@ -4068,7 +4070,7 @@
                     confirmButtonText: "Oui, supprimer !",
                     cancelButtonText: "Annuler"
                 }).then((result) => {
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_interruptions', ':id') }}"
                                 .replace(':id', interruptionId),
@@ -4123,7 +4125,7 @@
                                     </td>
                                     <td>
                                         <button class="btn btn-warning btn-sm edit-document" data-id="${document.id}">Modifier</button>
-                                        <button class="btn btn-danger btn-sm delete-document" data-id="${document.id}">Supprimer</button>
+                                        <button class="btn btn-danger btn-sm delete-document" data-id="${document.id}">@lang('trans.destroy')</button>
                                     </td>
                                 </tr>
                             `;
@@ -4189,7 +4191,7 @@
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-document" data-id="${response.document.id}" data-libelle="${response.document.nom_fr}">Modifier</button>
-                            <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}">Supprimer</button>
+                            <button class="btn btn-danger btn-sm delete-document" data-id="${response.document.id}">@lang('trans.destroy')</button>
                         </td>
                     `);
 
@@ -4237,7 +4239,7 @@
                 }).then((result) => {
 
 
-                    if (result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "{{ route('user.destroy_documents', ':id') }}".replace(
                                 ':id', documentId),

@@ -1,16 +1,16 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('user')); ?>">
-        <?php echo app('translator')->get('user.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
 <?php $__env->stopPush(); ?>
@@ -37,36 +37,36 @@
                                     <h6 class="heading-small text-muted mb-4">User Profile Information</h6>
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.np'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.np'); ?></th>
                                             <td><?php echo e($demandeur->np ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.date_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.date_naissance'); ?></th>
                                             <td><?php echo e($demandeur->date_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.lieu_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.lieu_naissance'); ?></th>
                                             <td><?php echo e($demandeur->lieu_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.nationalite'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.nationality'); ?></th>
                                             <td><?php echo e($demandeur->nationalite ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.adresse'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.adresse'); ?></th>
                                             <td><?php echo e($demandeur->adresse ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.compagnie'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.compagny'); ?></th>
                                             <td><?php echo e($demandeur->compagnie->nom_entreprise ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.adresse_employeur'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.adresse_employeur'); ?></th>
                                             <td><?php echo e($demandeur->compagnie->adresse ?? '-'); ?></td>
                                         </tr>
 
                                         <tr>
-                                            <th><?php echo app('translator')->get('user.photo'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.photo'); ?></th>
                                             <td>
                                                 <?php if(isset($demandeur->photo)): ?>
                                                     <img src="<?php echo e(asset('/uploads/' . $demandeur->photo)); ?>" alt="User Photo"
@@ -101,14 +101,14 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="name"><?php echo app('translator')->get('user.np'); ?><span
+                                            <label class="form-control-label" for="name"><?php echo app('translator')->get('trans.np'); ?><span
                                                     class="small text-danger">*</span></label>
                                             <input type="text" id="np" class="form-control" name="np">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="photoUpload"><?php echo app('translator')->get('user.photo'); ?></label>
+                                            <label class="form-control-label" for="photoUpload"><?php echo app('translator')->get('trans.photo'); ?></label>
                                             <input type="file" class="form-control" id="photo" name="photo"
                                                 accept="image/*">
                                             <p id="error-message" style="color:red;"></p>
@@ -118,7 +118,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
                                             <label class="form-control-label"
-                                                for="date_naissance"><?php echo app('translator')->get('user.date_naissance'); ?></label>
+                                                for="date_naissance"><?php echo app('translator')->get('trans.date_naissance'); ?></label>
                                             <input type="date" id="date_naissance" class="form-control"
                                                 name="date_naissance">
                                         </div>
@@ -128,7 +128,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="lieu_naissance"><?php echo app('translator')->get('user.lieu_naissance'); ?><span
+                                            <label class="form-control-label" for="lieu_naissance"><?php echo app('translator')->get('trans.lieu_naissance'); ?><span
                                                     class="small text-danger">*</span></label>
                                             <input type="text" id="lieu_naissance" class="form-control"
                                                 name="lieu_naissance">
@@ -136,13 +136,13 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="adresse"><?php echo app('translator')->get('user.adresse'); ?></label>
+                                            <label class="form-control-label" for="adresse"><?php echo app('translator')->get('trans.adresse'); ?></label>
                                             <input type="text" id="adresse" class="form-control" name="adresse">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="compagnie_id"><?php echo app('translator')->get('user.compagnie'); ?></label>
+                                            <label class="form-control-label" for="compagnie_id"><?php echo app('translator')->get('trans.compagny'); ?></label>
                                             <select class="form-control" id="compagnie_id" name="compagnie_id">
                                                 <option value="">
 
@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="nationalite"><?php echo app('translator')->get('user.nationalite'); ?></label>
+                                            <label class="form-control-label" for="nationalite"><?php echo app('translator')->get('trans.nationality'); ?></label>
                                             <select name="nationalite" class="form-control">
 
                                                 <option value="afghan">Afghan</option>

@@ -63,6 +63,19 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                     <div class="input-group mb-3">
+
+                        <input type="text" name="whatsapp" class="form-control"
+                            placeholder="{{ __('register.whatsapp') }}" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-phone"></span>
+                            </div>
+                        </div>
+                    </div>
+                    @error('whatsapp')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    <div class="input-group mb-3">
                         <input type="password" name="password" class="form-control"
                             placeholder={{ __('register.password') }}>
                         <div class="input-group-append">
@@ -71,6 +84,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     @error('password')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

@@ -1,15 +1,15 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('examinateur')); ?>">
-        <?php echo app('translator')->get('examinateur.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('examinateur.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <style>
@@ -34,7 +34,7 @@
                 <!-- general form elements -->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <?php echo app('translator')->get('examinateur.examen'); ?>
+                        <?php echo app('translator')->get('trans.examen'); ?>
                     </div>
                     <div class="card-body">
                         <?php if(isset($examen)): ?>
@@ -43,36 +43,36 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.np'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.fl_name'); ?></th>
                                             <td><?php echo e($examen->demandeur->np ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.date_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.dob'); ?></th>
                                             <td><?php echo e($examen->demandeur->date_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.lieu_naissance'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.lieu_naissance'); ?></th>
                                             <td><?php echo e($examen->demandeur->lieu_naissance ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.adresse'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.address'); ?></th>
                                             <td><?php echo e($examen->demandeur->adresse ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.date_examen'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.exam_date'); ?></th>
                                             <td><?php echo e($examen->date_examen ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.aptitude'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.medical_fitness'); ?></th>
                                             <td><?php echo e($examen->aptitude ?? '-'); ?></td>
                                         </tr>
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.rapport'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.report'); ?></th>
                                             <td><?php echo $examen->rapport ?? '-'; ?></td>
                                         </tr>
 
                                         <tr>
-                                            <th><?php echo app('translator')->get('examinateur.attestation'); ?></th>
+                                            <th><?php echo app('translator')->get('trans.certificate'); ?></th>
                                             <td class="text-center">
                                                 <?php if(isset($examen->attestation) && $examen->attestation != ''): ?>
                                                     <button class="btn btn-primary"

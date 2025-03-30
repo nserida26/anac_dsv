@@ -1,16 +1,16 @@
 @extends('examinateur.layouts.app')
 @section('title')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @section('contentheader')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('examinateur') }}">
-        @lang('examinateur.dashboard') </a>
+        @lang('trans.dashboard_center') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('examinateur.dashboard')
+    @lang('trans.dashboard_center')
 @endsection
 @push('css')
     <style>
@@ -35,7 +35,7 @@
                 <!-- general form elements -->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        @lang('examinateur.examen')
+                        @lang('trans.examen')
                     </div>
                     <div class="card-body">
                         @isset($examen)
@@ -44,36 +44,36 @@
                                 <div class="col-lg-9">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>@lang('examinateur.np')</th>
+                                            <th>@lang('trans.np')</th>
                                             <td>{{ $examen->demandeur->np ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('examinateur.date_naissance')</th>
+                                            <th>@lang('trans.date_naissance')</th>
                                             <td>{{ $examen->demandeur->date_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('examinateur.lieu_naissance')</th>
+                                            <th>@lang('trans.lieu_naissance')</th>
                                             <td>{{ $examen->demandeur->lieu_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('examinateur.adresse')</th>
+                                            <th>@lang('trans.adresse')</th>
                                             <td>{{ $examen->demandeur->adresse ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('examinateur.date_examen')</th>
+                                            <th>@lang('trans.date_examen')</th>
                                             <td>{{ $examen->date_examen ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('examinateur.aptitude')</th>
+                                            <th>@lang('trans.aptitude')</th>
                                             <td>{{ $examen->aptitude ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('examinateur.rapport')</th>
+                                            <th>@lang('trans.rapport')</th>
                                             <td>{!! $examen->rapport ?? '-' !!}</td>
                                         </tr>
 
                                         <tr>
-                                            <th>@lang('examinateur.attestation')</th>
+                                            <th>@lang('trans.attestation')</th>
                                             <td class="text-center">
                                                 @if (isset($examen->attestation) && $examen->attestation != '')
                                                     <iframe id="documentViewer"

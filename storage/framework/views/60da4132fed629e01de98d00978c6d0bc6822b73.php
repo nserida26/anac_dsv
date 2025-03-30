@@ -1,16 +1,16 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="<?php echo e(route('user')); ?>">
-        <?php echo app('translator')->get('user.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('user.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
 <?php $__env->stopPush(); ?>
@@ -23,7 +23,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Créer un Demande</h3>
+                        <h3 class="card-title"><?php echo app('translator')->get('trans.add_application'); ?></h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="type_demande_id">Type de demande</label>
+                                        <label for="type_demande_id"><?php echo app('translator')->get('trans.type_application'); ?></label>
                                         <select class="form-control" id="type_demande_id" name="type_demande_id"
                                             placeholder="">
                                             <?php $__currentLoopData = $type_demandes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type_demande): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="type_licence_id">Type de licence</label>
+                                        <label for="type_licence_id"><?php echo app('translator')->get('trans.type_license'); ?></label>
                                         <select class="form-control" id="type_licence_id" name="type_licence_id"
                                             placeholder="">
                                             <?php $__currentLoopData = $type_licences; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type_licence): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -57,20 +57,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!--<div class="col-lg-4">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="specialite">Machine</label>
-                                                                                                    <select class="form-control" id="specialite" name="specialite" placeholder="">
-                                                                                                        <option value="Avion">Avion</option>
-                                                                                                        <option value="Helicoptere">Hélicoptère</option>
-                                                                                                    </select>
-                                                                                                </div>
-                                                                                            </div>-->
                             </div>
                             <div class="row">
 
                                 <div class="col-lg-12">
-                                    <button type="submit" class="btn btn-success float-right">Créer</button>
+                                    <button type="submit" class="btn btn-success float-right"><?php echo app('translator')->get('trans.send'); ?></button>
                                 </div>
                             </div>
                         </div>

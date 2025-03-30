@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheader')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @section('contentheaderlink')
-    <a href="{{ route('users.index') }}"> @lang('sidebar.users') </a>
+    <a href="{{ route('users.index') }}"> @lang('trans..users') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.users')
+    @lang('trans.users')
 @endsection
 @push('css')
     <!-- DataTables -->
@@ -32,20 +32,20 @@
 
 
 
-    
+
                             <table class="table" id="datatable">
                                 <thead>
                                     <tr>
-                                        
+
                                         <th>Email</th>
                                         <th>Roles</th>
-                                        <th>Actions</th>
+                                        <th>@lang('trans.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr>
-                                            
+
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
                                             <td>
@@ -62,7 +62,7 @@
                                 </tbody>
                             </table>
 
-                            
+
                         </div>
                     </div>
                 </div>

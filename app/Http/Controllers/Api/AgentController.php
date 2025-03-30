@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Demande;
+use App\Models\Demandeur;
 use App\Models\Empreinte;
 use App\Models\EtatDemande;
 
@@ -18,44 +19,66 @@ class AgentController extends Controller
     public function index()
     {
         //
-        $demandeurs = Demande::join('demandeurs', 'demandeurs.id', '=', 'demandes.demandeur_id')
-            ->leftJoin('etat_demandes', 'etat_demandes.demande_id', '=', 'demandes.id')
-            ->select(
-                'demandes.*',
-                'demandeurs.*',
-                'etat_demandes.*',  // Ajout des colonnes de etat_demandes
-                'demandes.id as demande_id',
-                'demandeurs.id as demandeur_id'
-            )
-            ->where('etat_demandes.dg_signer', true)
-            ->where('etat_demandes.dsv_signer', true)
-            ->get();
+        $demandeurs = Demandeur::get();
         return response()->json($demandeurs);
     }
 
     // 📌 Enrôlement de l’empreinte
     public function enroler(Request $request)
     {
-        $request->validate([
+
+        $validated = $request->validate([
             'demandeur_id' => 'required|exists:demandeurs,id',
-            'empreinte' => 'required'
+            'empreinte_data' => 'required|string'
         ]);
 
-        // Hasher l'empreinte avant stockage
-        $empreinteHash = hash('sha256', base64_decode($request->empreinte));
+        try {
+            // Decode and validate the fingerprint data
+            $empreinteData = base64_decode($request->empreinte_data);
+            if ($empreinteData === false) {
+                return response()->json(['error' => 'Invalid base64 fingerprint data'], 400);
+            }
 
-        $empreinte = Empreinte::create([
-            'demandeur_id' => $request->demandeur_id,
-            'empreinte_hash' => $empreinteHash
-        ]);
+            // Additional validation for fingerprint data
+            if (strlen($empreinteData) < 100) {
+                return response()->json(['error' => 'Invalid fingerprint data length --- ' . strlen($empreinteData)], 400);
+            }
 
-        $etat_demande = EtatDemande::where('demande_id', $request->demande_id)->update(
-            [
-                'agent_enroler' => true
-            ]
-        );
+            // Hash the fingerprint data
+            $empreinteHash = hash('sha256', $empreinteData);
 
-        return response()->json(['message' => 'Empreinte enregistrée avec succès', 'empreinte' => $empreinte]);
+            // Check for duplicate fingerprints
+            $existing = Empreinte::where('empreinte_hash', $empreinteHash)->first();
+            if ($existing) {
+                return response()->json([
+                    'message' => 'Fingerprint already exists',
+                    'existing_demandeur_id' => $existing->demandeur_id
+                ], 409);
+            }
+
+            // Store the fingerprint
+            $empreinte = Empreinte::create([
+                'demandeur_id' => $validated['demandeur_id'],
+                'empreinte_hash' => $empreinteHash,
+                'empreinte_data' => $request->empreinte_data // Storing the base64 encoded version
+            ]);
+
+            // Update application state if needed
+            if ($request->has('demande_id')) {
+                EtatDemande::where('demande_id', $request->demande_id)
+                    ->update(['agent_enroler' => true]);
+            }
+
+            return response()->json([
+                'message' => 'Fingerprint saved successfully',
+                'empreinte_id' => $empreinte->id
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Fingerprint processing failed',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // 📌 Vérification de l’empreinte
@@ -63,16 +86,17 @@ class AgentController extends Controller
     {
         $request->validate([
             'demandeur_id' => 'required|exists:demandeurs,id',
-            'empreinte' => 'required'
+            'empreinte_data' => 'required'
         ]);
 
-        $empreinteHash = hash('sha256', base64_decode($request->empreinte));
-        $empreinteStockee = Empreinte::where('demandeur_id', $request->demandeur_id)->first();
+        //$empreinteHash = hash('sha256', base64_decode($request->empreinte_data));
+        $count = Empreinte::whereRaw('LEFT(empreinte_data, 100) = ?', [substr($request->empreinte_data, 0, 100)])->count();
 
-        if ($empreinteStockee && $empreinteStockee->empreinte_hash === $empreinteHash) {
+
+        if ($count >= 1) {
             return response()->json(['message' => 'Authentification réussie']);
         } else {
-            return response()->json(['message' => 'Échec d’authentification'], 401);
+            return response()->json(['message' => 'Échec d\'authentification'], 401);
         }
     }
 

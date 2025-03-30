@@ -1,16 +1,16 @@
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheader'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderlink'); ?>
     <a href="">
-        <?php echo app('translator')->get('admin.dashboard'); ?> </a>
+        <?php echo app('translator')->get('trans.dashboard_admin'); ?> </a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contentheaderactive'); ?>
-    <?php echo app('translator')->get('admin.dashboard'); ?>
+    <?php echo app('translator')->get('trans.dashboard_admin'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')); ?>">
@@ -22,18 +22,18 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><?php echo app('translator')->get('admin.demandes'); ?></div>
+                    <div class="card-header"><?php echo app('translator')->get('trans.applicants'); ?></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="demandes">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Demandeur</th>
-                                        <th>Phase</th>
-                                        <th>Type de licence</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><?php echo app('translator')->get('trans.id'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.applicant'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_application'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.type_license'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.status'); ?></th>
+                                        <th><?php echo app('translator')->get('trans.actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,7 +52,7 @@
                                                 <?php if(auth()->user()->hasRole('admin')): ?>
                                                     <?php if(optional($demande->etatDemande)->demandeur_cree_demande === 1): ?>
                                                         <a href="<?php echo e(route('demandes.show', $demande->id)); ?>"
-                                                            class="btn btn-info btn-sm">View</a>
+                                                            class="btn btn-info btn-sm"><?php echo app('translator')->get('trans.view'); ?></a>
                                                     <?php endif; ?>
                                                     <?php if(optional($demande->etatDemande)->dg_annoter === 1 &&
                                                             optional($demande->etatDemande)->dg_rejeter !== 1 &&
@@ -65,7 +65,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer l\' annotation vers SECTIONS (Section de médecine aéronautique et Licence aéronautique)   ?')">
-                                                                Annoter
+                                                                <?php echo app('translator')->get('trans.annotate'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -78,7 +78,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Confirmer la validation ?')">
-                                                                Valider
+                                                                <?php echo app('translator')->get('trans.validate'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -91,7 +91,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-success btn-sm"
                                                                 onclick="return confirm('Generer la licence ?')">
-                                                                Generer un licence
+                                                                <?php echo app('translator')->get('trans.generate_license'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -104,7 +104,7 @@
                                                             <?php echo method_field('PATCH'); ?>
                                                             <button type="submit" class="btn btn-primary btn-sm"
                                                                 onclick="return confirm('Mis a jour de la licence ?')">
-                                                                Mis a jour de la licence
+                                                                <?php echo app('translator')->get('trans.update_license'); ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>

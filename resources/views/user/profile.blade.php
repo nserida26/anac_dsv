@@ -1,16 +1,16 @@
 @extends('user.layouts.app')
 @section('title')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheader')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('user') }}">
-        @lang('user.dashboard') </a>
+        @lang('trans.dashboard') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('user.dashboard')
+    @lang('trans.dashboard')
 @endsection
 @push('css')
 @endpush
@@ -37,36 +37,36 @@
                                     <h6 class="heading-small text-muted mb-4">User Profile Information</h6>
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>@lang('user.np')</th>
+                                            <th>@lang('trans.np')</th>
                                             <td>{{ $demandeur->np ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.date_naissance')</th>
+                                            <th>@lang('trans.date_naissance')</th>
                                             <td>{{ $demandeur->date_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.lieu_naissance')</th>
+                                            <th>@lang('trans.lieu_naissance')</th>
                                             <td>{{ $demandeur->lieu_naissance ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.nationalite')</th>
+                                            <th>@lang('trans.nationality')</th>
                                             <td>{{ $demandeur->nationalite ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.adresse')</th>
+                                            <th>@lang('trans.adresse')</th>
                                             <td>{{ $demandeur->adresse ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.compagnie')</th>
+                                            <th>@lang('trans.compagny')</th>
                                             <td>{{ $demandeur->compagnie->nom_entreprise ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('user.adresse_employeur')</th>
+                                            <th>@lang('trans.adresse_employeur')</th>
                                             <td>{{ $demandeur->compagnie->adresse ?? '-' }}</td>
                                         </tr>
 
                                         <tr>
-                                            <th>@lang('user.photo')</th>
+                                            <th>@lang('trans.photo')</th>
                                             <td>
                                                 @if (isset($demandeur->photo))
                                                     <img src="{{ asset('/uploads/' . $demandeur->photo) }}" alt="User Photo"
@@ -101,14 +101,14 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="name">@lang('user.np')<span
+                                            <label class="form-control-label" for="name">@lang('trans.np')<span
                                                     class="small text-danger">*</span></label>
                                             <input type="text" id="np" class="form-control" name="np">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="photoUpload">@lang('user.photo')</label>
+                                            <label class="form-control-label" for="photoUpload">@lang('trans.photo')</label>
                                             <input type="file" class="form-control" id="photo" name="photo"
                                                 accept="image/*">
                                             <p id="error-message" style="color:red;"></p>
@@ -118,7 +118,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group focused">
                                             <label class="form-control-label"
-                                                for="date_naissance">@lang('user.date_naissance')</label>
+                                                for="date_naissance">@lang('trans.date_naissance')</label>
                                             <input type="date" id="date_naissance" class="form-control"
                                                 name="date_naissance">
                                         </div>
@@ -128,7 +128,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="lieu_naissance">@lang('user.lieu_naissance')<span
+                                            <label class="form-control-label" for="lieu_naissance">@lang('trans.lieu_naissance')<span
                                                     class="small text-danger">*</span></label>
                                             <input type="text" id="lieu_naissance" class="form-control"
                                                 name="lieu_naissance">
@@ -136,13 +136,13 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="adresse">@lang('user.adresse')</label>
+                                            <label class="form-control-label" for="adresse">@lang('trans.adresse')</label>
                                             <input type="text" id="adresse" class="form-control" name="adresse">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="compagnie_id">@lang('user.compagnie')</label>
+                                            <label class="form-control-label" for="compagnie_id">@lang('trans.compagny')</label>
                                             <select class="form-control" id="compagnie_id" name="compagnie_id">
                                                 <option value="">
 
@@ -158,7 +158,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group focused">
-                                            <label class="form-control-label" for="nationalite">@lang('user.nationalite')</label>
+                                            <label class="form-control-label" for="nationalite">@lang('trans.nationality')</label>
                                             <select name="nationalite" class="form-control">
 
                                                 <option value="afghan">Afghan</option>

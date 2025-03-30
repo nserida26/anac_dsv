@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('title')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 @section('contentheader')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('qualifications.index') }}">
-        @lang('admin.qualifications') </a>
+        @lang('trans.qualifications') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('admin.qualifications')
+    @lang('trans.qualifications')
 @endsection
 
 

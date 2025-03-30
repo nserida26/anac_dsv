@@ -1,21 +1,19 @@
 @extends('dir.layouts.app')
 @section('title')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheader')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @section('contentheaderlink')
     <a href="{{ route('dsv') }}">
-        @lang('dir.dashboard') </a>
+        @lang('trans.dashboard_dir') </a>
 @endsection
 @section('contentheaderactive')
-    @lang('dir.dashboard')
+    @lang('trans.dashboard_dir')
 @endsection
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css">
-
-
 @endpush
 @section('content')
     <div class="container">
@@ -28,8 +26,8 @@
                         <!-- Formulaire -->
                         <form action="{{ route('dsv.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            
-                            <input type="hidden" name="demande_id" value="{{$demande->id}}">
+
+                            <input type="hidden" name="demande_id" value="{{ $demande->id }}">
 
                             <div class="mb-3">
                                 <label class="form-label">Date Ordre</label>
@@ -39,11 +37,10 @@
                                 <label class="form-label">Montant</label>
                                 <input type="number" name="montant" class="form-control" required>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label class="form-label">Ordre signe(PDF)</label>
-                                <input type="file" name="ordre" class="form-control" accept="application/pdf"
-                                    required>
+                                <input type="file" name="ordre" class="form-control" accept="application/pdf" required>
                             </div>
 
                             <button type="submit" class="btn btn-success">Enregistrer</button>
@@ -59,7 +56,7 @@
 @endpush
 @push('custom')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.summernote').summernote({
                 height: 200, // Set height of the editor
                 placeholder: 'Enter your text...',
